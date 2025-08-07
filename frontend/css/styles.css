@@ -1,0 +1,132 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+#exploreMenu {
+  display: none; /* Keep this here for initial state management by JS */
+}
+
+.menu-btn {
+  width: 100%;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.category-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+#chatToggle {
+  bottom: 20px;
+  right: 20px;
+}
+
+#chatBox {
+  bottom: 80px;
+  right: 20px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  animation: fadeInUp 0.3s ease;
+}
+
+.card-img-top {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+.card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+iframe {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  height: 480px;
+}
+
+#homePage {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#exploreBtn {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+#exploreBtn:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.btn-dark {
+  background-color: #343a40;
+  border-color: #343a40;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-dark:hover {
+  background-color: #1d2124;
+  border-color: #171a1d;
+}
+
+.chat-icon-btn {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chat-icon-btn:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 150px;
+  }
+  .display-3 {
+    font-size: 2.5rem;
+  }
+  .lead {
+    font-size: 1rem;
+  }
+}

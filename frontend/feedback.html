@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Feedback | AI Guide</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header {
+      background: linear-gradient(to right, #1565c0, #42a5f5);
+      width: 100%;
+      padding: 20px 0;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .feedback-card {
+      background: #ffffff;
+      margin-top: 40px;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    .feedback-card h2 {
+      text-align: center;
+      color: #1565c0;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      background-color: #fafafa;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #42a5f5;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 120px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1976d2;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0d47a1;
+    }
+
+    .thank-you {
+      display: none;
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    AI Powered Personalized Exploration Guide
+  </div>
+
+  <div class="feedback-card">
+    <h2>Submit Your Feedback</h2>
+    <form id="feedbackForm">
+      <div class="form-group">
+        <input type="email" id="email" placeholder="Your Email" required />
+      </div>
+      <div class="form-group">
+        <textarea id="message" placeholder="Your feedback..." required></textarea>
+      </div>
+      <button type="submit">Send Feedback</button>
+    </form>
+    <div class="thank-you" id="thankYouMessage">✅ Thank you for your feedback!</div>
+  </div>
+
+  <script>
+    const form = document.getElementById("feedbackForm");
+    const thankYouMessage = document.getElementById("thankYouMessage");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const feedbackText = document.getElementById("message").value;
+
+      try {
+        const res = await fetch("http://localhost:5000/api/feedback", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, feedbackText })  // ✅ Corrected key names
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          thankYouMessage.style.display = "block";
+          form.reset();
+        } else {
+          alert("Error: " + data.message);
+        }
+      } catch (err) {
+        alert("Server error");
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
