@@ -147,6 +147,7 @@
       <button class="category-btn" onclick="showContent('ancient')">Ancient Universities</button>
       <button class="category-btn" onclick="showContent('modern')">Modern Institutions</button>
       <button class="category-btn" onclick="showContent('global')">Global Impact</button>
+      <button class="category-btn" onclick="showContent('research-education')">Research Institutions</button>
     </div>
 
     <!-- Ancient -->
@@ -280,6 +281,81 @@
           </p>
         </div>
       </div>
+    </div>
+  </div>
+  <!-- Research INSTITUTES -->
+
+    <div id="research-education" class="content-card hidden">
+      <h2>Performing Arts Institutions</h2>
+
+      <div class="category-section">
+        <div class="content-inner">
+          <div class="card-body">
+
+            <!-- Engineering & Technology – IITs -->
+            <h3>🏫 IITs (Indian Institutes of Technology)</h3>
+            <p>Premier national engineering and research institutions across India.</p>
+            <div class="links">
+              <a class="official-link" href="https://www.iitk.ac.in/" target="_blank">IIT Kanpur</a><br>
+              <a class="official-link" href="https://www.iitm.ac.in/" target="_blank">IIT Madras</a><br>
+              <a class="official-link" href="https://www.iitbbs.ac.in/" target="_blank">IIT Bhubaneswar</a><br>
+              <!-- Add more IITs as needed -->
+            </div>
+
+            <!-- Engineering & Technology – NITs -->
+            <h3>🏫 NITs (National Institutes of Technology)</h3>
+            <p>National-level technical institutes funded by the Government of India.</p>
+            <div class="links">
+              <a class="official-link" href="http://www.nitj.ac.in/" target="_blank">NIT Jalandhar</a><br>
+              <a class="official-link" href="http://www.mnit.ac.in/" target="_blank">MNIT Jaipur</a><br>
+              <a class="official-link" href="http://www.nitrkl.ac.in/" target="_blank">NIT Rourkela</a><br>
+              <!-- Add more NITs as needed -->
+            </div>
+
+            <!-- Pure Science Research – IISERs -->
+            <h3>🔬 IISERs (Indian Institutes of Science Education & Research)</h3>
+            <p>Institutes dedicated to integrated science education and research.</p>
+            <div class="links">
+              <a class="official-link" href="https://www.iiserkol.ac.in/" target="_blank">IISER Kolkata</a><br>
+              <a class="official-link" href="https://www.iiserpune.ac.in/" target="_blank">IISER Pune</a><br>
+              <a class="official-link" href="https://www.iiserbhopal.ac.in/" target="_blank">IISER Bhopal</a><br>
+              <!-- Add more IISERs as needed -->
+            </div>
+
+            <!-- Central / National Research Organisations -->
+            <h3>🏛️ National Research Organisations</h3>
+            <p>Government‑funded research & scientific organizations.</p>
+            <div class="links">
+              <a class="official-link" href="https://www.drdo.gov.in/" target="_blank">DRDO – Defence Research & Development Organisation</a><br>
+              <a class="official-link" href="https://niser.ac.in/" target="_blank">National Institute of Science Education & Research (NISER)</a><br>
+              <!-- Add other central research institutes as needed -->
+            </div>
+
+            <!-- Central Universities / Institutions of National Importance -->
+            <h3>🎓 Central & National Universities / Institutions</h3>
+            <p>Universities directly funded by Government of India and recognised nationally.</p>
+            <div class="links">
+              <a class="official-link" href="https://www.nda.nic.in/" target="_blank">NDA – National Defence Academy, Pune</a><br>
+              <a class="official-link" href="https://www.aiims.edu/" target="_blank">AIIMS – All India Institute of Medical Sciences</a><br>
+              <!-- Add more as required -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Chatbot -->
+  <button id="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span style="cursor:pointer;" onclick="toggleChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something...">
+      <button id="chatbot-send">Send</button>
     </div>
   </div>
 
