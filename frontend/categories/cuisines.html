@@ -1,50 +1,524 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuisines - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuisines of India | AI Powered Guide</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root {
+      --brand: #6a1b9a;
+      --brand-2: #8e24aa;
+      --ink: #2c3e50;
+      --paper: #ffffff;
+      --bg: #f7f9fb;
+      --accent: #e67e22;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    h1, h2, h3 {
+      color: var(--ink);
+    }
+
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+    }
+
+    /* Buttons */
+    .category-bar {
+      text-align: center;
+      padding: 8px 10px 20px;
+    }
+
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+    }
+
+    .category-btn:hover {
+      background: var(--brand-2);
+      transform: translateY(-1px);
+    }
+
+    /* Cards */
+    .category-content {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    }
+
+    .category-content.active {
+      display: block;
+    }
+
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 100%;
+    }
+
+    .thumb {
+      display: block;
+      margin: 0 auto 15px;
+      width: 100%;
+      max-width: 500px;
+      height: 250px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    .links {
+      margin-top: 12px;
+    }
+
+    .official-link {
+      color: var(--brand);
+      font-weight: bold;
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 2px solid var(--brand);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .official-link:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    /* Chatbot styles */
+    #chatbot-box {
+      position: fixed; bottom: 90px; right: 30px;
+      width: 340px; background: #fff;
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none; flex-direction: column; overflow: hidden;
+      z-index: 10000;
+    }
+    #chatbot-box.active { display: flex; }
+
+    #chatbot-header {
+      background: var(--brand); color: #fff;
+      padding: 12px 18px; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    #chatbot-messages {
+      padding: 12px; height: 180px; overflow-y: auto;
+      background: #f7f9fb; font-size: 1em;
+    }
+    #chatbot-controls {
+      display: flex; border-top: 1px solid #eee;
+      padding: 10px; background: #fafafa;
+    }
+    #chatbot-input {
+      flex: 1; padding: 8px; border-radius: 6px;
+      border: 1px solid #ccc; font-size: 1em; margin-right: 8px;
+    }
+    #chatbot-send {
+      background: var(--brand); color: #fff;
+      border: none; border-radius: 6px;
+      padding: 8px 16px; cursor: pointer; font-weight: bold;
+    }
+    #chatbot-toggle {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--brand); color: #fff;
+      border-radius: 50%; width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2em; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 9999;
+    }
+    .user-message { margin: 6px 0; font-weight: bold; }
+    .bot-message { margin: 6px 0; color: #333; }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
-        </div>
+  <div class="container">
+    <h1>Cuisines of India</h1>
+    <p class="lead">India’s food is a journey of spices, flavors, and culture. Each region has its own unique dishes that tell stories of heritage and tradition.</p>
 
-        <h1 class="text-danger mb-4">Cuisines of India</h1>
-        <p>Indian cuisine is incredibly diverse, with regional variations influenced by local ingredients, culture, and history. Each region offers unique flavors and cooking techniques.</p>
-        
-        <h3 class="mt-4">Regional Culinary Highlights:</h3>
-        <ul>
-            <li><strong>North Indian Cuisine:</strong> Known for rich gravies, tandoori breads, and dairy. Popular in Punjab, Uttar Pradesh, Delhi. Famous dishes include Butter Chicken, Naan, Biryani.</li>
-            <li><strong>South Indian Cuisine:</strong> Characterized by rice-based dishes, coconut, and spices. Popular in Tamil Nadu, Kerala, Andhra Pradesh, Karnataka. Dishes include Dosa, Idli, Sambar, Hyderabadi Biryani (Telangana).</li>
-            <li><strong>East Indian Cuisine:</strong> Often features fish, mustard oil, and subtle spices. Popular in West Bengal, Odisha. Famous dishes include Macher Jhol, Rosogolla.</li>
-            <li><strong>West Indian Cuisine:</strong> Diverse, ranging from sweet flavors of Gujarat to spicy Maharashtrian dishes. Popular in Gujarat, Maharashtra, Goa. Dishes include Dhokla, Vada Pav, Goan Fish Curry.</li>
-            <li><strong>Andhra Pradesh Cuisine:</strong> Renowned for its spicy and tangy flavors, use of tamarind, and chili. Famous dishes include Pesarattu, Gongura Pachadi, spicy curries.</li>
-        </ul>
-        <img src="https://via.placeholder.com/800x450?text=Indian+Cuisines" class="img-fluid my-3" alt="Indian Cuisines">
-        
-        <h3 class="mt-5 mb-3">Food Hubs on Map</h3>
-        <p>Example: Old City, Hyderabad (for Hyderabadi Biryani)</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+    <div class="category-section">
+      <div class="category-bar">
+        <button class="category-btn" onclick="showContent('north')">North Indian</button>
+        <button class="category-btn" onclick="showContent('south')">South Indian</button>
+        <button class="category-btn" onclick="showContent('east')">East Indian</button>
+        <button class="category-btn" onclick="showContent('west')">West Indian</button>
+      </div>
+
+      <!-- ✅ Insert full cuisine content here -->
+      <div id="north" class="category-content active">
+        <!-- 🔥 North Indian detailed content block -->
+                <div class="grid">
+                    <div class="place">
+                        <img class="thumb" src="https://www.shemins.com/wp-content/uploads/2017/05/Shemins-Butter-Chicken-LR.jpg" alt="Butter Chicken">
+                        <div class="card-body">
+                            <h3>Butter Chicken (Murgh Makhani)</h3>
+                            <p>Butter Chicken, also known as Murgh Makhani, has its origins in Delhi during the 1950s. It was accidentally created by the chefs at the famous Moti Mahal restaurant, founded by Kundan Lal Gujral, Kundan Lal Jaggi, and Thakur Dass. The dish was born out of a need to avoid wasting leftover tandoori chicken, which tended to dry out. To preserve its flavor and moisture, the cooks simmered the chicken in a rich tomato-based gravy with butter, cream, and aromatic spices. This innovation not only revived the dry meat but also gave birth to a dish that quickly gained immense popularity. Over time, Butter Chicken became one of the most iconic dishes of North Indian cuisine, loved for its creamy texture, smoky flavor, and balance of spices. Today, it is celebrated worldwide as a symbol of Indian culinary tradition.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://ranveerbrar.com/wp-content/uploads/2023/02/Rogan-Joah.jpg" alt="Rogan Josh">
+                        <div class="card-body">
+                            <h3>Rogan Josh</h3>
+                            <p>Rogan Josh is a signature dish of Kashmiri cuisine, with roots tracing back to the Mughal era when the Mughals brought Persian influences into India. The name comes from Persian words: “rogan” meaning “oil” or “clarified butter” and “josh” meaning “intense heat” or “passion,” signifying the dish’s rich, hearty nature. Originally adapted from Persian lamb stews, Rogan Josh was refined in the Kashmir Valley, where it became part of the traditional Wazwan (a multi-course royal feast). Traditionally prepared with tender lamb or mutton, the curry is flavored with a blend of aromatic spices such as fennel, dry ginger, cardamom, cloves, and Kashmiri red chilies, which lend it a vibrant red color without overwhelming spiciness. Slow-cooked to perfection, the dish embodies the fusion of Persian techniques with Kashmiri flavors, making Rogan Josh a timeless culinary classic of India.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://sinfullyspicy.com/wp-content/uploads/2015/03/1200-by-1200-images-1.jpg" alt="Dal Makhani">
+                        <div class="card-body">
+                            <h3>Dal Makhani</h3>
+                            <p>Dal Makhani is a beloved North Indian dish that originated in Punjab and is closely tied to the post-partition culinary innovations of the 20th century. It was popularized by the chefs of Moti Mahal restaurant in Delhi, the same place where Butter Chicken was created. Traditionally, lentils were a staple in Punjabi households, but the idea of enriching them with butter (makhan) and cream transformed the humble dish into a luxurious delicacy. Dal Makhani is made primarily from whole black lentils (urad dal) and red kidney beans (rajma), which are slow-cooked for hours to achieve a creamy, smoky flavor. The addition of butter, cream, and aromatic spices gave the dish its signature richness and velvety texture. Over time, Dal Makhani became an essential part of festive meals, weddings, and restaurant menus, symbolizing the perfect blend of rustic Punjabi flavors with modern culinary refinement. Today, it stands as one of the most iconic vegetarian dishes of Indian cuisine, enjoyed worldwide.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://cdn.zeptonow.com/production///tr:w-600,ar-100-100,pr-true,f-auto,q-80/web/recipes/chola-bhatura.png" alt="Chole Bhature">
+                        <div class="card-body">
+                            <h3>Chole Bhature</h3>
+                            <p>Chole Bhature is a classic North Indian dish that combines spicy chickpea curry (chole) with deep-fried leavened bread (bhature). Its origins are often traced to Punjab, though it has since become popular across India, especially in Delhi, where it is considered a staple street food and breakfast delicacy. The dish is believed to have gained prominence during the mid-20th century as urban eateries began pairing the protein-rich chickpea curry, flavored with onions, tomatoes, ginger, garlic, and a robust mix of spices, with the soft yet crispy bhature made from fermented wheat flour dough. The combination quickly became a favorite because it is both hearty and indulgent, symbolizing the richness of Punjabi cuisine. Over the years, Chole Bhature has become more than just a meal—it is an emotion for many food lovers, enjoyed at roadside dhabas, sweet shops, and restaurants alike, often served with pickles, onions, and a glass of lassi. </p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://biryanibonanza.com/wp-content/uploads/2024/06/Rajma-Chawal-cover-image-2.jpg" alt="Rajma Chawal">
+                        <div class="card-body">
+                            <h3>Rajma Chawal</h3>
+                            <p>Rajma Chawal is a comforting and iconic North Indian dish that holds a special place in Punjabi and Himalayan households. It consists of red kidney beans (rajma) slow-cooked in a thick, spiced tomato-onion gravy, served with steamed basmati rice (chawal). The dish was originally introduced to India from Mexico and Central America, as kidney beans are not native to the subcontinent. They were brought by the Portuguese and gradually adapted into Indian cuisine, especially in the northern regions where the climate of Jammu and Himachal Pradesh proved ideal for their cultivation. Over time, rajma was infused with Indian spices, giving birth to the flavorful curry we know today. Rajma Chawal became a staple of Punjabi households, loved for its simplicity, nutrition, and homely taste. Beyond being a wholesome meal, it carries an emotional connection—often associated with comfort food, family gatherings, and Sunday lunches. Today, it remains one of the most popular vegetarian dishes across India.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9Z9aqUzIcs50h8bY0ryxdGRUV76MxPbhicw&s" alt="Nihari">
+                        <div class="card-body">
+                            <h3>Nihari</h3>
+                            <p>Nihari is a rich, slow-cooked stew that originated in the royal kitchens of Mughal India during the 18th century. The name comes from the Arabic word “Nahar,” meaning morning, as it was traditionally eaten after the Fajr (dawn) prayer to provide warmth and strength throughout the day. Initially a breakfast dish for Mughal nobles in Delhi, Nihari soon spread to the common people and became especially popular among workers for its sustaining quality. The dish is usually made with beef or mutton shank, simmered overnight with aromatic spices such as cloves, cardamom, fennel, and nutmeg, resulting in tender meat and a deeply flavorful gravy. In many places, bone marrow (nalli) is added, enhancing the richness. After the partition of India in 1947, Nihari became a hallmark of Delhi’s Muslim cuisine as well as Pakistani culinary culture, particularly in Karachi and Lahore. Today, Nihari is enjoyed as a festive or special-occasion dish, symbolizing royal heritage, community, and culinary tradition.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://www.sawadindiaka.in/wp-content/uploads/2023/01/Kashmiri-Dum-Aloo-Ready.jpg" alt="Kashmiri Dum Aloo">
+                        <div class="card-body">
+                            <h3>Kashmiri Dum Aloo</h3>
+                            <p>Kashmiri Dum Aloo is a traditional and much-loved dish from the Kashmir Valley, celebrated for its vibrant flavors and cultural significance. The dish consists of baby potatoes that are first deep-fried until golden and then slow-cooked (dum) in a rich, spiced gravy. Unlike the creamy versions popularized in restaurants elsewhere, the authentic Kashmiri Dum Aloo is made with a base of yogurt, fennel, dry ginger, and Kashmiri red chili powder, which imparts its signature fiery red color without excessive heat. The slow-cooking technique allows the potatoes to absorb the aromatic flavors fully, resulting in a dish that is both hearty and delicately spiced. Traditionally part of the elaborate Kashmiri Wazwan (a royal multi-course feast), Dum Aloo holds a place of pride in local cuisine, especially during festivals and weddings. Its unique blend of simple ingredients with bold flavors reflects the essence of Kashmiri culinary artistry.</p>
+                        </div>
+                    </div>
+                </div>
+      </div>
+
+      <div id="south" class="category-content">
+         <div class="food-intro">
+                    <h3>South Indian Cuisine</h3>
+                    <p>South India is famous for its dosas, idlis, sambar, and filter coffee. Coconut and tamarind are widely used. Tamil Nadu, Karnataka, Kerala, and Andhra Pradesh are food hotspots.</p>
+                </div>
+                <div class="grid">
+                    <div class="place">
+                        <img class="thumb" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG8PsCr5X5pSyYYcppuavfR-K3CTLqED9VnQ&s" alt="Dose">
+                        <div class="card-body">
+                            <h3>Dose</h3>
+                            <p>South Indian tiffin refers to the light breakfast or evening meals that are popular in states like Tamil Nadu, Andhra Pradesh, Telangana, Karnataka, and Kerala. These dishes are usually made from rice, lentils, or semolina and are light, healthy, and easy to digest. Common items include idli (steamed rice cakes), dosa (crispy rice-lentil crepe), uttapam (thick dosa with toppings), pongal (rice-lentil dish), upma (semolina preparation), and vada (fried lentil fritters). They are typically served with sambar (a lentil-based vegetable stew) and a variety of chutneys like coconut, tomato, or mint.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQurdrg9psTexh_4QHu8GtMg4L4RIT6SE_b0g&s" alt="Pongal (Ven Pongal)">
+                        <div class="card-body">
+                            <h3>Pongal (Ven Pongal)</h3>
+                            <p>Ven Pongal, often just called “Pongal,” is a traditional South Indian dish that is both a daily tiffin item and a festive preparation. It is made by cooking rice and moong dal (yellow split lentils) together until soft, then tempering with ghee, black pepper, cumin seeds, ginger, curry leaves, and cashews. The addition of ghee and spices not only enhances the flavor but also makes the dish aromatic and nourishing. Ven Pongal is considered a comfort food because of its smooth, porridge-like texture, making it light on the stomach yet filling. It is usually served with sambar and coconut chutney, which balance the richness of the dish. Beyond its role as a popular breakfast in Tamil Nadu, Karnataka, and Andhra Pradesh, Pongal holds deep cultural importance, especially during the Pongal harvest festival in Tamil Nadu, where it symbolizes prosperity, gratitude to nature, and the celebration of new harvests.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://vismaifood.com/storage/app/uploads/public/980/eb9/ed6/thumb__1200_0_0_0_auto.jpg" alt="Hyderabadi Biryani">
+                        <div class="card-body">
+                            <h3>Hyderabadi Biryani</h3>
+                            <p>Hyderabadi Biryani is a world-renowned rice delicacy that represents the rich cultural and culinary heritage of Hyderabad. Introduced by the Mughals and later refined in the kitchens of the Nizams, it is a royal dish made by combining fragrant basmati rice with marinated meat such as mutton or chicken, cooked together with a blend of spices like cinnamon, cardamom, cloves, saffron, and fried onions. What makes it unique is the traditional dum cooking method, where the pot is sealed with dough to trap steam, allowing the rice and meat to slowly cook together while absorbing the spices, creating layers of aroma and flavor. The dish has two famous variations: Kacchi Biryani, where raw marinated meat is cooked along with rice, and Pakki Biryani, where pre-cooked meat is layered with rice. Hyderabadi Biryani is usually accompanied by mirchi ka salan, a tangy-spicy chili curry, and raita, which balances the heat of the dish. Beyond being a meal, it is considered a symbol of celebration and hospitality, often served at weddings, festivals, and special occasions, making it one of the most iconic and loved dishes of India.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://images.jdmagicbox.com/v2/comp/bangalore/p5/080pxx80.xx80.190523142836.x6p5/catalogue/andhra-mess-global-village-bangalore-mess-1LZUG2h9MT.jpg" alt="andhra meals">
+                        <div class="card-body">
+                            <h3>Andhra Meals</h3>
+                            <p>Andhra meals are a traditional, wholesome thali-style cuisine from Andhra Pradesh, famous for their bold, spicy, and tangy flavors. Typically served on a banana leaf or a large plate, the meal revolves around steamed rice as the staple, accompanied by an array of dishes that bring variety and balance. Common items include pappu (dal cooked with leafy greens or vegetables), pulusu (tamarind-based curry), koora (dry or gravy vegetable curry), pachadi (chutneys made from vegetables, greens, or curd), sambar, and rasam. To enhance taste, crispy appadams (papads) and flavorful pickles such as the iconic Avakaya (spicy mango pickle) are always included. Andhra cuisine is especially noted for its generous use of red chilies and tamarind, giving the dishes a fiery yet tangy flavor that sets them apart from other South Indian meals. Non-vegetarian Andhra meals feature a variety of spicy chicken, mutton, fish, and prawn curries, which are deeply rooted in the region’s culinary traditions. The meal usually ends with perugu (curd rice), which helps cool down the palate after the spicy dishes. Andhra meals are not just about food—they reflect the hospitality and cultural richness of the region, often served during festivals, weddings, and family gatherings, symbolizing abundance and warmth.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://www.whiskaffair.com/wp-content/uploads/2020/11/Semiya-Payasam-2-3-500x500.jpg" alt="Payasam">
+                        <div class="card-body">
+                            <h3>Payasam (Kheer)</h3>
+                            <p>Payasam, called Kheer in North India, is one of the most beloved and ancient Indian desserts, prepared across regions with slight variations but the same essence of sweetness and festivity. It is traditionally made by slow-cooking milk with a base ingredient such as rice, semolina (rava), or vermicelli (semiya) until it turns creamy, then sweetened with sugar or jaggery. To enhance its richness, it is flavored with cardamom, saffron, and ghee, and garnished with cashews, almonds, and raisins fried in ghee. In South India, Payasam is an integral part of festivals, temple offerings, and wedding feasts—especially dishes like Pal Payasam (milk-rice version), Semiya Payasam (vermicelli version), and Ada Pradhaman (a Kerala specialty made with rice flakes and jaggery). In North India, Kheer is equally popular, often served during religious rituals and special occasions. Beyond being just a dessert, Payasam carries a symbolic meaning of prosperity, joy, and divine blessing, as it is often offered to deities before being shared with devotees. Its creamy texture, delicate sweetness, and fragrant spices make it not just a dish, but a cultural expression of celebration and togetherness.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0Swzdd-TdDXbs-3DC_KIuC8kymUjD7kxj5A&s" alt="Punugulu">
+                        <div class="card-body">
+                            <h3>Punugulu</h3>
+                            <p>Punugulu is a beloved South Indian snack, particularly famous in Andhra Pradesh and Telangana, and is commonly sold in street food stalls, tiffin centers, and homes. It is prepared using idli or dosa batter, which is slightly fermented to give a light tangy flavor, then shaped into small balls and deep-fried until golden brown. The result is a crispy, crunchy outer layer with a soft and fluffy inside. Punugulu is typically served with a variety of chutneys such as coconut chutney, peanut chutney, tomato chutney, or ginger chutney, and sometimes even with spicy powders like karam podi mixed with oil. Depending on preference, some versions may include chopped onions, green chilies, or curry leaves in the batter to enhance the taste. Easy to make and quick to fry, Punugulu is a popular evening snack enjoyed with tea, especially during the rainy season, and is also served at small gatherings and casual meals. It reflects the simple yet flavorful street food culture of Andhra and Telangana, turning leftover dosa/idli batter into a crispy, mouth-watering delicacy loved by all ages.</p>
+                        </div>
+                    </div>
+                </div>
+      </div>
+
+      <div id="east" class="category-content">
+        <!-- 🔥 East Indian detailed content block -->
+   <div class="food-intro">
+                    <h3>East Indian Cuisine</h3>
+                    <p>Known for sweets like Rasgulla and Sandesh, and fish-based curries. Bengali cuisine uses mustard oil and fresh water fish extensively.</p>
+                </div>
+                <div class="grid">
+                    <div class="place">
+                        <img class="thumb" src="https://notoutofthebox.in/wp-content/uploads/2014/09/sorshe-ilish.jpg" alt="Shorshe Ilish">
+                        <div class="card-body">
+                            <h3>Shorshe Ilish (West Bengal)</h3>
+                            <p>Shorshe Ilish is a traditional and iconic Bengali dish made with Hilsa fish (Ilish) cooked in a rich, tangy, and flavorful mustard sauce. The fish is marinated with turmeric and salt, then simmered in a paste of mustard seeds, green chilies, and mustard oil, which gives the dish its sharp and pungent taste. It is usually served with steamed rice, as the strong flavors of mustard pair perfectly with the delicate, oily Hilsa. Considered a signature dish of Bengali cuisine, Shorshe Ilish is especially popular during the monsoon season when Hilsa is in abundance. Beyond its taste, it holds cultural significance, often prepared during festivals, family gatherings, and special occasions, symbolizing Bengal’s deep love for fish and mustard.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://media.istockphoto.com/id/1351098396/photo/litti-chokha.jpg?s=612x612&w=0&k=20&c=WRnTRWGn6jxqXBNfiUA93mhjpuEbNrTceslFpXtPbKI=" alt="Litti Chokha">
+                        <div class="card-body">
+                            <h3>Litti Chokha (Bihar)</h3>
+                            <p>Litti Chokha is a traditional and rustic dish from the Indian states of Bihar and Jharkhand. It consists of <strong>litti</strong>, a roasted dough ball made from whole wheat flour and filled with sattu (roasted gram flour) mixed with spices, onions, garlic, and pickles. The litti is traditionally roasted over cow dung cakes, giving it a characteristic smoky flavor. The dish is served with <strong>chokha</strong>, a mash of roasted vegetables like potato, brinjal (eggplant), and tomato, seasoned with mustard oil, green chilies, and coriander. Litti Chokha is a complete and nutritious meal, often found at roadside stalls and local eateries. It embodies the essence of Bihari rural life, offering a wholesome and earthy taste.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://static.wixstatic.com/media/26b5bf_e3dae560019948b19d1f0171d5ba3f76~mv2.jpg/v1/fill/w_1137,h_1325,al_c,q_90/26b5bf_e3dae560019948b19d1f0171d5ba3f76~mv2.webp" alt="Dalma (Odisha)">
+                        <div class="card-body">
+                            <h3>Dalma (Odisha)</h3>
+                            <p>Dalma is a traditional Odia delicacy that combines lentils with a variety of seasonal vegetables, offering both nutrition and comfort in a single dish. Typically prepared with toor dal (pigeon pea) or moong dal, it is cooked along with vegetables like raw banana, pumpkin, papaya, yam, drumsticks, and beans, creating a wholesome balance of flavors and textures. A unique tempering of cumin, mustard seeds, dry red chilies, bay leaves, and grated ginger, often roasted and ground into a spice mix, gives Dalma its earthy aroma, while a touch of ghee enhances its richness. Unlike many other Indian curries, Dalma is less oily and mildly spiced, allowing the natural sweetness of the vegetables to shine, making it both light and nourishing. Deeply rooted in Odia culture, Dalma is not just an everyday meal but also a sacred dish offered during religious occasions and festivals like Rath Yatra, where it is served as part of Lord Jagannath’s Mahaprasad. Considered the soul food of Odisha, Dalma beautifully represents the state’s culinary philosophy of simplicity, balance, and wholesomeness.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://img-global.cpcdn.com/recipes/159092efc51760c3/600x852cq80/bihari-style-ghugni-bihari-style-black-chickpeas-masala-recipe-main-photo.webp" alt="Ghugni (Bihar & Bengal)">
+                        <div class="card-body">
+                            <h3>Ghugni (Bihar & Bengal)</h3>
+                            <p>Ghugni is a beloved snack and street food staple from Bihar and Bengal, made from dried yellow peas, white peas, or black chickpeas, cooked into a rich, spiced gravy. The lentils are soaked and boiled, then simmered with a medley of spices including turmeric, cumin, coriander, ginger, garlic, and sometimes green chilies, giving it a fragrant and flavorful base. In Bengal, Ghugni is often served with puffed rice (muri) or flatbreads like luchi, while in Bihar it is commonly paired with litti or eaten on its own as a hearty snack. Tamarind, tomatoes, and a dash of mustard oil may be added to enhance tanginess and aroma, making the dish a perfect balance of sour, spicy, and savory notes. Beyond taste, Ghugni is culturally significant as an affordable, protein-rich food that reflects the ingenuity of eastern Indian cuisine—turning simple legumes into a wholesome and satisfying meal. It is also a festive and social dish, commonly prepared during fairs, family gatherings, and street food markets, highlighting the communal and celebratory aspect of food in Bihar and Bengal.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://media.istockphoto.com/id/1748107051/photo/veg-steamed-momo-nepalese-traditional-dish-momo-stuffed-with-vegetables-and-then-cooked-and.jpg?s=612x612&w=0&k=20&c=EY_opoDEEhu1_hbyeOcdIg3kZA1Pt7FEOa2vkuJrZTA=" alt="Momos (Northeast)">
+                        <div class="card-body">
+                            <h3>Momos (Northeast)</h3>
+                            <p>Momos, originating from the Himalayan regions and widely popular in Northeast India, are a type of dumpling that have become a staple street food and household snack. Traditionally influenced by Tibetan and Nepalese cuisine, they are made by kneading a soft dough of refined flour, rolled into small wrappers, and filled with a savory stuffing such as minced meat, vegetables, paneer, or even cheese. The dumplings are then steamed in special momo steamers, though variations like fried momos, tandoori momos, and pan-fried kothey momos have also gained immense popularity. They are typically served with a fiery dipping sauce called momo chutney, made with red chilies, tomatoes, and garlic, which balances the mild flavor of the dumplings. Momos are more than just a snack—they represent the cultural blending of the Northeast, combining Tibetan traditions with Indian tastes, and have now become one of the most loved comfort foods across the country.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ghugni.jpg/500px-Ghugni.jpg" alt="Ghugni (Bihar, Bengal, Odisha)">
+                        <div class="card-body">
+                            <h3>Ghugni (Bihar, Bengal, Odisha)</h3>
+                            <p>Ghugni, a beloved dish from Bihar, Bengal, and Odisha, is a wholesome curry made with soaked and boiled dried peas—white, yellow, or black gram—cooked with onions, tomatoes, ginger, garlic, and a blend of spices, each region adding its own twist. In Bengal, it is tangy and spicy, often paired with luchi or muri (puffed rice) and served by street vendors with raw onions, chilies, and black salt; in Bihar, it takes on a more rustic, robust flavor, sometimes made with black gram and eaten with roti or paratha; while in Odisha, it tends to be milder with a hint of sweetness, often offered during festivals and enjoyed with mudhi or chakuli pitha. Nutritious, affordable, and filling, Ghugni has become a cultural staple and comfort food, cherished both as a homely meal and as popular street fare across Eastern India.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://media.istockphoto.com/id/1311892269/photo/panta-bhat-or-soaking-rice-is-a-famous-dish-in-india-westbengal-and-bangladesh-in-summer.jpg?s=612x612&w=0&k=20&c=N6MD_d8CVmzEAVKBouYxizCU6PZ1mf9I2v1MLKVv1fA=" alt="Pakhala Bhata">
+                        <div class="card-body">
+                            <h3>Pakhala Bhata (Odisha)</h3>
+                            <p>Pakhala Bhata is a fermented rice dish from Odisha, celebrated as a summer staple for its cooling properties. It’s prepared by soaking cooked rice in water and allowing it to ferment overnight. This process not only makes the dish easily digestible but also gives it a subtle sour taste. The fermented rice is served with a side of dishes called <strong>pakhala bhata</strong>, which can include stir-fried vegetables, fried fish, fried potatoes, and a variety of chutneys and pickles. It's often garnished with ingredients like ginger, curd, cumin seeds, and mint. Pakhala Bhata is more than a meal; it’s a cultural symbol of simplicity and comfort, deeply rooted in the agrarian traditions of Odisha.</p>
+                        </div>
+                    </div>
+                </div>      
+      </div>
+
+      <div id="west" class="category-content">
+        <!-- 🔥 West Indian detailed content block -->
+         <div class="food-intro">
+                    <h3>West Indian Cuisine</h3>
+                    <p>West Indian cuisine, encompassing states like Maharashtra, Gujarat, Goa, and Rajasthan, is known for its diverse flavors ranging from sweet and tangy in Gujarat to spicy and fiery in Goa. It's a land of rich culinary traditions influenced by history, geography, and trade. The cuisine features a mix of vegetarian and non-vegetarian dishes, with a heavy reliance on pulses, vegetables, and seafood.</p>
+                </div>
+                <div class="grid">
+                    <div class="place">
+                        <img class="thumb" src="https://t3.ftcdn.net/jpg/15/67/78/54/240_F_1567785459_tsP90Jxu66ExJnkeotsBSACVcdVNxySZ.jpg" alt="Dhokla">
+                        <div class="card-body">
+                            <h3>Dhokla (Gujarat)</h3>
+                            <p>Dhokla is a light, savory, and fluffy steamed cake from Gujarat. It’s made from a fermented batter of rice and split chickpeas (chana dal), which gives it a distinctive tangy flavor and a porous texture. After steaming, it’s cut into pieces and seasoned with a tempering of mustard seeds, curry leaves, and green chilies fried in oil. A drizzle of sweet and sour syrup is sometimes added to balance the taste. Dhokla is a popular snack or breakfast item, served with green chutney and a side of sev (fried noodles). Its low-oil preparation and healthy ingredients make it a favorite across India and a testament to Gujarat's love for wholesome, vegetarian food.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://t4.ftcdn.net/jpg/06/37/32/79/240_F_637327997_ZD8w4G9W43VgbQD2HYMXLwxO5assDeN4.jpg" alt="Vada Pav">
+                        <div class="card-body">
+                            <h3>Vada Pav (Maharashtra)</h3>
+                            <p>Vada Pav is an iconic street food from Maharashtra, often called the "Indian burger." It consists of a deep-fried potato patty (<strong>vada</strong>) spiced with ginger, garlic, and green chilies, which is then placed inside a soft bread bun (<strong>pav</strong>). The dish is served with an array of chutneys, including a spicy garlic chutney, a sweet tamarind chutney, and a mint-coriander chutney. Sliced onions and fried green chilies often accompany it. Originating in Mumbai in the 1960s, Vada Pav was created as a quick, affordable, and filling meal for the city's mill workers. Today, it is a beloved symbol of Mumbai's street food culture, consumed by millions daily.</p>
+                        </div>
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://media.istockphoto.com/id/2183409545/photo/indian-cuisine-vindaloo-fish-with-spices.jpg?s=612x612&w=0&k=20&c=n4PusdjWFEDtn7KQpnJSqINvXMJVq-mESLduGSPrai8=" alt="Vindaloo (Goa)">
+                        <div class="card-body">
+                            <h3>Vindaloo (Goa)</h3>
+                            <p>Vindaloo is one of Goa’s most iconic dishes, born from the fusion of Portuguese and Indian culinary traditions. The name originates from the Portuguese dish “vinha d’alhos”—meat marinated in wine and garlic—which Goans adapted by replacing wine with palm vinegar and adding their own local spices. Over time, red Kashmiri chilies, black pepper, cumin, cinnamon, cardamom, and cloves were blended with garlic, ginger, and vinegar to create a fiery, tangy marinade that gives Vindaloo its signature flavor. Traditionally, pork is the most authentic version, but chicken, lamb, or even seafood variations are popular today. The dish is slow-cooked so that the spices penetrate deeply into the meat, producing a balance of heat, sourness, and depth of flavor. Outside India, Vindaloo has become famous in British curry houses as one of the spiciest curries, often exaggerated for heat, but in its Goan form it is a flavorful, aromatic dish that reflects Goa’s history of colonial influence and coastal spice trade.</p>
+                        </div>
+                    <div class="place">
+                        <img class="thumb" src="https://media.istockphoto.com/id/1413556592/photo/a-food-called-methi-paratha-or-methi-thepla-is-an-indian-breakfast-dish-served-with-curd.jpg?s=612x612&w=0&k=20&c=ljGBkka8-lFdwgIU5lO6iusqvz-TaNczsID_32Jarf4=" alt="Thepla (Gujarat)">
+                        <div class="card-body">
+                            <h3>Thepla (Gujarat)</h3>
+                            <p>Thepla is an iconic flatbread from Gujarat, deeply woven into the everyday diet and culture of Gujarati households. Made from a blend of whole wheat flour, gram flour, and sometimes millet flours, it is enriched with finely chopped fresh fenugreek leaves (methi), which give it a distinctive aroma, taste, and nutritional value. Yogurt and a touch of oil are often added to the dough, making the bread soft, pliable, and longer-lasting, ideal for long journeys where it doesn’t spoil easily. The spices—turmeric, red chili, cumin, and ajwain—add warmth and flavor, while sesame seeds or ginger-garlic are sometimes included for variation. Traditionally eaten with pickles, curd, or even jaggery, Thepla is more than just food—it is comfort, convenience, and health packed into one dish.Thepla is considered a travel essential for Gujaratis, as it can stay fresh for days when prepared with less yogurt. It’s also symbolic of the Gujarati philosophy of simple yet flavorsome vegetarian cooking, where nutrition, taste, and practicality are perfectly balanced. Today, Thepla has transcended regional boundaries and become a beloved Indian snack worldwide, often compared to parathas but lighter, more spiced, and uniquely Gujarati in character.</p>
+                        </div>
+                    <div class="place">
+                        <img class="thumb" src="https://media.istockphoto.com/id/1875099648/photo/indian-traditional-kadhi-pakora.jpg?s=612x612&w=0&k=20&c=OMUUDgtxXBVkNZWRj0iTxALZun0aHqku9AF7lo41QhA=" alt="Dal Dhokli (Gujarat)">
+                        <div class="card-body">
+                            <h3>Dal Dhokli (Gujarat))</h3>
+                            <p>Dal Dhokli is a traditional and comforting one-pot dish from Gujarat that beautifully combines protein-rich dal (lentils) with spiced wheat flour dumplings. The base is usually made with toor dal (pigeon pea lentils), cooked with a flavorful tempering of mustard seeds, cumin, curry leaves, green chilies, tomatoes, jaggery, and tamarind to create a balance of sweet, sour, and mildly spicy flavors typical of Gujarati cuisine. Into this simmering dal, pieces of rolled and cut spiced wheat dough (dhokli) are added and cooked until soft, absorbing the flavors of the dal. The result is a wholesome, hearty meal that requires no separate accompaniments, often enjoyed as a complete dish on its own.Dal Dhokli is moe than just food—it is a reflection of Gujarat’s culinary ethos of transforming simple, everyday ingrerdients into nourishing and flavorful meals. It is considered a comfort food, often prepared on Sundays or as a family treat, symbolizing warmth, togetherness, and homely care. The dish is also economical, fulfilling, and highly nutritious, making it a favorite among both urban and rural households. Its versatility allows for variations in flavor depending on regional and family traditions, but at its core, Dal Dhokli captures the essence of Gujarati home cooking: balanced, wholesome, and deeply satisfying</p>
+                        </div>        
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://media.istockphoto.com/id/1458973879/photo/rajasthani-traditional-cuisine-dal-baati.jpg?s=612x612&w=0&k=20&c=bBspCwj57CtdD0m66dZpNpNU_Dou3o7l1PscMUsijQc=" alt="Dal Baati Churma (Rajasthan)">
+                        <div class="card-body">
+                            <h3>Dal Baati Churma (Rajasthan)</h3>
+                            <p>Dal Baati Churma is the quintessential Rajasthani delicacy that perfectly represents the state’s rich culinary heritage. It is a three-part dish where dal (a mix of lentils) is cooked with ghee and flavored with traditional spices to create a hearty curry; baati are hard, round, unleavened wheat flour rolls baked or roasted until crisp on the outside yet soft inside, usually dipped in ghee before eating; and churma is a sweet crumble made by crushing baati or wheat flour dumplings, mixing them with ghee and jaggery or sugar. The combination brings together savory, smoky, and sweet flavors in every bite.Culturally, Dal Baati Churma is more than just food—it is an experience deeply tied to Rajasthani hospitality and festive occasions. It originated as a warrior’s meal, where baatis were baked in the desert sands and eaten with minimal accompaniments, making it a practical yet filling dish in arid conditions. Over time, it evolved into a royal and celebratory platter, often served during weddings, festivals like Diwali, and special gatherings. The generous use of ghee in all three components reflects Rajasthan’s tradition of hearty cooking, ensuring energy and sustenance in the harsh desert climate. Today, Dal Baati Churma is not only Rajasthan’s signature dish but also a beloved Indian classic celebrated across the country.</p>
+                        </div>        
+                    </div>
+                    <div class="place">
+                        <img class="thumb" src="https://media.istockphoto.com/id/1421262778/photo/goa-food-indian-traditional-goan-pomfret-or-butter-fish-curry-hot-and-spicy-homemade-fish.jpg?s=612x612&w=0&k=20&c=eC_kOB7AVTZ6MMtnCu0jYAMbiscQiAPe_ILHMy9O5Nw=" alt="Goan Fish Curry (Goa)">
+                        <div class="card-body">
+                            <h3>Goan Fish Curry (Goa)</h3>
+                            <p>Goan Fish Curry, locally called Xitti Kodi, is one of the most iconic dishes of Goan cuisine, known for its vibrant color, tangy flavor, and coastal freshness. It is traditionally prepared with locally available fish like kingfish, pomfret, mackerel, or sardines, which are simmered in a spiced coconut-based gravy enriched with red Kashmiri chilies, garlic, ginger, turmeric, and coriander. Tamarind or kokum is added to lend the dish its characteristic sourness, balancing perfectly with the creaminess of ground coconut. The result is a flavorful curry that is light yet satisfying, best enjoyed with steamed rice, making it a staple in almost every Goan household. Deeply rooted in Goan culture, the dish reflects the region’s Portuguese influence and abundant use of local produce, especially coconuts, spices, and seafood. While every family has its own recipe, the soul of the dish lies in its balance of spicy, tangy, and mildly sweet flavors, which together capture the essence of Goa’s coastal identity. Loved not only in Goa but across India and beyond, Goan Fish Curry stands as a symbol of comfort, tradition, and the rich culinary heritage of India’s western coastline.</p>
+                        </div>        
+                    </div>
+                </div>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <!-- Chatbot -->
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot 
+      <span id="chatbot-close" onclick="closeChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const availablePlaces = {
+      "North Indian": ["Punjab", "Uttar Pradesh", "Delhi"],
+      "South Indian": ["Tamil Nadu", "Kerala", "Andhra Pradesh", "Karnataka"],
+      "East Indian": ["West Bengal", "Odisha", "Bihar", "Northeast"],
+      "West Indian": ["Rajasthan", "Gujarat", "Goa", "Maharashtra"]
+    };
+
+    function showContent(category) {
+      document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+    }
+
+    function getLocalAnswer(userQuestion) {
+      userQuestion = userQuestion.toLowerCase();
+      for (const [cat, states] of Object.entries(availablePlaces)) {
+        if (userQuestion.includes(cat.toLowerCase())) {
+          return `${cat} Cuisine is famous in states: ${states.join(", ")}.`;
+        }
+        for (const state of states) {
+          if (userQuestion.includes(state.toLowerCase())) {
+            return `${cat} Cuisine is famous in states: ${states.join(", ")}.`;
+          }
+        }
+      }
+      return null;
+    }
+
+    document.getElementById('chatbot-send').addEventListener('click', sendMessage);
+    document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById('chatbot-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById('chatbot-messages');
+      chat.innerHTML += `<div class="user-message"><b>You:</b> ${msg}</div>`;
+
+      const localAnswer = getLocalAnswer(msg);
+      if (localAnswer) {
+        chat.innerHTML += `<div class="bot-message"><b>Bot:</b> ${localAnswer}</div>`;
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+        return;
+      }
+
+      try {
+        const botDiv = document.createElement("div");
+        botDiv.className = "bot-message";
+        botDiv.textContent = "🤖 Thinking...";
+        chat.appendChild(botDiv);
+        chat.scrollTop = chat.scrollHeight;
+
+        const response = await fetch("http://localhost:5000/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg }),
+        });
+
+        const data = await response.json();
+        botDiv.textContent = data.reply;
+      } catch {
+        chat.innerHTML += `<div class="bot-message">⚠️ Couldn’t connect to server</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function toggleChatbot() {
+      document.getElementById('chatbot-box').classList.toggle('active');
+    }
+    function closeChatbot() {
+      document.getElementById('chatbot-box').classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showContent('north');
+    });
+  </script>
+  <script src="js/bookmark.js"></script>
+  <script src="js/search.js"></script>
+
 </body>
 </html>

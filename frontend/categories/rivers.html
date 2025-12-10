@@ -1,71 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rivers - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rivers of India | AI Powered Guide</title>
+
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    :root {
+      --brand:#1565c0;
+      --brand-2:#1976d2;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      color: #333; background: var(--bg);
+    }
+    h1 { text-align: center; padding: 20px; margin: 0; }
+    p.lead { text-align: center; max-width: 800px; margin: 0 auto 20px; }
+
+    .button-container { text-align: center; margin: 20px 0; }
+    .category-btn {
+      margin: 6px; padding: 10px 16px;
+      background: var(--brand); color:#fff;
+      border:none; border-radius:8px;
+      cursor:pointer; font-weight:600;
+    }
+    .category-btn:hover { background: var(--brand-2); }
+
+    .content-card {
+      display:none; max-width:900px; margin:20px auto;
+      padding:20px; border-radius:10px;
+      background:#fff; box-shadow:0 4px 10px rgba(0,0,0,.1);
+    }
+    .content-card.active { display:block; }
+
+    .place img {
+      max-width:500px; width:100%; height:250px;
+      object-fit:cover; border-radius:10px; margin-bottom:10px;
+    }
+
+    /* Chatbot */
+    #chatbot-toggle {
+      position: fixed; bottom:30px; right:30px;
+      width:54px; height:54px;
+      border-radius:50%; border:none;
+      background: var(--brand); color:#fff;
+      font-size:24px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.2);
+      z-index:9999;
+    }
+    #chatbot-box {
+      position: fixed; bottom:100px; right:30px;
+      width:340px; background:#fff;
+      border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.2);
+      display:none; flex-direction:column;
+      overflow:hidden; z-index:10000;
+    }
+    #chatbot-box.show { display:flex; }
+    #chatbot-header {
+      background: var(--brand); color:#fff;
+      padding:10px; display:flex; justify-content:space-between;
+    }
+    #chatbot-messages {
+      height:180px; overflow-y:auto; padding:10px;
+      background:#f7f9fb; font-size:14px;
+    }
+    #chatbot-controls { display:flex; padding:10px; border-top:1px solid #ddd; }
+    #chatbot-input {
+      flex:1; padding:6px; border:1px solid #ccc; border-radius:6px;
+    }
+    #chatbot-send {
+      margin-left:8px; background: var(--brand);
+      color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;
+    }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
-        </div>
+  <div class="container">
+    <h1>Rivers of India</h1>
+    <p class="lead">India’s rivers are lifelines of culture, economy, and ecology, flowing across diverse landscapes and nourishing civilizations.</p>
 
-        <h1 class="text-info mb-4">Rivers of India</h1>
-        <p>India is home to numerous rivers, which are vital lifelines, supporting agriculture, providing drinking water, generating power, and holding deep cultural and religious significance.</p>
-        
-        <h3 class="mt-4">Major River Systems & Regions:</h3>
-        <ul>
-            <li><strong>Himalayan Rivers:</strong>
-                <ul>
-                    <li><strong>Indus River System:</strong> Flows through Jammu & Kashmir.</li>
-                    <li><strong>Ganga River System:</strong> Originates in Uttarakhand, flows through Uttar Pradesh, Bihar, West Bengal. Major tributaries include Yamuna, Ghaghara, Kosi.</li>
-                    <li><strong>Brahmaputra River System:</strong> Flows through Arunachal Pradesh and Assam.</li>
-                </ul>
-            </li>
-            <li><strong>Peninsular Rivers:</strong>
-                <ul>
-                    <li><strong>East Flowing Rivers (into Bay of Bengal):</strong>
-                        <ul>
-                            <li><strong>Godavari River:</strong> Originates in Maharashtra, flows through Telangana and Andhra Pradesh. "Dakshin Ganga."</li>
-                            <li><strong>Krishna River:</strong> Originates in Maharashtra, flows through Karnataka, Telangana, and Andhra Pradesh.</li>
-                            <li><strong>Mahanadi River:</strong> Flows through Chhattisgarh and Odisha.</li>
-                            <li><strong>Cauvery River:</strong> Flows through Karnataka and Tamil Nadu.</li>
-                            <li><strong>Penna River:</strong> Flows through Karnataka and Andhra Pradesh (Rayalaseema region).</li>
-                        </ul>
-                    </li>
-                    <li><strong>West Flowing Rivers (into Arabian Sea):</strong>
-                        <ul>
-                            <li>Narmada River: Flows through Madhya Pradesh, Maharashtra, Gujarat.</li>
-                            <li>Tapi River: Flows through Madhya Pradesh, Maharashtra, Gujarat.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <img src="https://via.placeholder.com/800x450?text=Indian+Rivers" class="img-fluid my-3" alt="Indian Rivers">
-        
-        <h3 class="mt-5 mb-3">Major Rivers on Map</h3>
-        <p>Example: Godavari River Delta, Andhra Pradesh</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+    <div class="button-container">
+      <button class="category-btn" onclick="showContent('ganga')">Ganga</button>
+      <button class="category-btn" onclick="showContent('yamuna')">Yamuna</button>
+      <button class="category-btn" onclick="showContent('brahmaputra')">Brahmaputra</button>
+      <button class="category-btn" onclick="showContent('godavari')">Godavari</button>
+      <button class="category-btn" onclick="showContent('narmada')">Narmada</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Ganga -->
+    <div id="ganga" class="content-card">
+      <div class="place">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Varanasi_Ganga.jpg" alt="Ganga at Varanasi">
+        <div class="card-body">
+          <h3>Ganga River</h3>
+          <p>The Ganga, originating from the Gangotri Glacier in Uttarakhand, is India’s most sacred river, revered as “Ganga Maa.” Flowing through Uttar Pradesh, Bihar, Jharkhand, and West Bengal before emptying into the Bay of Bengal, it supports hundreds of millions of people with irrigation, drinking water, and transportation. Varanasi, Haridwar, and Prayagraj are major cultural centers on its banks. Despite challenges of pollution, the Ganga remains central to India’s spirituality, ecology, and economy, and is the focus of major conservation efforts like the Namami Gange program.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Yamuna -->
+    <div id="yamuna" class="content-card">
+      <div class="place">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Yamuna_agra.jpg" alt="Yamuna near Agra">
+        <div class="card-body">
+          <h3>Yamuna River</h3>
+          <p>The Yamuna, a major tributary of the Ganga, originates from Yamunotri Glacier in Uttarakhand. Flowing through Delhi, Haryana, and Uttar Pradesh, it is vital for agriculture, industries, and drinking water supply to the capital region. The Taj Mahal stands on its banks at Agra. While heavily polluted near urban areas, it remains ecologically and culturally important, celebrated in Hindu epics and traditions.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brahmaputra -->
+    <div id="brahmaputra" class="content-card">
+      <div class="place">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Brahmaputra_river_in_Assam.jpg" alt="Brahmaputra in Assam">
+        <div class="card-body">
+          <h3>Brahmaputra River</h3>
+          <p>Originating as the Yarlung Tsangpo in Tibet, the Brahmaputra enters India through Arunachal Pradesh, flows through Assam, and joins the Ganga in Bangladesh. Known for its vast width and seasonal floods, it sustains the fertile plains of Assam and supports biodiversity, including the Kaziranga National Park. Its hydroelectric potential and navigability make it a key economic asset.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godavari -->
+    <div id="godavari" class="content-card">
+      <div class="place">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Godavari_River%2C_Nanded.jpg" alt="Godavari at Nanded">
+        <div class="card-body">
+          <h3>Godavari River</h3>
+          <p>The Godavari, often called the “Dakshina Ganga” (Ganga of the South), is the second longest river in India. It rises in Maharashtra and flows through Telangana, Andhra Pradesh, and Odisha before merging with the Bay of Bengal. Known for its fertile delta, it sustains agriculture and aquaculture. Important pilgrimage sites like Nashik and Rajahmundry lie along its banks.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Narmada -->
+    <div id="narmada" class="content-card">
+      <div class="place">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Narmada_river_near_Maheshwar.jpg" alt="Narmada near Maheshwar">
+        <div class="card-body">
+          <h3>Narmada River</h3>
+          <p>The Narmada, originating from Amarkantak Plateau in Madhya Pradesh, flows westward across Madhya Pradesh, Maharashtra, and Gujarat, emptying into the Arabian Sea. Known as one of the few west-flowing rivers in India, it forms the picturesque Marble Rocks gorge at Bhedaghat and sustains major dams like Sardar Sarovar. It holds deep cultural and ecological significance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot -->
+  <button id="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span style="cursor:pointer;" onclick="toggleChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask about rivers...">
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+  // Default content
+  document.addEventListener("DOMContentLoaded", () => showContent('ganga'));
+
+  function showContent(id) {
+    document.querySelectorAll('.content-card').forEach(c => c.style.display='none');
+    document.getElementById(id).style.display='block';
+  }
+
+  // Chatbot toggle
+  function toggleChatbot() {
+    document.getElementById("chatbot-box").classList.toggle("show");
+  }
+
+  // Rivers context
+  const riverPlaces = {
+    "North": ["Ganga", "Yamuna", "Brahmaputra"],
+    "South": ["Godavari", "Krishna", "Kaveri"],
+    "West": ["Narmada", "Tapi"]
+  };
+
+  function isRiverQuery(userMessage) {
+    const keywords = ["river", "ganga", "yamuna", "brahmaputra", "godavari", "narmada", "water", "tributary"];
+    return keywords.some(k => userMessage.toLowerCase().includes(k));
+  }
+
+  function buildPrompt(userMessage) {
+    let context = "Answer only based on Rivers of India:\n";
+    for (const [cat, items] of Object.entries(riverPlaces)) {
+      context += `- ${cat}: ${items.join(", ")}\n`;
+    }
+    context += `\nQuestion: ${userMessage}\nAnswer:`;
+    return context;
+  }
+
+  // Chatbot send logic
+  document.getElementById("chatbot-send").addEventListener("click", sendMessage);
+  document.getElementById("chatbot-input").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
+
+  async function sendMessage() {
+    const input = document.getElementById("chatbot-input");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    const chat = document.getElementById("chatbot-messages");
+    chat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+
+    let payload;
+    if (isRiverQuery(msg)) {
+      payload = { message: buildPrompt(msg) };
+    } else {
+      payload = { message: msg };
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      chat.innerHTML += `<div><b>Bot:</b> ${data.reply}</div>`;
+    } catch (err) {
+      chat.innerHTML += `<div><b>Bot:</b> ⚠️ Could not connect to server.</div>`;
+    }
+
+    input.value = "";
+    chat.scrollTop = chat.scrollHeight;
+  }
+  </script>
+  <script src="js/bookmark.js"></script>
+  <script src="js/search.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Program of India | AI Powered Guide</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root {
+      --brand: #4a148c; /* Switched to a cosmic purple for Space */
+      --brand-2: #6a1b9a;
+      --ink: #2c3e50;
+      --paper: #ffffff;
+      --bg: #f7f9fb;
+      --accent: #e67e22;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    h1, h2, h3 {
+      color: var(--ink);
+    }
+
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+      text-align: center;
+    }
+
+    /* Buttons */
+    .category-bar {
+      text-align: center;
+      padding: 8px 10px 20px;
+    }
+
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+      border: none;
+    }
+
+    .category-btn:hover {
+      background: var(--brand-2);
+      transform: translateY(-1px);
+    }
+
+    /* Cards */
+    .category-content {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    }
+
+    .category-content.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body p {
+        flex-grow: 1;
+    }
+
+    .thumb {
+      display: block;
+      margin: 0 auto 15px;
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    /* Chatbot styles */
+    #chatbot-box {
+      position: fixed; bottom: 90px; right: 30px;
+      width: 340px; background: #fff;
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none; flex-direction: column; overflow: hidden;
+      z-index: 10000;
+    }
+    #chatbot-box.active { display: flex; }
+
+    #chatbot-header {
+      background: var(--brand); color: #fff;
+      padding: 12px 18px; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    #chatbot-messages {
+      padding: 12px; height: 180px; overflow-y: auto;
+      background: #f7f9fb; font-size: 1em;
+    }
+    #chatbot-controls {
+      display: flex; border-top: 1px solid #eee;
+      padding: 10px; background: #fafafa;
+    }
+    #chatbot-input {
+      flex: 1; padding: 8px; border-radius: 6px;
+      border: 1px solid #ccc; font-size: 1em; margin-right: 8px;
+    }
+    #chatbot-send {
+      background: var(--brand); color: #fff;
+      border: none; border-radius: 6px;
+      padding: 8px 16px; cursor: pointer; font-weight: bold;
+    }
+    #chatbot-toggle {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--brand); color: #fff;
+      border-radius: 50%; width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2em; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 9999;
+    }
+    .user-message { margin: 6px 0; font-weight: bold; }
+    .bot-message { margin: 6px 0; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>India in Space</h1>
+    <p class="lead">From humble beginnings to becoming a global space power, India's journey into space is a story of ambition, innovation, and remarkable cost-effective engineering. Discover the key pillars of the Indian space program.</p>
+
+    <div class="category-section">
+      <div class="category-bar">
+        <button class="category-btn" onclick="showContent('launchers')">Launch Vehicles</button>
+        <button class="category-btn" onclick="showContent('satellites')">Satellite Programs</button>
+        <button class="category-btn" onclick="showContent('missions')">Interplanetary Missions</button>
+        <button class="category-btn" onclick="showContent('future')">Future & Vision</button>
+      </div>
+
+      <div id="launchers" class="category-content active">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/launchers/PSLV_C57/gallery/01_pslv-c57_lift_off.jpg.webp" alt="PSLV Rocket Launch">
+            <div class="card-body">
+              <h3>PSLV (Polar Satellite Launch Vehicle)</h3>
+              <p>The **PSLV** is the celebrated 'Workhorse of ISRO'. This versatile four-stage rocket has an impeccable track record, having launched hundreds of Indian and foreign satellites. Its reliability and cost-effectiveness have made it a preferred choice for commercial launches, placing everything from Earth observation satellites to interplanetary missions into precise orbits.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/LVM3M4/gallery/02_LVM3-M4_lift_off.jpg.webp" alt="LVM3 Rocket Launch">
+            <div class="card-body">
+              <h3>LVM3 (Launch Vehicle Mark-III)</h3>
+              <p>Formerly known as the GSLV MkIII, the **LVM3** is India's heavy-lift launch vehicle. This powerful three-stage rocket is crucial for launching heavy communication satellites into geostationary orbit and is the chosen vehicle for India's ambitious human spaceflight mission, Gaganyaan. Its successful flights, including the launch of Chandrayaan-3, signify India's self-reliance in launching heavy payloads.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="satellites" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/satellites/cms-01/CMS-01_in_orbit.jpg.webp" alt="INSAT satellite in orbit">
+            <div class="card-body">
+              <h3>INSAT System</h3>
+              <p>The **Indian National Satellite (INSAT)** system is one of the largest domestic communication satellite systems in the Asia-Pacific region. Since the 1980s, these satellites have revolutionized telecommunications, television broadcasting, weather forecasting, and disaster warning services across the country, playing a vital role in connecting the nation.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/galleries/Earth_Observation/08_RISAT_2BR1.jpg.webp" alt="Earth Observation Satellite">
+            <div class="card-body">
+              <h3>IRS System (Earth Observation)</h3>
+              <p>The **Indian Remote Sensing (IRS)** satellites are India's 'Eyes in the Sky'. This large constellation of advanced satellites provides high-resolution imagery and data critical for urban planning, agricultural monitoring, natural resource management, and national security. The data from these satellites is instrumental in India's governance and development.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/applications/NavIC/NavIC_Constellation.jpg.webp" alt="NavIC Satellite Constellation">
+            <div class="card-body">
+              <h3>NavIC (Navigation with Indian Constellation)</h3>
+              <p>**NavIC** is India's independent regional navigation satellite system, designed to provide accurate real-time positioning and timing services. As an alternative to GPS, NavIC enhances the nation's strategic autonomy by ensuring navigational capabilities for maritime activities, fleet management, and location-based services over India and its surrounding region.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="missions" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/Chandrayaan3/ch3_soft_landing_img/Chandrayaan-3-Lander-and-Rover-at-Shiv-Shakti-Point.jpg.webp" alt="Chandrayaan-3 on the Moon">
+            <div class="card-body">
+              <h3>Chandrayaan Missions</h3>
+              <p>India's lunar exploration program, **Chandrayaan**, has achieved global recognition. Chandrayaan-1 confirmed the presence of water on the Moon. In 2023, Chandrayaan-3 made history with a successful soft landing near the lunar south pole, a feat never before accomplished, reaffirming India's capabilities in complex space exploration.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/MOM/MOM-Mission-Image-from-Mars-Color-Camera-MCC.jpg.webp" alt="Mars seen by Mangalyaan">
+            <div class="card-body">
+              <h3>Mangalyaan (Mars Orbiter Mission)</h3>
+              <p>The **Mars Orbiter Mission (MOM)**, or Mangalyaan, was India's first venture into interplanetary space. It made India the first nation to reach Martian orbit on its first attempt and was lauded for its extremely frugal budget. The mission provided valuable scientific data and stunning images of Mars, inspiring a generation.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/Aditya_L1/gallery/01_Aditya-L1_Satellite_Image.jpg.webp" alt="Aditya-L1 Satellite">
+            <div class="card-body">
+              <h3>Aditya-L1 Solar Observatory</h3>
+              <p>**Aditya-L1** is India's first space-based observatory dedicated to studying the Sun. Positioned at the Lagrange point 1 (L1), it provides continuous, uninterrupted observation of the Sun's corona, photosphere, and chromosphere. The mission is crucial for understanding solar weather and its impact on the space environment around Earth.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="future" class="category-content">
+        <div class="grid">
+            <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/human_space_flight/CM_fairing.jpg.webp" alt="Gaganyaan Crew Module">
+            <div class="card-body">
+              <h3>Gaganyaan Mission</h3>
+              <p>The **Gaganyaan** program aims to demonstrate India's human spaceflight capability by launching a crew of astronauts into an orbit of 400 km for a 3-day mission and bringing them back safely. This ambitious project will make India the fourth nation to independently send humans to space, paving the way for a sustained human space program.</p>
+            </div>
+          </div>
+           <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/Future_Missions/NISAR/NISAR_satellite_image.jpg.webp" alt="NISAR Satellite">
+            <div class="card-body">
+              <h3>NISAR Mission</h3>
+              <p>The **NASA-ISRO Synthetic Aperture Radar (NISAR)** is a collaborative Earth observation mission. It is one of the most advanced and expensive imaging satellites ever built. NISAR will map the entire globe in 12 days, providing data for understanding changes in ecosystems, ice mass, sea-level rise, and natural hazards like earthquakes and volcanoes.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Stars in the night sky">
+            <div class="card-body">
+              <h3>Future Exploration</h3>
+              <p>ISRO's vision extends to more challenging frontiers. Planned missions include **Shukrayaan**, an orbiter to Venus, a Mars lander, and a successor to the Chandrayaan program. The long-term roadmap also includes developing reusable launch vehicles and establishing an Indian space station by 2035, cementing India's role as a major space power.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="closeChatbot()" style="cursor: pointer;">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const spaceData = {
+      "Launch Vehicles": ["pslv", "gslv", "lvm3", "rocket", "launcher"],
+      "Satellite Programs": ["insat", "irs", "navic", "gps", "satellite"],
+      "Interplanetary Missions": ["chandrayaan", "moon", "mangalyaan", "mars", "aditya", "sun"],
+      "Future & Vision": ["gaganyaan", "human", "nisar", "shukrayaan", "venus"]
+    };
+
+    function showContent(category) {
+      document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+    }
+
+    function getLocalAnswer(userQuestion) {
+      userQuestion = userQuestion.toLowerCase();
+      for (const [category, keywords] of Object.entries(spaceData)) {
+        for (const keyword of keywords) {
+          if (userQuestion.includes(keyword)) {
+            return `That relates to <strong>${category}</strong>. You can find more information in that section!`;
+          }
+        }
+      }
+      return null;
+    }
+
+    document.getElementById('chatbot-send').addEventListener('click', sendMessage);
+    document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById('chatbot-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById('chatbot-messages');
+      chat.innerHTML += `<div class="user-message"><b>You:</b> ${msg}</div>`;
+
+      const localAnswer = getLocalAnswer(msg);
+      if (localAnswer) {
+        chat.innerHTML += `<div class="bot-message"><b>Bot:</b> ${localAnswer}</div>`;
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+        return;
+      }
+
+      try {
+        const botDiv = document.createElement("div");
+        botDiv.className = "bot-message";
+        botDiv.innerHTML = "<b>Bot:</b> 🤖 Thinking...";
+        chat.appendChild(botDiv);
+        chat.scrollTop = chat.scrollHeight;
+
+        setTimeout(() => {
+          botDiv.innerHTML = `<b>Bot:</b> I can provide information on ISRO's rockets, satellites, and missions to the Moon and Mars. What interests you most?`;
+          chat.scrollTop = chat.scrollHeight;
+        }, 1000);
+
+      } catch {
+        chat.innerHTML += `<div class="bot-message">⚠️ Couldn’t connect to server</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function toggleChatbot() {
+      document.getElementById('chatbot-box').classList.toggle('active');
+    }
+    function closeChatbot() {
+      document.getElementById('chatbot-box').classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showContent('launchers');
+    });
+  </script>
+</body>
+</html>

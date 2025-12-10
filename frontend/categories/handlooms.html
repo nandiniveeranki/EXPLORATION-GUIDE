@@ -1,57 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handlooms - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Handlooms of India | AI Powered Guide</title>
+  <style>
+    :root {
+      --brand:#6a1b9a;
+      --brand-2:#8e24aa;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+      --accent:#e67e22;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+    h1, h2, h3 { color: var(--ink); }
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+      text-align: justify;
+    }
+    .button-container { text-align:center; padding: 8px 10px 20px; }
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      border: none;
+    }
+    .category-btn:hover { background: var(--brand-2); transform: translateY(-1px); }
+    .content-card {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      flex-direction: column;
+      align-items: center;
+    }
+    .content-card:not(.hidden) { display: flex; flex-direction: column; }
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .place img {
+      max-width: 500px;
+      width: 100%;
+      height: 250px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+    .card-body h3 { margin: 10px 0; color: var(--brand); }
+    .card-body p { text-align: justify; line-height: 1.6; }
+    .hidden { display: none; }
+
+    /* Chatbot */
+    #chatbot-box {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 340px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10000;
+    }
+    #chatbot-box.active { display: flex; }
+    #chatbot-header {
+      background: var(--brand);
+      color: #fff;
+      padding: 12px 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #chatbot-close { cursor: pointer; font-size: 1.2em; }
+    #chatbot-messages {
+      padding: 16px;
+      height: 180px;
+      overflow-y: auto;
+      background: #f7f9fb;
+      font-size: 1em;
+    }
+    #chatbot-controls {
+      display: flex;
+      border-top: 1px solid #eee;
+      padding: 10px;
+      background: #fafafa;
+    }
+    #chatbot-input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      margin-right: 8px;
+    }
+    #chatbot-send {
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background .2s;
+    }
+    #chatbot-send:hover { background: var(--brand-2); }
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      z-index: 9999;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
-        </div>
+  <div class="container">
+    <h1>Handlooms of India</h1>
+    <p class="lead">India’s handlooms are symbols of tradition, culture, and craftsmanship, varying across states with unique weaving styles.</p>
 
-        <h1 class="text-warning mb-4">Handlooms in India</h1>
-        <p>India's handloom sector is a vibrant part of its cultural heritage, renowned globally for its intricate designs, rich textures, and traditional weaving techniques that vary by region.</p>
-        
-        <h3 class="mt-4">Prominent Handloom Weaving Centers:</h3>
-        <ul>
-            <li><strong>Andhra Pradesh:</strong>
-                <ul>
-                    <li>Dharmavaram (Anantapur district) – Famous for Dharmavaram Silk sarees with rich zari work.</li>
-                    <li>Mangalagiri (Guntur district) – Known for Mangalagiri cotton and silk sarees with unique checks and stripes.</li>
-                    <li>Uppada (East Godavari district) – Famous for Uppada Jamdani sarees, known for their lightweight and intricate designs.</li>
-                </ul>
-            </li>
-            <li><strong>Telangana:</strong> Pochampally (Yadadri Bhuvanagiri district) – Renowned for its Pochampally Ikat sarees.</li>
-            <li><strong>Uttar Pradesh:</strong> Varanasi – Famous for Banarasi Silk sarees.</li>
-            <li><strong>Odisha:</strong> Sambalpur – Known for Sambalpuri Ikat sarees.</li>
-            <li><strong>Tamil Nadu:</strong> Kanchipuram – World-renowned for Kanchipuram Silk sarees.</li>
-            <li><strong>West Bengal:</strong> Santipur, Phulia, Dhaniakhali – Known for Tant sarees, Baluchari sarees.</li>
-        </ul>
-        <img src="https://via.placeholder.com/800x450?text=Indian+Handlooms" class="img-fluid my-3" alt="Indian Handlooms">
-        
-        <h3 class="mt-5 mb-3">Handloom Clusters on Map</h3>
-        <p>Example: Dharmavaram, Andhra Pradesh</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+    <div class="button-container">
+      <button class="category-btn" onclick="showContent('north')">North Indian Handlooms</button>
+      <button class="category-btn" onclick="showContent('south')">South Indian Handlooms</button>
+      <button class="category-btn" onclick="showContent('east')">East Indian Handlooms</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- North -->
+    <div id="north" class="content-card hidden">
+        <div class="place">
+          <img src="https://grandmaslegacy.wordpress.com/wp-content/uploads/2017/12/brocade.jpg" alt="Banarasi (Uttar Pradesh)">
+          <div class="card-body">
+            <h3>Banarasi (Uttar Pradesh)</h3>
+            <p>Banarasi handloom from Varanasi, Uttar Pradesh, is one of India’s most famous traditional weaving crafts, renowned for its luxurious silk sarees adorned with intricate gold and silver zari work, brocades, and fine embroidery. These sarees often feature motifs inspired by Mughal art, such as floral patterns, leaves, and paisleys, reflecting centuries of rich cultural heritage. The weaving process is labor-intensive and highly skilled, with artisans meticulously handcrafting each piece on traditional looms. Banarasi textiles are highly prized for weddings, festivals, and special occasions, and they symbolize royalty, elegance, and craftsmanship. The industry not only preserves traditional Indian artistry but also provides livelihoods to thousands of weavers in Varanasi and surrounding regions, making it both culturally and economically significant.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://i.etsystatic.com/22856298/r/il/0c3850/3566215917/il_fullxfull.3566215917_qsgd.jpg" alt="Pashmina (Jammu & Kashmir)">
+          <div class="card-body">
+            <h3>Pashmina (Jammu & Kashmir)</h3>
+            <p>Pashmina handlooms from Jammu & Kashmir represent one of India’s most exquisite and historically significant textile traditions. Derived from the soft undercoat of Changthangi goats in the high Himalayas, Pashmina wool is exceptionally fine, lightweight, and warm, making it ideal for luxurious shawls, stoles, and scarves. Artisans employ traditional handloom techniques and painstakingly craft intricate designs, including paisleys, floral motifs, and Kashmiri embroidery, with some pieces taking months or even a year to complete. This craft not only reflects the rich cultural heritage and aesthetic sensibilities of Kashmir but also sustains thousands of local weavers and embroiderers, providing livelihoods in the region. Pashmina products are highly prized worldwide for their softness, elegance, and durability, often considered symbols of status and refinement. Over centuries, the craft has been patronized by royalty and continues to be celebrated globally for its artistic mastery, blending heritage, culture, and economy into one of India’s most iconic handloom traditions.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://c8.alamy.com/comp/ATY46F/woven-wool-textile-with-geometric-motifs-from-the-kinnaur-mountain-ATY46F.jpg" alt="Himachali Woollen Fabrics (Himachal Pradesh)">
+          <div class="card-body">
+            <h3>Himachali Woollen Fabrics (Himachal Pradesh)</h3>
+            <p>Himachali woollen fabrics, originating from Himachal Pradesh, are a prominent part of the region’s traditional textile heritage. These fabrics are primarily made from sheep wool and pashmina blends, and are used to craft shawls, caps, blankets, and wraps that are both warm and durable, suitable for the cold Himalayan climate. Skilled artisans employ hand-spinning, hand-weaving, and intricate embroidery techniques, often incorporating geometric patterns, floral motifs, and vibrant colors that reflect the local culture and lifestyle. Each region of Himachal Pradesh, including Kullu, Kinnaur, and Chamba, has its distinct style, with Kullu woollens known for striking patterns and bright stripes, while Chamba shawls are prized for fine embroidery and delicate motifs. These fabrics not only provide functional warmth but also hold cultural and aesthetic significance, supporting local artisans and sustaining traditional craftsmanship. Himachali woollen textiles are celebrated both within India and internationally for their quality, artistry, and unique Himalayan identity, making them an important part of India’s handloom heritage.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://static.toiimg.com/thumb/imgsize-1133642,msid-121974866,width-600,height-335,resizemode-75/121974866.jpg" alt="Chikankari (Uttar Pradesh)">
+          <div class="card-body">
+            <h3>Chikankari (Uttar Pradesh)</h3>
+            <p>Chikankari is a traditional hand embroidery art form from Lucknow, Uttar Pradesh, known for its delicate, intricate, and elegant designs on fabrics like cotton, muslin, silk, and chiffon. This craft involves hand-stitched floral motifs, paisleys, and geometric patterns, often created using white thread, giving the fabric a subtle and sophisticated look. Skilled artisans use a variety of stitches, including backstitch, hemstitch, and shadow work, requiring precision, patience, and artistic sensibility. Historically patronized by the Mughal rulers, Chikankari has evolved into a contemporary fashion staple while retaining its traditional charm. It is widely used for sarees, kurtas, dupattas, and home textiles, and provides livelihoods to thousands of artisans in and around Lucknow. Recognized as an intangible cultural heritage, Chikankari represents a perfect blend of art, culture, and economy, reflecting India’s rich textile and handicraft traditions.</p>
+          </div>
+        </div>
+      </div>
+
+    <!-- South -->
+   <div id="south" class="content-card hidden">
+        <div class="place">
+          <img src="https://t4.ftcdn.net/jpg/01/80/16/07/240_F_180160726_BOlNpRYhfm06xocKrFobwhgd6pqleHZg.jpg" alt="Kanchipuram Silk">
+          <div class="card-body">
+            <h3>Kanchipuram Silk (Tamil Nadu)</h3>
+            <p>Kanchipuram silk, originating from Kanchipuram in Tamil Nadu, is one of India’s most famous and luxurious silk weaving traditions, renowned for its vibrant colors, rich texture, and intricate zari work. The silk sarees, often called “Kanjeevaram sarees,” are woven from pure mulberry silk threads and feature elaborate designs inspired by temple architecture, mythology, and traditional motifs such as peacocks, flowers, and geometric patterns. Each saree is crafted on handlooms, with the body and borders woven separately and then joined together using a technique called coronation weaving, which enhances durability and elegance. Kanchipuram silk sarees are highly prized for weddings, festivals, and ceremonial occasions, symbolizing royalty, tradition, and craftsmanship. The weaving industry supports thousands of skilled artisans, sustaining traditional handloom practices and contributing significantly to Tamil Nadu’s cultural heritage and economy. These sarees are celebrated worldwide for their luxury, artistry, and timeless appeal.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://pochampallysarees.com/cdn/shop/files/pochampally-ikat-silk-maroon-color-rajastani-design-saree-pochampallysarees-com-94164.jpg?v=1756456861" alt="Pochampally Ikat (Telangana)">
+          <div class="card-body">
+            <h3>Pochampally Ikat (Telangana)</h3>
+            <p>Pochampally Ikat, originating from Pochampally in Telangana, is a traditional handloom weaving art renowned for its unique geometric patterns and vibrant color combinations. The craft involves a resist-dyeing technique where threads are dyed before weaving, creating intricate Ikat designs with precision and skill. Pochampally sarees, dupattas, and fabrics are woven using cotton or silk threads, often featuring zig-zag patterns, diamonds, and checks, which are characteristic of the region. This centuries-old tradition not only reflects the cultural heritage of Telangana but also provides livelihoods to numerous skilled weavers in and around Pochampally. The textiles are valued for their durability, artistry, and aesthetic appeal, making them popular both nationally and internationally. Pochampally Ikat has received Geographical Indication (GI) recognition, highlighting its unique identity, craftsmanship, and significance as one of India’s iconic handloom traditions.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://celebrationsbympj.com/cdn/shop/files/Pink_purple_border_butta_Gadwal_silk_72.jpg?v=1718731643" alt="Gadwal Sarees (Telangana)">
+          <div class="card-body">
+            <h3>Gadwal Sarees (Telangana)</h3>
+            <p>Gadwal sarees, originating from Gadwal in Telangana, are a renowned handloom tradition celebrated for their lightweight texture, fine silk body, and rich cotton borders. These sarees are woven using the “Double Ikat” technique, where both the warp and weft threads are pre-dyed to create intricate patterns, often depicting temple motifs, geometric designs, and floral elements. The combination of silk and cotton makes Gadwal sarees both elegant and comfortable, suitable for festivals, weddings, and special occasions. Skilled artisans meticulously craft each piece on traditional handlooms, preserving centuries-old weaving practices. Gadwal sarees are highly valued for their durability, craftsmanship, and cultural significance, providing livelihoods to local weavers and contributing to Telangana’s rich textile heritage. Recognized nationally and internationally, these sarees symbolize Indian artistry, tradition, and elegance.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://stylesatlife.com/wp-content/uploads/2018/08/Beautiful-Paithani-Sarees-320x240.jpg" alt="Ilkal Sarees (Karnataka)">
+          <div class="card-body">
+            <h3>Ilkal Sarees (Karnataka)</h3>
+            <p>Ilkal sarees, originating from Ilkal in Karnataka, are a traditional handloom textile known for their distinctive red borders, contrasting pallus, and simple yet elegant designs. Woven primarily from cotton or silk threads, these sarees often feature geometric patterns, checks, and temple motifs, with the “Tope Teni” technique used to join the body and border seamlessly. Ilkal sarees are lightweight, durable, and comfortable, making them suitable for daily wear as well as festive and ceremonial occasions. The weaving tradition supports local artisans, preserving centuries-old craftsmanship and contributing to the cultural and economic life of the region. Celebrated for their unique aesthetic, vibrant colors, and regional identity, Ilkal sarees are an important part of Karnataka’s handloom heritage and continue to attract buyers across India and internationally.</p>
+          </div>
+        </div>
+      </div>
+    <!-- East -->
+    <div id="east" class="content-card hidden">
+        <div class="place">
+          <img src="https://www.mirraclothing.com/wp-content/uploads/2021/07/WhatsApp-Image-2021-07-09-at-18.53.37-1.jpeg" alt="Tussar Silk (Bihar / West Bengal)">
+          <div class="card-body">
+            <h3>Tussar Silk (Bihar / West Bengal)</h3>
+            <p>Tussar silk, primarily produced in Bihar and West Bengal, is a natural silk known for its rich texture, subtle gold sheen, and breathable quality. Derived from the silk of wild silkworms (Antheraea species), it is different from mulberry silk and has a slightly coarse, textured feel that adds rustic elegance to fabrics. Artisans weave Tussar silk into sarees, dupattas, and garments, often incorporating intricate motifs inspired by nature, tribal art, and traditional patterns. The handloom industry for Tussar silk supports thousands of weavers, preserving traditional weaving and dyeing techniques, including tie-and-dye and block printing methods. Valued for its durability, comfort, and aesthetic appeal, Tussar silk plays a significant role in festivals, weddings, and cultural expressions, contributing both to the economy and to India’s rich textile heritage.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.sanskriticuttack.com/wp-content/uploads/2022/09/Photo_1664281477809.jpg" alt="Sambalpuri Ikat (Odisha)">
+          <div class="card-body">
+            <h3>Sambalpuri Ikat (Odisha)</h3>
+            <p>Sambalpuri Ikat, originating from Sambalpur in Odisha, is a traditional handloom weaving technique renowned for its intricate tie-and-dye patterns. The craft involves resist-dyeing the warp and/or weft threads before weaving, resulting in distinctive geometric, floral, and traditional motifs such as shankha (conch), chakra (wheel), and phula (flower). Sambalpuri sarees, dupattas, and fabrics are typically made from cotton or silk, combining durability with elegance. The textiles reflect Odisha’s rich cultural heritage and are integral to local festivals, ceremonies, and daily wear. Skilled artisans meticulously handcraft each piece on traditional looms, preserving centuries-old techniques. Recognized with Geographical Indication (GI) status, Sambalpuri Ikat contributes significantly to livelihoods, regional identity, and India’s handloom legacy, making it one of the most celebrated and distinctive weaving traditions of the country.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.unnatisilks.com/cdn/shop/articles/BSS4-2.jpg?v=1655288936&width=2048" alt="Baluchari Sarees (West Bengal)">
+          <div class="card-body">
+            <h3>Baluchari Sarees (West Bengal)</h3>
+            <p>Baluchari sarees, originating from Murshidabad in West Bengal, are a celebrated handloom tradition known for their intricate storytelling motifs woven into the pallu. Crafted primarily from silk, these sarees feature scenes from epic tales like the Mahabharata, Ramayana, and local folklore, along with floral and geometric patterns. The weaving involves skilled artisans using Jacquard looms, meticulously creating detailed designs with vibrant colored threads, making each saree a piece of art. Baluchari sarees are highly prized for weddings, festivals, and ceremonial occasions, symbolizing cultural heritage, craftsmanship, and elegance. The industry sustains local weavers, preserving centuries-old weaving techniques and contributing significantly to West Bengal’s textile economy and cultural identity. Recognized nationally and internationally, Baluchari sarees stand as a symbol of India’s rich handloom tradition and artistic excellence.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://oaklores.com/wp-content/uploads/2025/01/bh-silk-HfnLife-300x450.webp" alt="Bhagalpuri Silk (Bihar)">
+          <div class="card-body">
+            <h3>Bhagalpuri Silk (Bihar)</h3>
+            <p>Bhagalpuri silk, also known as Tussar silk of Bihar, originates from Bhagalpur in Bihar and is renowned for its rich texture, natural sheen, and durability. Produced from the cocoons of tussar silkworms, the silk is hand-spun and woven into sarees, dress materials, and fabrics. Bhagalpuri silk is known for its lightweight, soft feel, and elegant fall, making it popular for weddings, festivals, and special occasions. Artisans often incorporate traditional motifs, block prints, and embroidery, blending aesthetic appeal with cultural heritage. The handloom industry in Bhagalpur supports thousands of weavers, preserving centuries-old weaving techniques while contributing significantly to Bihar’s textile economy and India’s handloom legacy. Its combination of luxury, artistry, and heritage makes Bhagalpuri silk one of India’s iconic silk varieties.</p>
+          </div>
+        </div>
+      </div>
+       </div>
+  </div>
+  <!-- Chatbot -->
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">AI Chatbot <span id="chatbot-close" onclick="toggleChatbot()">✖</span></div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Content toggle
+    function showContent(id) {
+      document.querySelectorAll('.content-card').forEach(c => c.classList.add('hidden'));
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    }
+    document.addEventListener("DOMContentLoaded", () => showContent('north'));
+
+    // Chatbot toggle
+    function toggleChatbot() {
+      document.getElementById("chatbot-box").classList.toggle("active");
+    }
+
+    // Handloom context
+    const availablePlaces = {
+      "Silks": ["Banarasi (Uttar Pradesh)", "Kanchipuram (Tamil Nadu)", "Pochampally (Telangana)", "Tussar (Bihar/West Bengal)"],
+      "Shawls": ["Pashmina (Kashmir)"],
+      "Others": ["Chikankari (Lucknow)", "Sambalpuri Ikat (Odisha)", "Baluchari (West Bengal)", "Ilkal (Karnataka)"]
+    };
+
+    function isHandloomQuery(msg) {
+      const keywords = ["saree","silk","ikat","pashmina","handloom","shawl","banarasi","kanchipuram","pochampally","sambalpuri","baluchari","bhagalpuri"];
+      return keywords.some(k => msg.toLowerCase().includes(k));
+    }
+
+    function buildPrompt(msg) {
+      let context = "Answer only based on Indian Handlooms:\n";
+      for (const [cat, items] of Object.entries(availablePlaces)) {
+        context += `- ${cat}: ${items.join(", ")}\n`;
+      }
+      context += `\nQuestion: ${msg}\nAnswer:`;
+      return context;
+    }
+
+    document.getElementById("chatbot-send").addEventListener("click", sendMessage);
+    document.getElementById("chatbot-input").addEventListener("keypress", e => {
+      if(e.key === "Enter") sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById("chatbot-input");
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById("chatbot-messages");
+      chat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+
+      const payload = isHandloomQuery(msg) ? { message: buildPrompt(msg) } : { message: msg };
+
+      try {
+        const res = await fetch("http://localhost:5000/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        chat.innerHTML += `<div><b>Bot:</b> ${data.reply}</div>`;
+      } catch {
+        chat.innerHTML += `<div><b>Bot:</b> ⚠️ Could not connect to server.</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+  <script src="js/bookmark.js"></script>
+  <script src="js/search.js"></script>
+
 </body>
 </html>

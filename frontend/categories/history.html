@@ -1,63 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History of India | AI Powered Guide</title>
+  <style>
+    :root {
+      --brand:#6a1b9a;
+      --brand-2:#8e24aa;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+      --accent:#e67e22;
+    }
+
+    /* Base */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    h1, h2, h3 {
+      color: var(--ink);
+    }
+
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+
+    p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+    }
+
+    /* Buttons */
+    .category-bar, .button-container {
+      text-align: center;
+      padding: 8px 10px 20px;
+    }
+
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      border: none;
+    }
+
+    .category-btn:hover {
+      background: var(--brand-2);
+      transform: translateY(-1px);
+    }
+
+    /* Content Cards */
+    .content-card {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .content-card.active,
+    .content-card:not(.hidden) {
+      display: flex;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .place img,
+    .content-card img {
+      max-width: 500px;
+      width: 100%;
+      height: 250px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Chatbot */
+    #chatbot-box {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 340px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10000;
+    }
+
+    #chatbot-box.active {
+      display: flex;
+    }
+
+    #chatbot-header {
+      background: var(--brand);
+      color: #fff;
+      padding: 12px 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #chatbot-close {
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+
+    #chatbot-messages {
+      padding: 16px;
+      height: 180px;
+      overflow-y: auto;
+      background: #f7f9fb;
+      font-size: 1em;
+    }
+
+    #chatbot-controls {
+      display: flex;
+      border-top: 1px solid #eee;
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    #chatbot-input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      margin-right: 8px;
+    }
+
+    #chatbot-send {
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background .2s;
+    }
+
+    #chatbot-send:hover {
+      background: var(--brand-2);
+    }
+
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      z-index: 9999;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
+  <div class="container">
+    <h1>History of India</h1>
+    <p>India has a rich history spanning thousands of years, from ancient civilizations to the freedom struggle and beyond.</p>
+
+    <div class="category-section">
+      <div class="button-container">
+        <button class="category-btn" onclick="showContent('ancient')">Ancient India</button>
+        <button class="category-btn" onclick="showContent('medieval')">Medieval India</button>
+        <button class="category-btn" onclick="showContent('modern')">Modern India</button>
+      </div>
+
+      <!-- Ancient -->
+      <div id="ancient" class="content-card hidden">
+         <div class="place">
+          <img src="https://artlogic-res.cloudinary.com/w_1200%2Cc_limit%2Cf_auto%2Cfl_lossy%2Cq_auto/artlogicstorage/barakatgallery/images/view/5ee5459ffc17cbd3a271d397ad5bb31bj/barakatgallery-large-indus-valley-pot-2500-bce-2000-bce.jpg" alt="Indus Valley Civilization (2500–1700 BCE)">
+          <div class="card-body">
+            <h3>Indus Valley Civilization (2500–1700 BCE)</h3>
+            <p>The Indus Valley Civilization (2500–1700 BCE), also known as the Harappan Civilization, was one of the world’s earliest urban cultures, flourishing along the Indus River and its tributaries in present-day Pakistan and northwest India. It was remarkable for its advanced urban planning, with cities like Harappa and Mohenjo-daro featuring well-laid-out grid systems, multi-storied brick houses, sophisticated drainage and sanitation systems, and public baths. The people engaged in agriculture, trade, and crafts, producing cotton textiles, beads, pottery, and seals, many of which indicate trade links with Mesopotamia. The civilization had standardized weights and measures, evidence of organized governance, and a largely undeciphered script that hints at a complex system of communication. Unlike many contemporary civilizations, there is little evidence of palaces or grand temples, suggesting a relatively egalitarian society. Decline began around 1900 BCE, possibly due to climate change, river shifts, or resource depletion, leading to urban disintegration and migration toward rural settlements. Despite its fall, the Indus Valley left a profound legacy in technology, trade, and cultural practices that influenced later South Asian civilizations.</p>
+          </div>
         </div>
+        <div class="place">
+          <img src="https://arsartisticadventureofmankind.wordpress.com/wp-content/uploads/2018/02/5.jpg?h=445&w=863" alt="Vedic Period (1500–500 BCE)">
+          <div class="card-body">
+            <h3>Vedic Period (1500–500 BCE)</h3>
+            <p>The Vedic Period (1500–500 BCE) marks a formative era in Indian history, beginning with the arrival of Indo-Aryans in the northwestern regions of the subcontinent and characterized by the composition of the Vedas, the oldest sacred texts of Hinduism. Early Vedic society (1500–1000 BCE) was largely pastoral, with cattle as a measure of wealth, but gradually shifted to agriculture as communities settled along the fertile Gangetic plains. Society was organized into tribes led by chiefs (rajas), with assemblies like the sabha and samiti playing roles in governance, and religion centered on nature worship, sacrificial rituals (yajnas), and hymns to deities such as Indra, Agni, and Varuna. Over time, during the Later Vedic period (1000–500 BCE), political structures grew more complex, monarchies replaced tribal rule, and the social hierarchy crystallized into the varna system—Brahmins (priests), Kshatriyas (warriors), Vaishyas (traders), and Shudras (laborers). This era also witnessed the use of iron tools, expansion of agriculture, and the rise of kingdoms like the Kuru and Panchala. By its end, philosophical thought began to flourish, leading to the Upanishads, which emphasized concepts such as karma, dharma, and moksha, laying the foundation for later Hindu philosophy and shaping India’s spiritual and cultural identity.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.iasgyan.in//ig-uploads/images//m11.jpg" alt="Early Kingdoms & States (Mahajanapadas)">
+          <div class="card-body">
+            <h3>Early Kingdoms & States (Mahajanapadas)</h3>
+            <p>The period of Early Kingdoms and States, known as the Mahajanapadas (around 600–300 BCE), marked the emergence of large political units in northern India following the decline of the Vedic tribal system. Sixteen major Mahajanapadas are mentioned in ancient Buddhist and Jain texts like the Anguttara Nikaya, including Magadha, Koshala, Vatsa, Avanti, Kuru, Panchala, Gandhara, and Vajji. These states varied in governance—some were monarchies ruled by kings, while others, such as Vajji, were republics governed by assemblies. The growth of agriculture, aided by iron tools and ploughs, along with flourishing trade and urbanization, led to the rise of cities like Rajagriha, Ujjain, and Taxila. Economic prosperity encouraged the use of coins (punch-marked coins) and supported a class-based society. This period also witnessed intellectual and religious ferment, with the rise of new philosophies and the birth of Buddhism and Jainism, which challenged ritualistic Vedic practices and emphasized ethical living. Among the Mahajanapadas, Magadha (under rulers like Bimbisara and Ajatashatru) eventually rose to dominance due to its fertile land, control of trade routes, and strong armies, paving the way for the Mauryan Empire and a new era of Indian political unification.</p>
+          </div>
+        </div>
+      </div>
 
-        <h1 class="text-info mb-4">History of India</h1>
-        <p>India's history is vast and spans millennia, encompassing ancient civilizations, powerful empires, diverse kingdoms, and significant movements that shaped its identity.</p>
-        
-        <h3 class="mt-4">Key Historical Periods & Sites:</h3>
-        <ul>
-            <li><strong>Ancient India:</strong>
-                <ul>
-                    <li>Indus Valley Civilization (2500-1900 BCE): Harappa, Mohenjo-Daro (now in Pakistan), Lothal (Gujarat).</li>
-                    <li>Vedic Period (1500-500 BCE): Emergence of Vedic texts and early Hindu philosophy.</li>
-                    <li>Mahajanapadas & Magadha Empire (600-322 BCE): Rise of major kingdoms.</li>
-                    <li>Mauryan Empire (322-185 BCE): Ruled by Chandragupta Maurya and Ashoka the Great (Pataliputra - modern Patna, Bihar).</li>
-                </ul>
-            </li>
-            <li><strong>Classical & Medieval India:</strong>
-                <ul>
-                    <li>Gupta Empire (320-550 CE): "Golden Age of India" (Ajanta Caves - Maharashtra, Ellora Caves - Maharashtra).</li>
-                    <li>Chola Dynasty (9th-13th Century): Southern India, known for temples (Brihadeeswarar Temple - Thanjavur, Tamil Nadu).</li>
-                    <li>Delhi Sultanate (1206-1526): Qutub Minar (Delhi).</li>
-                    <li>Vijayanagara Empire (1336-1646): Hampi (Karnataka).</li>
-                </ul>
-            </li>
-            <li><strong>Mughal Empire (1526-1857):</strong> Taj Mahal (Agra, Uttar Pradesh), Red Fort (Delhi), Fatehpur Sikri (Uttar Pradesh).</li>
-            <li><strong>Colonial Period & Independence Movement (17th-20th Century):</strong> Major events in Delhi, Mumbai, Kolkata, Chennai.</li>
-        </ul>
-        <img src="https://via.placeholder.com/800x450?text=Indian+History" class="img-fluid my-3" alt="Indian History">
-        
-        <h3 class="mt-5 mb-3">Historical Sites on Map</h3>
-        <p>Example: Hampi, Karnataka (Vijayanagara Empire)</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+      <!-- Medieval -->
+      <div id="medieval" class="content-card hidden">
+        <div class="place">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/A_collage_of_Great_living_Chola_temples_UNESCO_heritage_site.jpg" alt="Cholas (9th–13th century):">
+          <div class="card-body">
+            <h3>Cholas (9th–13th century):</h3>
+            <p>The Cholas (9th–13th century CE) were one of the greatest and longest-ruling dynasties of South India, known for their military might, naval power, administrative efficiency, and cultural achievements. Originating in the fertile Kaveri delta of Tamil Nadu, they expanded under rulers like Vijayalaya Chola, Rajaraja Chola I, and Rajendra Chola I, who established a vast empire stretching across South India, Sri Lanka, the Maldives, and even parts of Southeast Asia through overseas expeditions. The Cholas developed a highly organized administrative system with efficient revenue collection, local self-government through village assemblies (sabhas), and a strong emphasis on irrigation, which boosted agriculture and trade. Their navy was among the most powerful in Asia at the time, ensuring control over maritime trade routes in the Indian Ocean. The Chola period was also a golden age of art, architecture, and culture, marked by the construction of magnificent temples such as the Brihadeeswara Temple at Thanjavur and the Airavatesvara Temple at Darasuram, both UNESCO World Heritage Sites. They were great patrons of Tamil literature, Bhakti poetry, dance, and bronze sculpture, particularly the iconic Nataraja. The decline of the Cholas began in the 13th century due to internal conflicts and invasions by the Pandyas and Hoysalas, but their legacy in governance, culture, and maritime power left a lasting imprint on South and Southeast Asia</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.deccan-heritage-foundation.org/wp-content/uploads/2025/05/Picture2-1.jpg" alt="Rashtrakutas (8th–10th century)">
+          <div class="card-body">
+            <h3>Rashtrakutas (8th–10th century)</h3>
+            <p>The Rashtrakutas (8th–10th century CE) were a powerful dynasty that rose to prominence in the Deccan region of India, with their capital at Manyakheta (modern Karnataka). They initially served as feudatories of the Chalukyas but established independent rule under Dantidurga around the mid-8th century. The Rashtrakutas became a dominant force in Indian politics, often engaging in a tripartite struggle for control of northern India with the Pratiharas and Palas. At their height, under rulers like Govinda III and Amoghavarsha I, they controlled vast territories stretching from the Ganga–Yamuna Doab in the north to the Kaveri basin in the south. Amoghavarsha I was also a noted patron of literature, authoring the Kannada classic Kavirajamarga, and supporting Sanskrit scholars and Jain writers. The dynasty is celebrated for its architectural achievements, most notably the Kailasanatha temple at Ellora, a monolithic rock-cut masterpiece considered one of the greatest achievements of Indian art. Their administration was well-organized, with provinces (rashtras) governed by local officials and revenue primarily based on agriculture and trade. The Rashtrakutas encouraged religious tolerance, patronizing Hinduism, Jainism, and Buddhism alike. By the late 10th century, however, their power declined due to internal conflicts and rising rival dynasties such as the Western Chalukyas and Later Cholas, but their contributions to art, literature, and temple architecture left a lasting legacy in Indian history.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Nih%C3%A2l_Chand_001_cropped.jpg/800px-Nih%C3%A2l_Chand_001_cropped.jpg" alt="Rajputs (8th–12th century)">
+          <div class="card-body">
+            <h3>Rajputs (8th–12th century)</h3>
+            <p>The Rajputs (8th–12th century CE) were a prominent warrior class who rose to power in northern and western India following the decline of major empires like the Guptas and Harshavardhana’s kingdom. They established several dynasties and kingdoms across Rajasthan, Gujarat, Bundelkhand, and parts of northern India, with notable clans such as the Chauhans, Solankis, Paramaras, Pratiharas, and Gahadavalas. Rajput society was deeply rooted in valor, honor, and martial traditions, with rulers often celebrated for their chivalry and fierce resistance against invasions, particularly by early Islamic forces such as the Ghaznavids and Ghurids. Politically, the Rajputs organized themselves into small kingdoms and confederacies, which, though culturally rich and militarily skilled, were often weakened by internal rivalries and lack of unity. Their courts became centers of art, literature, and architecture, producing magnificent forts, temples, and palaces such as those at Chittorgarh, Khajuraho, and Mount Abu. The Rajputs were also great patrons of Hinduism and Jainism, promoting temple-building and sculpture, while upholding a feudal social order centered around the ideals of kshatriya dharma (warrior duty). Despite their eventual defeats at battles like Tarain (1191–1192) against the Ghurids, the Rajputs left a lasting legacy of courage, cultural patronage, and architectural marvels that continue to define much of India’s medieval heritage.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://m.media-amazon.com/images/I/71GY6ztgjqL._UF1000%2C1000_QL80_.jpg" alt="Kambaramayanam (Tamil)">
+          <div class="card-body">
+            <h3>Kambaramayanam (Tamil)</h3>
+            <p>Kambaramayanam is the Tamil version of the Indian epic Ramayana, composed by the great poet Kambar in the 12th century CE. Written in the rich classical Tamil style, it is considered one of the crowning jewels of Tamil literature and a masterpiece of devotional poetry. Kambar adapted Valmiki’s Sanskrit Ramayana into Tamil, but with his own unique poetic imagination, literary elegance, and cultural flavor. The work consists of about 12,000 verses divided into six kandams (books), covering the story of Lord Rama from his birth to his coronation, though Kambar omitted the Uttarakanda (the last section in Valmiki’s version dealing with Sita’s exile), leaving it to later poets like Ottakoothar to complete.Kambaramayanam not only retells the story of Rama, Sita, and Ravana but also reflects Tamil culture, values, and religious devotion of its time, blending Bhakti (devotion) with high literary artistry. It emphasizes dharma (righteousness), loyalty, and valor while portraying Rama as an incarnation of Vishnu and Sita as the embodiment of virtue. For its beauty, depth, and cultural impact, the Kambaramayanam holds a revered place in Tamil households, temples, and festivals, earning Kambar the title “Kavi Chakravarti” (Emperor of Poets).</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://mapacademy.io/wp-content/uploads/1970/01/Pala-Manuscript-painting_2.jpg" alt="Palas (8th–12th century, Bengal & Bihar)">
+          <div class="card-body">
+            <h3>Palas (8th–12th century, Bengal & Bihar)</h3>
+            <p>The Palas (8th–12th century CE) were a powerful dynasty that ruled Bengal and Bihar, playing a major role in eastern India’s political, cultural, and religious history. Founded by Gopala around 750 CE through an election by local chieftains, the dynasty reached its zenith under rulers like Dharmapala and Devapala, who expanded their empire across northern India and engaged in the tripartite struggle with the Rashtrakutas and Pratiharas for control of the Gangetic plains. The Palas were great patrons of Buddhism, particularly the Mahayana and Vajrayana traditions, and supported renowned monasteries and universities such as Nalanda, Vikramashila, and Somapura Mahavihara, which became global centers of learning and attracted scholars from across Asia. They also encouraged trade, art, and architecture, with Pala-style bronze sculptures and stone carvings influencing artistic traditions in Nepal, Tibet, and Southeast Asia. Their administration was fairly decentralized, relying on local chieftains, and their economy thrived on agriculture and riverine trade. By the 12th century, however, the dynasty declined due to internal weakness and invasions by the Sena dynasty, but the Palas left a lasting legacy in promoting Buddhism, education, and artistic traditions that spread far beyond India.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modern -->
+      <div id="modern" class="content-card hidden">
+        <div class="place">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Gandhi_spinning.jpg/2560px-Gandhi_spinning.jpg" alt="Gandhi spinning wheel">
+          <div class="card-body">
+            <h3>Gandhi spinning wheel</h3>
+            <p>Gandhi’s Charkha (Spinning Wheel) became a powerful symbol of India’s freedom struggle and self-reliance during the 20th century. Mahatma Gandhi promoted the charkha as part of the Swadeshi Movement, urging Indians to spin their own cotton thread and weave khadi cloth instead of relying on British-made textiles, which had crippled India’s traditional handloom industry. The spinning wheel represented not only economic independence but also simplicity, dignity of labor, and resistance against colonial exploitation. Gandhi himself regularly used the charkha, making it both a personal practice of discipline and a collective act of defiance that united millions in rural and urban India. Beyond politics, it carried deep cultural and spiritual meaning, embodying Gandhi’s ideals of self-sufficiency, non-violence, and social equality. The charkha thus became a lasting emblem of India’s struggle for independence and continues to be remembered as a symbol of empowerment, rural development, and national pride.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://t3.ftcdn.net/jpg/03/55/57/92/240_F_355579231_zxxhlUgUOUAIhrvxtEMYqjkEaZaUSUDI.jpg" alt="Indian Railways">
+          <div class="card-body">
+            <h3>Indian Railways</h3>
+            <p>Indian Railways is one of the largest railway networks in the world and the lifeline of India’s transport system, playing a crucial role in uniting the country socially, culturally, and economically. Established in 1853 with the first train running between Mumbai and Thane, it has since grown into a vast network spanning over 68,000 kilometers, connecting remote villages to metropolitan cities. Operated by the Government of India under the Ministry of Railways, it is not only the backbone of passenger travel—carrying over 20 million people daily—but also a major freight carrier, transporting coal, iron ore, agricultural produce, and manufactured goods across the nation. Indian Railways is renowned for its diversity, running suburban locals, express and superfast trains, luxury trains like the Palace on Wheels, and now semi-high-speed services like Vande Bharat Express, while working towards high-speed bullet trains. It is also one of the world’s largest employers, with a workforce of over a million people, and has contributed significantly to India’s industrial growth, tourism, and national integration. With ongoing modernization efforts such as electrification, digital ticketing, smart stations, and green energy initiatives, Indian Railways continues to evolve as both a heritage institution and a driver of India’s future development.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://t3.ftcdn.net/jpg/13/54/60/04/240_F_1354600431_NOgvm3rgSRwW7KfFF9bVLIVkmcS7dT8c.jpg" alt="Green Revolution">
+          <div class="card-body">
+            <h3>Green Revolution</h3>
+            <p>The Green Revolution in India, which began in the 1960s, was a landmark agricultural movement that transformed the country from a food-deficient nation into one of the world’s largest producers of grains. Spearheaded by agricultural scientists like M. S. Swaminathan and supported by government policies, it introduced high-yielding varieties (HYV) of seeds, chemical fertilizers, pesticides, improved irrigation systems, and modern farming techniques, particularly in wheat and rice cultivation. Punjab, Haryana, and western Uttar Pradesh became the main centers of this revolution, witnessing dramatic increases in crop productivity that helped India achieve self-sufficiency in food grains and reduce its dependence on imports. The Green Revolution not only strengthened food security but also boosted rural incomes, modernized agriculture, and laid the foundation for India’s economic growth. However, it also had drawbacks, including regional imbalances (benefiting mainly northwestern India), overuse of water and chemical inputs leading to soil degradation, declining groundwater levels, and long-term environmental concerns. Despite these challenges, the Green Revolution remains a turning point in India’s agricultural history, symbolizing technological progress, resilience, and the fight against hunger.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.isro.gov.in/media_isro/image/media/Missions/Missionsaccomplished/resized/gslv-mkiii-x-13_large.jpg.webp" alt="ISRO & Space Missions">
+          <div class="card-body">
+            <h3>ISRO & Space Missions</h3>
+            <p>The Indian Space Research Organisation (ISRO) is India’s national space agency, established in 1969 under the vision of Dr. Vikram Sarabhai, and has grown into one of the world’s leading space organizations known for its cost-effective yet advanced space missions. Headquartered in Bengaluru, ISRO has achieved remarkable milestones, starting with satellite launches like Aryabhata (1975) and expanding to ambitious programs such as the Chandrayaan missions to explore the Moon, Mangalyaan (Mars Orbiter Mission, 2013) which made India the first Asian nation to reach Mars orbit, and the Aditya-L1 mission (2023) to study the Sun. It has also successfully deployed over 400 foreign satellites, developed launch vehicles like PSLV, GSLV, and LVM3, and built a strong network of communication, navigation, and remote-sensing satellites that support India’s agriculture, weather forecasting, disaster management, defense, and digital connectivity. Recent achievements include Chandrayaan-3 (2023), which made India the first country to land near the lunar south pole, and preparations for Gaganyaan, India’s first human spaceflight mission. ISRO is also working on deep space exploration, reusable launch vehicles, and international collaborations, cementing India’s status as a major player in global space research. Its journey reflects innovation, resilience, and national pride, inspiring generations with the vision of using space technology for peaceful and developmental purposes.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://img.onmanorama.com/content/dam/mm/en/news/india/2023/images/2023/8/17/digital-india-2.jpg/photos/16x9/photo.jpg" alt="Digital India & Aadhaar">
+          <div class="card-body">
+            <h3>Digital India & Aadhaar</h3>
+            <p>Digital India & Aadhaar represent two transformative initiatives that have reshaped India’s governance, economy, and citizen services in the 21st century. Digital India, launched in 2015, aims to transform India into a digitally empowered society and knowledge economy by promoting universal internet access, e-governance, digital literacy, online services, electronic payments, and initiatives like BHIM, UPI, and DigiLocker, thereby reducing paperwork, increasing transparency, and bridging the urban–rural digital divide. Complementing this, Aadhaar, introduced in 2009 by the Unique Identification Authority of India (UIDAI), provides every Indian resident with a unique 12-digit biometric-based identification number, making it the world’s largest digital ID system. Aadhaar has enabled targeted delivery of subsidies, direct benefit transfers, financial inclusion through Jan Dhan accounts, and easier access to government schemes and services, while also serving as a key identity proof for banking, telecom, and digital platforms. Together, Digital India and Aadhaar have revolutionized governance by improving efficiency, reducing corruption, and fostering inclusive growth, although they also raise debates on data privacy, digital security, and exclusion risks. Overall, they mark a major leap toward a modern, transparent, and technology-driven India.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.railway-technology.com/wp-content/uploads/sites/13/2019/04/london-underground-Lancaster_Gate_tube.jpg" alt="Metro Rail Systems">
+          <div class="card-body">
+            <h3>Metro Rail Systems</h3>
+            <p>Metro Rail Systems in India represent a modern, rapid transit solution designed to ease urban congestion, provide eco-friendly transportation, and improve mobility in densely populated cities. The first metro system was introduced in Kolkata in 1984, setting the foundation for future projects, followed by the highly successful Delhi Metro (2002), which became a model of efficiency, safety, and international standards. Since then, metro networks have expanded to cities like Bengaluru, Hyderabad, Chennai, Mumbai, Pune, Jaipur, Kochi, Lucknow, Ahmedabad, and Nagpur, with several others under construction. These systems use advanced technologies such as automated ticketing, smart cards, real-time tracking, and driverless trains in some corridors, offering commuters a fast, reliable, and pollution-free alternative to road transport. Metro projects have also promoted urban development by improving connectivity, reducing travel time, lowering vehicular emissions, and integrating with bus, suburban rail, and feeder services. Despite challenges like high construction costs and operational expenses, metro systems are considered a vital part of India’s smart city vision and sustainable urban infrastructure, symbolizing progress toward modern, efficient, and environmentally responsible urban living.</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <!-- Chatbot -->
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="toggleChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+  // Show/hide content cards
+  function showContent(id) {
+    document.querySelectorAll('.content-card').forEach(card => card.classList.add('hidden'));
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('hidden');
+  }
+
+  // Chatbot toggle
+  function toggleChatbot() {
+    document.getElementById("chatbot-box").classList.toggle("active");
+  }
+
+  // History chatbot context
+  const historyPlaces = {
+    "Ancient": ["Indus Valley Civilization", "Vedic Period", "Mahajanapadas"],
+    "Medieval": ["Cholas", "Rashtrakutas", "Rajputs", "Palas", "Kambaramayanam"],
+    "Modern": ["Gandhi & Freedom Struggle", "Indian Railways", "Green Revolution", "ISRO", "Digital India", "Metro Systems"]
+  };
+
+  function isHistoryQuery(userMessage) {
+    const keywords = [
+      "ancient","vedic","indus","mauryan","gupta",
+      "mughal","chola","rashtrakuta","rajput","palas",
+      "gandhi","railway","isro","freedom","modern india","history"
+    ];
+    return keywords.some(k => userMessage.toLowerCase().includes(k));
+  }
+
+  function buildPrompt(userMessage) {
+    let context = "Answer only based on Indian History categories:\n";
+    for (const [cat, items] of Object.entries(historyPlaces)) {
+      context += `- ${cat}: ${items.join(", ")}\n`;
+    }
+    context += `\nQuestion: ${userMessage}\nAnswer:`;
+    return context;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Default open category
+    showContent('ancient');
+
+    const sendBtn = document.getElementById("chatbot-send");
+    const inputEl = document.getElementById("chatbot-input");
+    const chat = document.getElementById("chatbot-messages");
+
+    async function sendMessage() {
+      const msg = inputEl.value.trim();
+      if (!msg) return;
+
+      chat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+
+      let payload;
+      if (isHistoryQuery(msg)) {
+        payload = { message: buildPrompt(msg) };
+      } else {
+        payload = { message: msg };
+      }
+
+      try {
+        const response = await fetch("http://localhost:5000/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json();
+        chat.innerHTML += `<div><b>Bot:</b> ${data.reply}</div>`;
+      } catch (err) {
+        chat.innerHTML += `<div><b>Bot:</b> ⚠️ Could not connect to server.</div>`;
+      }
+
+      inputEl.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    inputEl.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+  });
+</script>
+<script src="js/bookmark.js"></script>
+<script src="js/search.js"></script>
+
 </body>
 </html>

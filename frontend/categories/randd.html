@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research & Development in India | AI Powered Guide</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root {
+      --brand: #1565c0; /* Switched to a professional blue for R&D */
+      --brand-2: #1e88e5;
+      --ink: #2c3e50;
+      --paper: #ffffff;
+      --bg: #f7f9fb;
+      --accent: #e67e22;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    h1, h2, h3 {
+      color: var(--ink);
+    }
+
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+      text-align: center;
+    }
+
+    /* Buttons */
+    .category-bar {
+      text-align: center;
+      padding: 8px 10px 20px;
+    }
+
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+      border: none;
+    }
+
+    .category-btn:hover {
+      background: var(--brand-2);
+      transform: translateY(-1px);
+    }
+
+    /* Cards */
+    .category-content {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    }
+
+    .category-content.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body p {
+        flex-grow: 1;
+    }
+
+    .thumb {
+      display: block;
+      margin: 0 auto 15px;
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+    
+    .links {
+      margin-top: 15px;
+    }
+
+    .official-link {
+      display: inline-block;
+      color: var(--brand);
+      font-weight: bold;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 2px solid var(--brand);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .official-link:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+
+    /* Chatbot styles */
+    #chatbot-box {
+      position: fixed; bottom: 90px; right: 30px;
+      width: 340px; background: #fff;
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none; flex-direction: column; overflow: hidden;
+      z-index: 10000;
+    }
+    #chatbot-box.active { display: flex; }
+
+    #chatbot-header {
+      background: var(--brand); color: #fff;
+      padding: 12px 18px; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    #chatbot-messages {
+      padding: 12px; height: 180px; overflow-y: auto;
+      background: #f7f9fb; font-size: 1em;
+    }
+    #chatbot-controls {
+      display: flex; border-top: 1px solid #eee;
+      padding: 10px; background: #fafafa;
+    }
+    #chatbot-input {
+      flex: 1; padding: 8px; border-radius: 6px;
+      border: 1px solid #ccc; font-size: 1em; margin-right: 8px;
+    }
+    #chatbot-send {
+      background: var(--brand); color: #fff;
+      border: none; border-radius: 6px;
+      padding: 8px 16px; cursor: pointer; font-weight: bold;
+    }
+    #chatbot-toggle {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--brand); color: #fff;
+      border-radius: 50%; width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2em; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 9999;
+    }
+    .user-message { margin: 6px 0; font-weight: bold; }
+    .bot-message { margin: 6px 0; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Research & Development in India</h1>
+    <p class="lead">Fuelled by a vast pool of scientific talent and a thriving innovation ecosystem, India's R&D landscape is rapidly expanding across public and private sectors to solve global challenges.</p>
+
+    <div class="category-section">
+      <div class="category-bar">
+        <button class="category-btn" onclick="showContent('it')">IT & Computer Science</button>
+        <button class="category-btn" onclick="showContent('aerospace')">Aerospace & Defence</button>
+        <button class="category-btn" onclick="showContent('biotech')">Biotech & Healthcare</button>
+        <button class="category-btn" onclick="showContent('academic')">Academic Research</button>
+        <button class="category-btn" onclick="showContent('links')">Official Bodies</button>
+      </div>
+
+      <div id="it" class="category-content active">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Artificial Intelligence">
+            <div class="card-body">
+              <h3>Artificial Intelligence & ML</h3>
+              <p>India is emerging as a global hub for AI research and application development. Premier institutions like the IITs and private sector giants are pioneering work in natural language processing, computer vision, and predictive analytics. Government initiatives like the National AI Mission are further accelerating R&D to leverage AI for social empowerment and economic growth.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/1714341/pexels-photo-1714341.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Supercomputer Server Racks">
+            <div class="card-body">
+              <h3>Supercomputing Mission</h3>
+              <p>The National Supercomputing Mission (NSM) is a major government initiative to establish a vast network of high-performance computing facilities. This empowers researchers across the country with the computational power needed for complex simulations in weather forecasting, drug discovery, astrophysics, and materials science, significantly boosting India's research capabilities.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aerospace" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/BrahMos_missile_at_Republic_Day_Parade%2C_New_Delhi%2C_2011.jpg" alt="DRDO BrahMos Missile">
+            <div class="card-body">
+              <h3>DRDO</h3>
+              <p>The **Defence Research and Development Organisation (DRDO)** is the R&D wing of the Ministry of Defence. With a network of over 50 laboratories, DRDO is responsible for developing cutting-edge defence technologies, including missile systems like Agni and BrahMos, the Tejas Light Combat Aircraft, advanced radar systems, and armoured vehicles, enhancing India's strategic self-reliance.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/HAL_Dhruv_at_Aero_India_2013.jpg/1280px-HAL_Dhruv_at_Aero_India_2013.jpg" alt="HAL Dhruv Helicopter">
+            <div class="card-body">
+              <h3>Hindustan Aeronautics Limited (HAL)</h3>
+              <p>**HAL** is a premier aerospace company in India, with a strong focus on the design, fabrication, and assembly of aircraft, jet engines, and their components. Its R&D centers are instrumental in developing indigenous platforms like the Dhruv Advanced Light Helicopter, the Tejas fighter jet, and various trainer aircraft, driving innovation in the Indian aviation sector.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="biotech" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/3992870/pexels-photo-3992870.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="DNA Double Helix">
+            <div class="card-body">
+              <h3>Genomics Research</h3>
+              <p>India is making significant strides in genomics and molecular biology. Initiatives like the IndiGen program, which aims to sequence thousands of Indian genomes, are creating a vast dataset to better understand genetic diseases and develop personalized medicine. Research institutions are actively involved in gene editing, proteomics, and developing novel diagnostic tools.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/7089020/pexels-photo-7089020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Modern Medical Equipment">
+            <div class="card-body">
+              <h3>Medical Technology</h3>
+              <p>The medical devices and technology sector is a hub of "frugal innovation." Indian R&D has produced numerous low-cost, high-impact medical devices, from affordable cardiac stents to portable ECG machines and diagnostic kits. This focus on affordability and accessibility is crucial for improving healthcare outcomes both domestically and in other developing nations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="academic" class="category-content">
+        <div class="grid">
+            <div class="place">
+            <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Main_building_of_IISc.jpg/1280px-Main_building_of_IISc.jpg" alt="IISc Bangalore Campus">
+            <div class="card-body">
+              <h3>Indian Institute of Science (IISc)</h3>
+              <p>Established in 1909, **IISc Bangalore** is consistently ranked as India's top institution for scientific research and higher education. It has a global reputation for its pioneering research in a wide array of fields, from materials science and physics to biological sciences and engineering, producing a legacy of distinguished scientists and academicians.</p>
+            </div>
+          </div>
+           <div class="place">
+            <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/TIFR_Mumbai_Campus.jpg/1280px-TIFR_Mumbai_Campus.jpg" alt="TIFR Mumbai Campus">
+            <div class="card-body">
+              <h3>Tata Institute of Fundamental Research (TIFR)</h3>
+              <p>**TIFR** is a premier public research university in Mumbai, dedicated to basic research in mathematics and the sciences. Founded by Dr. Homi J. Bhabha, it has been instrumental in the development of India's atomic energy program and continues to be a world-renowned center for fundamental research in physics, chemistry, biology, and computer science.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="links" class="category-content">
+        <div class="grid">
+            <div class="place">
+                <div class="card-body">
+                    <h3>Department of Science & Technology</h3>
+                    <p>The **DST** is the nodal department for organising, coordinating, and promoting S&T activities in the country, from policy formulation to funding research.</p>
+                    <div class="links">
+                        <a href="https://dst.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>SERB</h3>
+                    <p>The **Science and Engineering Research Board (SERB)** is a statutory body that supports basic research in emerging areas of science and engineering.</p>
+                    <div class="links">
+                        <a href="https://www.serbonline.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>Atal Innovation Mission</h3>
+                    <p>An initiative by **NITI Aayog** to foster a culture of innovation and entrepreneurship, supporting startups and R&D through various programs.</p>
+                    <div class="links">
+                        <a href="https://aim.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="closeChatbot()" style="cursor: pointer;">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const researchData = {
+      "IT & Computer Science": ["ai", "ml", "supercomputer", "nsm"],
+      "Aerospace & Defence": ["drdo", "hal", "missile", "tejas", "defence"],
+      "Biotech & Healthcare": ["genomics", "dna", "medical", "health"],
+      "Academic Research": ["iisc", "tifr", "institute", "university"]
+    };
+
+    function showContent(category) {
+      document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+    }
+
+    function getLocalAnswer(userQuestion) {
+      userQuestion = userQuestion.toLowerCase();
+      for (const [category, keywords] of Object.entries(researchData)) {
+        for (const keyword of keywords) {
+          if (userQuestion.includes(keyword)) {
+            return `That relates to <strong>${category}</strong>. You can find more information in that section!`;
+          }
+        }
+      }
+      return null;
+    }
+
+    document.getElementById('chatbot-send').addEventListener('click', sendMessage);
+    document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById('chatbot-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById('chatbot-messages');
+      chat.innerHTML += `<div class="user-message"><b>You:</b> ${msg}</div>`;
+
+      const localAnswer = getLocalAnswer(msg);
+      if (localAnswer) {
+        chat.innerHTML += `<div class="bot-message"><b>Bot:</b> ${localAnswer}</div>`;
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+        return;
+      }
+
+      try {
+        const botDiv = document.createElement("div");
+        botDiv.className = "bot-message";
+        botDiv.innerHTML = "<b>Bot:</b> 🤖 Thinking...";
+        chat.appendChild(botDiv);
+        chat.scrollTop = chat.scrollHeight;
+
+        setTimeout(() => {
+          botDiv.innerHTML = `<b>Bot:</b> I can provide details about India's R&D in defence, IT, and healthcare. What are you interested in?`;
+          chat.scrollTop = chat.scrollHeight;
+        }, 1000);
+
+      } catch {
+        chat.innerHTML += `<div class="bot-message">⚠️ Couldn’t connect to server</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function toggleChatbot() {
+      document.getElementById('chatbot-box').classList.toggle('active');
+    }
+    function closeChatbot() {
+      document.getElementById('chatbot-box').classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showContent('it');
+    });
+  </script>
+</body>
+</html>

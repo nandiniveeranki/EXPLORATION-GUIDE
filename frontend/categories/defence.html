@@ -1,51 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Defence - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Defence of India | AI Powered Guide</title>
+
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    :root {
+      --brand:#6a1b9a;
+      --brand-2:#8e24aa;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      color: #333; background: var(--bg);
+    }
+    h1 { text-align: center; padding: 20px; margin: 0; }
+    p.lead { text-align: center; max-width: 800px; margin: 0 auto 20px; }
+
+    .button-container { text-align: center; margin: 20px 0; }
+    .category-btn {
+      margin: 6px; padding: 10px 16px;
+      background: var(--brand); color:#fff;
+      border:none; border-radius:8px;
+      cursor:pointer; font-weight:600;
+    }
+    .category-btn:hover { background: var(--brand-2); }
+
+    .content-card {
+      display:none; max-width:900px; margin:20px auto;
+      padding:20px; border-radius:10px;
+      background:#fff; box-shadow:0 4px 10px rgba(0,0,0,.1);
+    }
+    .content-card.active { display:block; }
+
+    .place img {
+      max-width:500px; width:100%; height:250px;
+      object-fit:cover; border-radius:10px; margin-bottom:10px;
+    }
+
+    /* Chatbot */
+    #chatbot-toggle {
+      position: fixed; bottom:30px; right:30px;
+      width:54px; height:54px;
+      border-radius:50%; border:none;
+      background: var(--brand); color:#fff;
+      font-size:24px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.2);
+      z-index:9999;
+    }
+    #chatbot-box {
+      position: fixed; bottom:100px; right:30px;
+      width:340px; background:#fff;
+      border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.2);
+      display:none; flex-direction:column;
+      overflow:hidden; z-index:10000;
+    }
+    #chatbot-box.show { display:flex; }
+    #chatbot-header {
+      background: var(--brand); color:#fff;
+      padding:10px; display:flex; justify-content:space-between;
+    }
+    #chatbot-messages {
+      height:180px; overflow-y:auto; padding:10px;
+      background:#f7f9fb; font-size:14px;
+    }
+    #chatbot-controls { display:flex; padding:10px; border-top:1px solid #ddd; }
+    #chatbot-input {
+      flex:1; padding:6px; border:1px solid #ccc; border-radius:6px;
+    }
+    #chatbot-send {
+      margin-left:8px; background: var(--brand);
+      color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;
+    }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
-        </div>
+  <div class="container">
+    <h1>Defence of India</h1>
+    <p class="lead">India has one of the world’s largest defence forces, with contributions in land, air, and sea.</p>
 
-        <h1 class="text-dark mb-4">Defence in India</h1>
-        <p>India possesses one of the largest and most capable defense forces in the world, with significant presence of military bases, research organizations, and manufacturing units across the country.</p>
-        
-        <h3 class="mt-4">Key Defence Locations & Organizations:</h3>
-        <ul>
-            <li><strong>Army Bases:</strong> Numerous cantonments across India (e.g., Delhi Cantt, Leh, Jodhpur, Secunderabad).</li>
-            <li><strong>Naval Bases:</strong> Major naval commands and dockyards at Visakhapatnam (Andhra Pradesh - Eastern Naval Command), Mumbai (Western Naval Command), Kochi (Southern Naval Command).</li>
-            <li><strong>Air Force Stations:</strong> Strategic airbases across the country (e.g., Hindon, Jodhpur, Adampur).</li>
-            <li><strong>DRDO (Defence Research and Development Organisation):</strong> Key research labs in Delhi, Hyderabad (e.g., DRDL, RCI), Bengaluru, Pune.</li>
-            <li><strong>Ordnance Factories & PSU's:</strong> Manufacturing units for defense equipment (e.g., HAL in Bengaluru, BEL in Bengaluru and Ghaziabad).</li>
-            <li><strong>Training Academies:</strong> National Defence Academy (Pune), Indian Military Academy (Dehradun), Indian Naval Academy (Ezhimala).</li>
-        </ul>
-        <img src="https://via.placeholder.com/800x450?text=Indian+Defence" class="img-fluid my-3" alt="Indian Defence">
-        
-        <h3 class="mt-5 mb-3">Defence Establishments on Map</h3>
-        <p>Example: Eastern Naval Command, Visakhapatnam, Andhra Pradesh</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+    <div class="button-container">
+      <button class="category-btn" onclick="showContent('army')">Indian Army</button>
+      <button class="category-btn" onclick="showContent('navy')">Indian Navy</button>
+      <button class="category-btn" onclick="showContent('airforce')">Indian Air Force</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Army -->
+    <div id="army" class="content-card">
+      <div class="place">
+          <img src="https://acuriousarmywife.com/wp-content/uploads/2013/12/dsc_17132.jpg?w=1086" alt="Indian Military Academy (IMA), Dehradun.">
+          <div class="card-body">
+            <h3>Indian Military Academy (IMA), Dehradun.</h3>
+            <p>The Indian Military Academy (IMA), Dehradun, established in 1932, is one of India’s premier military training institutions, dedicated to preparing young men for leadership roles as officers in the Indian Army. Located at the foothills of the Himalayas in Uttarakhand, IMA was inaugurated under the guidance of Field Marshal Philip Chetwode, whose famous Chetwode Motto—“The safety, honour and welfare of your country come first, always and every time…”—continues to inspire cadets. The academy provides rigorous training that combines physical endurance, tactical warfare, leadership development, and character building, aiming to produce officers who embody discipline, courage, and integrity. Over the decades, IMA has produced thousands of officers, including war heroes and distinguished military leaders, who have served with valor in various conflicts and peacekeeping missions. The academy’s traditions, such as the Passing Out Parade, symbolize the pride and honor of commissioning into the Indian Army. Renowned globally for its standards, IMA remains a cradle of leadership and patriotism, playing a vital role in safeguarding India’s sovereignty and strengthening its military might.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.otaaachennai.com/wp-content/uploads/2016/11/HomePageSlide.jpg" alt="Officers Training Academy (OTA), Chennai & Gaya.">
+          <div class="card-body">
+            <h3>Officers Training Academy (OTA), Chennai & Gaya.</h3>
+            <p>The Officers Training Academy (OTA), with campuses in Chennai (Tamil Nadu) and Gaya (Bihar), is a premier institution of the Indian Army that trains men and women for Short Service Commission (SSC). The first OTA was established in 1963 at Chennai to induct officers during a period of military expansion, while OTA Gaya, inaugurated in 2011, was created to further meet the growing need for young officers. Unlike the Indian Military Academy (IMA), which focuses on permanent commission, OTA provides rigorous training for candidates who serve the Army for a shorter duration (generally 10–14 years), though many are later given the option for permanent commission.The training at OTA emphasizes leadership, military tactics, discipline, physical fitness, and character development, preparing cadets for modern warfare and diverse operational environments. OTA Chennai is especially notable for pioneering the training of women officers in the Indian Army, making it a symbol of inclusivity and gender equality in the armed forces. OTA Gaya primarily trains male cadets, with a strong emphasis on grooming them for leadership in active field conditions. Both academies uphold the Army’s values of honor, courage, and duty, producing capable officers who play vital roles in defending the nation and contributing to peacekeeping and humanitarian missions worldwide.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://vishwabharatigurukul.com/wp-content/uploads/2021/05/National-Defence-Academy-Campus-475x600.jpg" alt="National Defence Academy (NDA), Pune">
+          <div class="card-body">
+            <h3>National Defence Academy (NDA), Pune</h3>
+            <p>The National Defence Academy (NDA), Pune, established in 1954 at Khadakwasla, is the world’s first tri-service academy, training cadets of the Army, Navy, and Air Force together before they proceed to their respective service academies for specialized training. NDA symbolizes India’s vision of jointness and integration among the armed forces, nurturing camaraderie, discipline, and leadership at an early stage. Cadets undergo a three-year rigorous program that blends academics, physical training, drills, weapons handling, and adventure activities with a strong emphasis on character-building and patriotism. The academy offers degrees in science, arts, and computer science through its academic wing, while also pushing cadets to excel in sports, mountaineering, and endurance challenges.The hallmark of NDA training is its ability to instill team spirit, courage, and resilience, preparing cadets for both war and peacekeeping roles. The famous “Passing Out Parade” marks the culmination of training, after which cadets join the Indian Military Academy (Army), Indian Naval Academy (Navy), or Air Force Academy (Air Force) for advanced training. NDA alumni include several Chiefs of Staff, decorated war heroes, and gallantry award winners, making it a cradle of military leadership. Set against the scenic backdrop of the Sahyadri Hills and Khadakwasla Lake, NDA stands as a proud institution that continues to shape the guardians of India’s sovereignty.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://media.gettyimages.com/id/2161230040/photo/lahore-pakistan-indian-border-security-force-personnel-and-pakistani-rangers-perform-the.jpg?s=612x612&w=0&k=20&c=Tum5ou5V071UA3uPqX9fqjTSD_X8zQHFMZ_SfeBa57E=" alt="Northern Command – Udhampur, J&K (focus on Pakistan & China borders).">
+          <div class="card-body">
+            <h3>Northern Command – Udhampur, J&K (focus on Pakistan & China borders).</h3>
+            <p>The Northern Command of the Indian Army, headquartered at Udhampur, Jammu & Kashmir, is one of the most strategically vital commands, responsible for guarding India’s volatile frontiers with both Pakistan and China, as well as overseeing security in the sensitive Union Territories of Jammu & Kashmir and Ladakh. Established in 1972 after the 1971 Indo-Pak war, it plays a pivotal role in countering cross-border terrorism, infiltration, and insurgency in Kashmir, while simultaneously maintaining high-altitude defenses along the Line of Control (LoC) with Pakistan and the Line of Actual Control (LAC) with China, especially in Ladakh’s icy terrain. The command manages several critical corps and divisions, including those positioned in Siachen Glacier, the world’s highest battlefield, and areas prone to skirmishes like Kargil and Eastern Ladakh. Apart from conventional war preparedness, the Northern Command conducts counter-insurgency operations, humanitarian missions, and disaster relief, while also maintaining close coordination with paramilitary forces. Its troops are trained to operate in extreme conditions, from dense forests to high-altitude deserts, making it one of the most battle-hardened commands of the Indian Army. The Northern Command thus serves as the frontline shield of India, ensuring national security against external aggression and internal threats in one of the most challenging geographies in the world.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://c8.alamy.com/comp/KPRW5W/army-training-command-complex-artrac-buildings-in-shimla-himachal-KPRW5W.jpg" alt="Army Training Command (ARTRAC) – Shimla, Himachal Pradesh.">
+          <div class="card-body">
+            <h3>Army Training Command (ARTRAC) – Shimla, Himachal Pradesh.</h3>
+            <p></p>
+          </div>
+        </div>
+    </div>
+
+    <!-- Navy -->
+    <div id="navy" class="content-card">
+      <div class="place">
+          <img src="https://www.naval-technology.com/wp-content/uploads/sites/15/2017/09/2-kadamba-naval-base.jpg" alt="INS Kadamba, Karwar, Karnataka (Asia’s largest naval base).">
+          <div class="card-body">
+            <h3>INS Kadamba, Karwar, Karnataka (Asia’s largest naval base).</h3>
+            <p>INS Kadamba, located at Karwar in Karnataka, is India’s premier naval base and the largest naval base in Asia, developed under the ambitious Project Seabird to strengthen the Indian Navy’s operational reach and maritime security. Commissioned in 2005, it was designed as a state-of-the-art base to decongest the overburdened Mumbai dockyards and provide a strategic hub on India’s western coast, close to vital sea lanes of communication in the Arabian Sea. Spread over thousands of acres, INS Kadamba can berth multiple aircraft carriers, destroyers, submarines, and other frontline warships, while being equipped with modern ship repair facilities, advanced logistics, weapon storage, radar systems, and crew accommodation.Its location provides a major strategic advantage in monitoring maritime traffic, countering piracy, and safeguarding India’s western seaboard against threats from hostile navies, particularly Pakistan, and securing crucial trade and energy routes. It also plays a vital role in supporting the Navy’s blue-water ambitions by enabling longer deployments, quicker turnarounds, and integrated operations. Future expansions aim to make Karwar the home base for India’s aircraft carrier fleet, including INS Vikrant and its successors, along with nuclear submarines. With its scale, infrastructure, and strategic importance, INS Kadamba stands as the backbone of India’s naval power projection in the Indian Ocean Region, enhancing the Navy’s ability to operate as a modern, global maritime force.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://miro.medium.com/0%2Ax4fHm--JZemBjZhI.png" alt="Indian Naval Academy (INA), Ezhimala, Kerala.">
+          <div class="card-body">
+            <h3>Indian Naval Academy (INA), Ezhimala, Kerala.</h3>
+            <p>The Indian Naval Academy (INA), Ezhimala, Kerala, established in 2009, is the premier training institution of the Indian Navy and the largest naval academy in Asia, designed to shape future naval officers into leaders of character, competence, and courage. Nestled along the scenic Malabar coast with the Western Ghats as its backdrop, INA offers a four-year integrated B.Tech program for naval cadets along with professional naval training, seamanship, navigation, weapon systems, and leadership development. The academy also trains officers of the Indian Coast Guard and cadets from friendly foreign nations, reflecting India’s role in regional maritime cooperation.INA emphasizes a balance of academic excellence, physical endurance, and naval tradition, with world-class infrastructure including simulators, training ships, sailing clubs, and sports facilities. Cadets undergo rigorous physical training, watermanship, swimming, and adventure activities to prepare them for the challenges of sea life and naval warfare. The academy’s motto, “Vidyayā Amṛtam Aśnute” (Knowledge shall lead to immortality), highlights the fusion of knowledge and service. As the cradle of India’s naval leadership, INA not only equips officers with cutting-edge maritime skills but also instills values of integrity, discipline, and dedication, ensuring the Indian Navy remains a formidable force in safeguarding the nation’s maritime interests.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Western_Naval_Command_units_on_long_range_deployment_to_the_western_Arabian_Sea_and_southern_Indian_Ocean%2C_2017_%281%29.jpg" alt="Western Naval Command – Mumbai (Arabian Sea, major fleet base).">
+          <div class="card-body">
+            <h3>Western Naval Command – Mumbai (Arabian Sea, major fleet base).</h3>
+            <p>The Western Naval Command (WNC), headquartered in Mumbai, Maharashtra, is one of the Indian Navy’s three operational commands and serves as the principal fleet command for the Arabian Sea, overseeing India’s western maritime front. Established in 1968, WNC is responsible for safeguarding India’s western coastline, securing vital sea lanes of communication, and projecting power in the strategically important Indian Ocean Region. It commands a large portion of the Navy’s warships, submarines, aircraft, and support vessels, and coordinates operations with other naval bases, including INS Kadamba (Karwar) and INS Vikramaditya (Mumbai).The Western Naval Command plays a critical role in maritime security, anti-piracy operations, humanitarian missions, and joint exercises with friendly navies. It also oversees training, logistics, and maintenance for the western fleet, ensuring high operational readiness. Its strategic location near major ports, oil routes, and trade corridors makes it a frontline shield against potential threats from Pakistan and in the broader Arabian Sea. With advanced naval infrastructure, intelligence, and rapid-response capabilities, WNC is pivotal to India’s naval dominance and maritime diplomacy, reflecting the Navy’s ability to protect national interests and ensure security across the western maritime domain.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://vajiramandravi.com/current-affairs/wp-content/uploads/2025/03/ins_hansa-scaled.jpg" alt="INS Hansa, Goa (Naval Aviation base).">
+          <div class="card-body">
+            <h3>INS Hansa, Goa (Naval Aviation base).</h3>
+            <p>INS Hansa, located near Dabolim Airport in Goa, is one of the Indian Navy’s premier naval aviation bases, established in 1961 shortly after Goa’s integration into India. It serves as the hub for India’s naval air operations on the western coast, supporting both fixed-wing aircraft and helicopters for maritime reconnaissance, anti-submarine warfare, surveillance, search and rescue, and logistical support. INS Hansa is home to several squadrons, including MiG-29K fighter jets, Sea King helicopters, and Dornier aircraft, making it a vital center for India’s carrier-based and shore-based aviation capabilities.The base is equipped with runways, hangars, maintenance facilities, simulators, and training centers, ensuring high operational readiness and efficient integration with naval fleets like the Western Naval Command. Its strategic location allows rapid deployment along the Arabian Sea, protection of sea lanes, and support for carrier operations such as from INS Vikramaditya. Over the years, INS Hansa has played a crucial role in both combat and humanitarian missions, serving as a training ground for naval aviators and as a forward base for maritime security operations. With its advanced infrastructure and operational significance, INS Hansa remains a cornerstone of India’s naval aviation and western maritime defense.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://pbs.twimg.com/media/FzmYDhUXoAEqD_D.jpg" alt="INS Kattabomman, Tamil Nadu (communication base).">
+          <div class="card-body">
+            <h3>INS Kattabomman, Tamil Nadu (communication base).</h3>
+            <p>INS Kattabomman, located near Tirunelveli, Tamil Nadu, is the Indian Navy’s premier communication and electronic warfare base, specializing in signals intelligence (SIGINT), satellite communications, and strategic network operations. Commissioned in 1990, it plays a critical role in maintaining secure and reliable communication links for the Navy’s fleets, shore establishments, and joint operations, particularly across the Bay of Bengal, Indian Ocean, and eastern maritime frontiers.The base houses high-power transmitters, satellite communication systems, radar stations, and electronic monitoring facilities, enabling long-range maritime surveillance, intelligence gathering, and coordination during both peacetime and conflict. INS Kattabomman also supports naval operations for the Eastern Naval Command, ensuring seamless data and communication flow between ships, aircraft, and headquarters. Its strategic importance lies in network-centric warfare, early warning systems, and maritime domain awareness, making it a backbone of India’s naval command and control capabilities. With advanced technology and continuous upgrades, INS Kattabomman strengthens India’s maritime security, situational awareness, and strategic communication infrastructure.</p>
+          </div>
+        </div>
+    </div>
+
+    <!-- Airforce -->
+    <div id="airforce" class="content-card">
+      <div class="place">
+          <img src="https://iafhistory.in/wp-content/uploads/2023/09/Untitled.jpg" alt="Hindon (Ghaziabad, near Delhi) – Asia’s largest airbase.">
+          <div class="card-body">
+            <h3>Hindon (Ghaziabad, near Delhi) – Asia’s largest airbase.</h3>
+            <p>Hindon Air Force Station, located in Ghaziabad near Delhi, is one of the largest airbases in Asia and a key strategic installation of the Indian Air Force (IAF). Originally established as a training and transport base, it has grown into a major operational hub, hosting squadrons of fighter jets, transport aircraft, and helicopters. Hindon plays a critical role in air defense of the national capital region, rapid deployment of forces, and logistics support across northern India.The base is equipped with long runways, modern hangars, advanced radar systems, and maintenance facilities, enabling operations of heavy transport aircraft like the C-17 Globemaster and large-scale military exercises. It also serves as a hub for IAF paratrooper training and joint operations with the Army and Navy. Its proximity to Delhi ensures rapid response during emergencies, disaster relief operations, and strategic airlift missions. Hindon Air Force Station thus combines operational readiness, logistical capability, and strategic importance, making it a cornerstone of India’s northern air defense and power projection.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/Union_Minister_for_Defence_Rajnath_Singh_witnessing_the_Combined_Graduation_Parade_of_Autumn_term%2C_at_Air_Force_Academy%2C_Hyderabad_2020.jpg" alt="Air Force Academy (AFA), Dundigal, Hyderabad.">
+          <div class="card-body">
+            <h3>Air Force Academy (AFA), Dundigal, Hyderabad</h3>
+            <p>The Air Force Academy (AFA), Dundigal, Hyderabad, established in 1969, is the premier training institution of the Indian Air Force (IAF), responsible for shaping future officers in flying, ground duties, and technical branches. Spread over a sprawling campus with state-of-the-art infrastructure, AFA provides cadets with rigorous academic education, flying training, physical conditioning, leadership development, and military discipline. It operates advanced aircraft simulators, trainer aircraft, and aero-engine facilities to ensure cadets gain both theoretical knowledge and practical flying skills.The academy emphasizes aerial warfare tactics, navigation, aeronautical engineering, and operational strategy, while also nurturing qualities of courage, integrity, and teamwork. Cadets undergo intensive training in parachuting, aerobatics, sports, and adventure activities, preparing them for the challenges of modern air operations. Graduates of AFA are commissioned into the IAF as officers, ready to serve in fighter, transport, helicopter, and ground duty roles. With its strategic focus on professional excellence and leadership, AFA Dundigal remains the cradle of India’s air power, ensuring that the IAF continues to maintain operational readiness, technological prowess, and aerial superiority.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://images.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/07/20/Pictures/rajnath-singh-in-france_9dec9bf0-ca9b-11ea-bdc8-eaddf71cc5d6.jpg" alt="Ambala (Haryana) – Rafale fighter base">
+          <div class="card-body">
+            <h3>Ambala (Haryana) – Rafale fighter base</h3>
+            <p>Ambala Air Force Station, located in Haryana, is one of the Indian Air Force’s key operational bases in northern India and a strategic hub for fighter operations, including the newly inducted Rafale fighter jets. The base plays a vital role in air defense of the northern sector, rapid deployment of combat aircraft, and protection of critical national infrastructure. Equipped with long runways, advanced hangars, modern radar systems, and maintenance facilities, Ambala enables high-tempo operations and supports both offensive and defensive missions.Apart from Rafale squadrons, Ambala hosts transport aircraft and helicopters, contributing to logistical support, humanitarian missions, and joint exercises with the Army and Navy. Its proximity to the Indo-Pak border enhances strategic readiness and rapid response capabilities in case of conflicts. Ambala AFS is also involved in training, tactical exercises, and integration of new-generation aircraft, ensuring that the IAF maintains air superiority and operational efficiency in the northern air defense corridor.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://images.assettype.com/english-sentinelassam/import/wp-content/uploads/2019/04/WhatsApp-Image-2019-04-25-at-1.02.46-PM.jpeg" alt="Tezpur & Chabua (Assam) – strategic NE bases.">
+          <div class="card-body">
+            <h3>Tezpur & Chabua (Assam) – strategic NE bases.</h3>
+            <p>Tezpur and Chabua Air Force Stations, located in Assam, are key strategic bases of the Indian Air Force in the northeastern region, providing critical support for operations along India’s border with China and Myanmar. These bases play a pivotal role in air defense, surveillance, and rapid deployment of troops and equipment in the challenging terrain of the Northeast, which includes dense forests, rivers, and high-altitude areas.Tezpur AFS, established during World War II, serves as a hub for fighter squadrons, transport aircraft, and reconnaissance missions, while Chabua, also a World War II-era base, primarily supports logistical operations, fighter coverage, and counter-insurgency air support. Both bases are equipped with long runways, modern hangars, radar systems, and maintenance facilities, ensuring operational readiness in adverse weather and terrain conditions. They are integral to monitoring the Line of Actual Control (LAC), enhancing rapid response capabilities, and supporting both peacetime operations and emergency deployments. Together, Tezpur and Chabua strengthen India’s eastern air defense, border security, and strategic presence in the northeastern frontier.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://static.theprint.in/wp-content/uploads/2023/01/ANI-20230121134043.jpg" alt="Sulur (Coimbatore, TN) – southern fighter base.">
+          <div class="card-body">
+            <h3>Sulur (Coimbatore, TN) – southern fighter base.</h3>
+            <p>Sulur Air Force Station, located near Coimbatore in Tamil Nadu, is a key fighter and training base of the Indian Air Force, strategically positioned to safeguard India’s southern airspace and maritime approaches over the Indian Ocean. Originally established during World War II, Sulur has evolved into a modern airbase hosting fighter squadrons, transport aircraft, and pilot training units, along with maintenance and operational facilities.The base plays a critical role in air defense, rapid deployment, maritime surveillance, and support for naval operations, while also serving as a hub for combat readiness exercises and advanced pilot training. Equipped with long runways, hangars, radar systems, and simulators, Sulur ensures that the IAF maintains high operational efficiency in the southern sector. Its strategic location near major ports and shipping lanes enables rapid response to both security threats and humanitarian missions in the southern region. Sulur AFS thus stands as a vital component of India’s southern air defense network, contributing to aerial superiority, regional stability, and defense preparedness.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot -->
+  <button id="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span style="cursor:pointer;" onclick="toggleChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something...">
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+  // Default content
+  document.addEventListener("DOMContentLoaded", () => showContent('army'));
+
+  function showContent(id) {
+    document.querySelectorAll('.content-card').forEach(c => c.style.display='none');
+    document.getElementById(id).style.display='block';
+  }
+
+  // Chatbot toggle
+  function toggleChatbot() {
+    document.getElementById("chatbot-box").classList.toggle("show");
+  }
+
+  // Defence context
+  const defencePlaces = {
+    "Forces": ["Army", "Navy", "Air Force"],
+    "Institutions": ["NDA (Khadakwasla)", "IMA (Dehradun)"]
+  };
+
+  function isDefenceQuery(userMessage) {
+    const keywords = ["army", "navy", "air force", "defence", "defense", "nda", "ima"];
+    return keywords.some(k => userMessage.toLowerCase().includes(k));
+  }
+
+  function buildPrompt(userMessage) {
+    let context = "Answer only based on Defence of India:\n";
+    for (const [cat, items] of Object.entries(defencePlaces)) {
+      context += `- ${cat}: ${items.join(", ")}\n`;
+    }
+    context += `\nQuestion: ${userMessage}\nAnswer:`;
+    return context;
+  }
+
+  // Chatbot send logic
+  document.getElementById("chatbot-send").addEventListener("click", sendMessage);
+  document.getElementById("chatbot-input").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
+
+  async function sendMessage() {
+    const input = document.getElementById("chatbot-input");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    const chat = document.getElementById("chatbot-messages");
+    chat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+
+    let payload;
+    if (isDefenceQuery(msg)) {
+      // Defence context prompt
+      payload = { message: buildPrompt(msg) };
+    } else {
+      // General API prompt
+      payload = { message: msg };
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      chat.innerHTML += `<div><b>Bot:</b> ${data.reply}</div>`;
+    } catch (err) {
+      chat.innerHTML += `<div><b>Bot:</b> ⚠️ Could not connect to server.</div>`;
+    }
+
+    input.value = "";
+    chat.scrollTop = chat.scrollHeight;
+  }
+</script>
+<script src="js/bookmark.js"></script>
+<script src="js/search.js"></script>
+
 </body>
 </html>

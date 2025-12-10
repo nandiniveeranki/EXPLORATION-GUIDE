@@ -1,60 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicine - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medicine of India | AI Powered Guide</title>
+  <style>
+    :root{
+      --brand:#6a1b9a;
+      --brand-2:#8e24aa;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+      --accent:#e67e22;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+    h1,h2,h3{ color: var(--ink); }
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+    }
+    .category-bar, .button-container {
+      text-align:center; padding: 8px 10px 20px;
+    }
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      border: none;
+    }
+    .category-btn:hover { background: var(--brand-2); transform: translateY(-1px); }
+    .content-card {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      flex-direction: column;
+      align-items: center;
+    }
+    .content-card.active,
+    .content-card:not(.hidden) {
+      display: flex;
+    }
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .place img,
+    .content-card img {
+      max-width: 500px;
+      width: 100%;
+      height: 250px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+    .hidden {
+      display: none;
+    }
+    #chatbot-box {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 340px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10000;
+    }
+    #chatbot-box.active {
+      display: flex;
+    }
+    #chatbot-header {
+      background: var(--brand);
+      color: #fff;
+      padding: 12px 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #chatbot-close {
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+    #chatbot-messages {
+      padding: 16px;
+      height: 180px;
+      overflow-y: auto;
+      background: #f7f9fb;
+      font-size: 1em;
+    }
+    #chatbot-controls {
+      display: flex;
+      border-top: 1px solid #eee;
+      padding: 10px;
+      background: #fafafa;
+    }
+    #chatbot-input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      margin-right: 8px;
+    }
+    #chatbot-send {
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background .2s;
+    }
+    #chatbot-send:hover {
+      background: var(--brand-2);
+    }
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      z-index: 9999;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
+  <div class="container">
+    <h1>Medicine in India</h1>
+    <p>India’s medical field combines ancient healing traditions with modern healthcare advancements, making it a global hub for medicine and wellness.</p>
+
+    <div class="category-section">
+      <div class="button-container">
+        <button class="category-btn" onclick="showContent('ayurveda')">Ayurveda</button>
+        <button class="category-btn" onclick="showContent('modern')">Modern Healthcare</button>
+        <button class="category-btn" onclick="showContent('medicaltourism')">Medical Tourism</button>
+      </div>
+
+      <!-- Ayurveda -->
+      <div id="ayurveda" class="content-card hidden">
+       <div class="place">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCUcLzd9EFptgJXCzZ6vgzdhGa-Ey2fXQa6A&s" alt="Kaya Chikitsa (Internal Medicine)">
+          <div class="card-body">
+            <h3>Kaya Chikitsa (Internal Medicine)</h3>
+            <p>Kaya Chikitsa (Internal Medicine) is one of the eight branches (ashtanga ayurveda) of Ayurveda, focusing on the diagnosis, prevention, and treatment of internal diseases affecting the body and mind. The word Kaya refers to the body, specifically metabolism and digestion (agni), which are considered central to health, while Chikitsa means treatment or therapy. Kaya Chikitsa emphasizes that most diseases arise due to an imbalance in the three doshas—Vata, Pitta, and Kapha—and improper functioning of digestive fire (jatharagni). Treatments include a combination of herbal formulations, diet regulation, lifestyle adjustments, Panchakarma therapies (detoxification and purification), and rejuvenation therapies to restore balance and strengthen immunity. Mental health is also given importance, with practices involving meditation, yoga, and counseling alongside physical treatments. Classical Ayurvedic texts like Charaka Samhita provide detailed guidance on Kaya Chikitsa, covering a wide range of conditions such as digestive disorders, fevers, diabetes, respiratory diseases, arthritis, skin problems, and psychological illnesses. This branch of Ayurveda remains highly significant as it lays the foundation for understanding the body holistically and treating diseases at their root cause rather than merely addressing symptoms.</p>
+          </div>
         </div>
+        <div class="place">
+          <img src="https://aayurvediccollegemanvi.org/wp-content/uploads/2024/06/Shalya-Tantra-5-1.jpg" alt="Shalya Tantra (Surgery)">
+          <div class="card-body">
+            <h3>Shalya Tantra (Surgery)</h3>
+            <p>Shalya Tantra (Surgery) is one of the eight classical branches (ashtanga ayurveda) of Ayurveda, dealing with surgical techniques, trauma care, and treatment of conditions requiring operative procedures. The term Shalya means “foreign body” or anything that causes pain and obstruction in the body, while Tantra refers to the specialized system of treatment. This branch was highly advanced in ancient India, with detailed descriptions found in Sushruta Samhita, authored by the renowned surgeon Sushruta, often called the “Father of Surgery.” Shalya Tantra covers a wide range of surgical practices including incision, excision, suturing, cauterization, foreign body removal, plastic surgery, cataract extraction, lithotomy for bladder stones, and treatment of fractures and wounds. It also emphasizes pre-operative and post-operative care, sterilization, anesthesia using herbal sedatives, and rehabilitation of patients. Alongside surgical procedures, it integrates medicinal therapies, diet regulation, and holistic healing to ensure recovery and prevention of complications. The principles of Shalya Tantra laid the foundation for modern surgical science, demonstrating the remarkable medical knowledge of ancient India and its enduring influence on global medical history.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.samch.co.in/assets/img/speciality-clinics/shalakya-tantra/shalakyatantra.jpg" alt="Shalakya Tantra (ENT & Eye Care)">
+          <div class="card-body">
+            <h3>Shalakya Tantra (ENT & Eye Care)</h3>
+            <p>Shalakya Tantra (ENT & Eye Care) is one of the eight classical branches (ashtanga ayurveda) of Ayurveda, specializing in the diagnosis and treatment of diseases affecting the organs located above the clavicle, particularly the eyes, ears, nose, throat, head, and oral cavity. The term Shalaka means “probe” or “rod,” referring to the specialized instruments used in examination and treatment, while Tantra means system or branch. This branch is described extensively in texts like the Sushruta Samhita and Ashtanga Hridaya, highlighting ancient India’s advanced knowledge of ophthalmology and ENT care. Shalakya Tantra deals with a wide range of conditions such as conjunctivitis, cataract, glaucoma, ear infections, sinusitis, tonsillitis, dental issues, and headaches, offering treatments that include herbal medicines, surgical techniques, cauterization, nasal therapies (nasya), eye washes, fumigation, and use of medicated oils or collyriums (anjana). Preventive care, including maintaining eye health through proper diet, lifestyle, and protective measures, is also emphasized. This branch demonstrates Ayurveda’s holistic approach, combining surgery, internal medicine, and external therapies, and is considered a precursor to modern ophthalmology and otolaryngology.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.ayurvedicclinic.net/clinic/wp-content/uploads/2024/02/pediatrics.webp" alt="Kaumarabhritya (Pediatrics & Child Care)">
+          <div class="card-body">
+            <h3>Kaumarabhritya (Pediatrics & Child Care)</h3>
+            <p>Kaumarabhritya (Pediatrics & Child Care) is one of the eight branches (ashtanga ayurveda) of Ayurveda, focusing on the health, growth, and development of infants, children, and adolescents up to the age of sixteen. The term is derived from Kaumara (child) and Bhritya (nurturing or care), highlighting its emphasis on both preventive and curative aspects of child health. This branch covers a wide range of topics, including neonatal care, breastfeeding, dietetics for different stages of childhood, growth monitoring, management of childhood illnesses, congenital and genetic disorders, and mental development. It also prescribes practices for immunization-like therapies (lehana or administration of medicated ghee and herbs to boost immunity), protection from infectious diseases, and the use of gentle herbal remedies suited to a child’s delicate physiology. Kaumarabhritya stresses the importance of maternal health during pregnancy and lactation, as it directly influences the well-being of the child. Conditions like digestive disorders, fever, skin diseases, epilepsy, delayed milestones, and speech or behavioral issues are also addressed. In addition to physical health, Kaumarabhritya emphasizes emotional and spiritual nurturing, ensuring holistic development. This branch reflects Ayurveda’s deep understanding of child care, preventive pediatrics, and the foundations of lifelong health.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://oneworldayurveda.com/wp-content/uploads/2019/06/Rasayana-blog.jpg" alt="Rasayana (Rejuvenation Therapy)">
+          <div class="card-body">
+            <h3>Rasayana (Rejuvenation Therapy)</h3>
+            <p>Rasayana (Rejuvenation Therapy) is one of the eight classical branches (ashtanga ayurveda) of Ayurveda, dedicated to promoting longevity, vitality, immunity, and overall well-being. The term Rasayana is derived from rasa (essence, nutrient fluid) and ayana (path), meaning the method of enriching body tissues through optimal nutrition and rejuvenation. This branch emphasizes strengthening the body’s ojas (vital energy), enhancing memory, intelligence, complexion, strength, and resistance to disease, while delaying the effects of aging. Rasayana therapy includes the use of herbal formulations, mineral preparations, tonics, dietary regimens, lifestyle practices, meditation, yoga, and moral conduct to restore balance and maintain vitality. Classical texts describe two types of Rasayana: Kutipraveshika (indoor, intensive rejuvenation in isolation under strict discipline) and Vatatapika (outdoor, easier methods integrated into daily life). Famous Rasayana herbs include amla (Indian gooseberry), guduchi, ashwagandha, shatavari, haritaki, and chyawanprash formulations. Beyond physical health, Rasayana also supports mental clarity, emotional stability, and spiritual growth. It is not only a curative approach but also a preventive and promotive science, aiming to ensure long life (dirghayu), good health (arogya), and fulfillment of life’s purposes according to Ayurveda.</p>
+          </div>
+        </div>
+      </div>
 
-        <h1 class="text-danger mb-4">Medicine in India</h1>
-        <p>India has a dual healthcare system, with a long history of traditional medical practices like Ayurveda and Yoga, alongside a rapidly developing modern allopathic medical infrastructure.</p>
-        
-        <h3 class="mt-4">Key Aspects & Centers:</h3>
-        <ul>
-            <li><strong>Traditional Medicine:</strong>
-                <ul>
-                    <li>Ayurveda: Originating in ancient India, practiced widely (e.g., Kerala known for Ayurvedic resorts and treatment centers).</li>
-                    <li>Yoga & Naturopathy: Popular across India, with many centers in Rishikesh, Mysuru.</li>
-                    <li>Unani, Siddha, and Homoeopathy: Other prominent traditional systems.</li>
-                </ul>
-            </li>
-            <li><strong>Modern Healthcare:</strong>
-                <ul>
-                    <li>Major Medical Hubs: Delhi, Mumbai, Chennai, Bengaluru, Hyderabad, Pune, Ahmedabad, Vellore (Christian Medical College).</li>
-                    <li>Research & Education: AIIMS (All India Institute of Medical Sciences) in Delhi and other cities, numerous medical colleges and research institutions.</li>
-                    <li>Medical Tourism: India is a growing destination for medical tourism due to quality care at lower costs.</li>
-                </ul>
-            </li>
-            <li><strong>Pharmaceutical Industry:</strong> India is a major global producer of generic medicines and vaccines, with manufacturing hubs in Gujarat, Maharashtra, Andhra Pradesh, and Telangana.</li>
-        </ul>
-        <img src="https://via.placeholder.com/800x450?text=Indian+Medicine" class="img-fluid my-3" alt="Indian Medicine">
-        
-        <h3 class="mt-5 mb-3">Medical Centers on Map</h3>
-        <p>Example: Christian Medical College (CMC), Vellore, Tamil Nadu</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+      <!-- Modern Healthcare -->
+      <div id="modern" class="content-card hidden">
+        <div class="place">
+          <img src="https://archello.s3.eu-central-1.amazonaws.com/images/2021/05/07/cda-architects-max-super-speciality-hospital-hospitals-archello.1620393566.2944.jpeg" alt="Super-Specialty Hospitals 🏥">
+          <div class="card-body">
+            <h3>Super-Specialty Hospitals 🏥</h3>
+            <p>Super-Specialty Hospitals 🏥 are advanced healthcare institutions that provide highly specialized medical services in specific fields beyond general medicine and surgery. Unlike multi-specialty hospitals, which cover a broad range of general departments, super-specialty hospitals focus on cutting-edge treatments, complex procedures, and advanced diagnostics in areas such as cardiology & cardiac surgery, neurology & neurosurgery, nephrology & kidney transplants, oncology (cancer care), orthopedics & joint replacements, gastroenterology, endocrinology, and organ transplantation. They are equipped with state-of-the-art technology, intensive care units, robotic surgery systems, advanced imaging (MRI, PET-CT, etc.), and laboratories for precision diagnostics. These hospitals often serve as referral centers for critical cases that cannot be managed in smaller or general hospitals. Along with treatment, many super-specialty hospitals are involved in medical research, training, and innovation, bringing the latest global advancements into practice. Their patient care is usually multidisciplinary, with expert teams of doctors, surgeons, and specialized nurses working together for holistic treatment. In India, leading examples include AIIMS (New Delhi), Apollo Hospitals, Fortis, Narayana Health, and Tata Memorial Hospital. Super-specialty hospitals thus represent the pinnacle of modern medicine, offering life-saving care and complex interventions that significantly improve survival and quality of life.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://india-pharma.gsk.com/media/7326/gsk-worli-mumbai-ho.jpg" alt="Pharmaceutical & Vaccine Leader">
+          <div class="card-body">
+            <h3>Pharmaceutical & Vaccine Leader</h3>
+            <p>Pharmaceutical & Vaccine Leaders are global and national healthcare companies at the forefront of developing, manufacturing, and distributing life-saving medicines, vaccines, and biotechnological innovations. These organizations play a crucial role in combating infectious diseases, chronic illnesses, and emerging health threats by investing heavily in research and development (R&D), clinical trials, and large-scale production. Leaders in this field have pioneered vaccines for diseases like polio, hepatitis, HPV, and COVID-19, along with breakthrough drugs in oncology, cardiology, neurology, and rare genetic disorders. They also collaborate with governments and international bodies such as the WHO, GAVI, and UNICEF to ensure global immunization programs and equitable access to medicines.Globally, top pharmaceutical and vaccine leaders include companies like Pfizer, Moderna, Johnson & Johnson, AstraZeneca, Merck, GSK, and Sanofi, while in India, major players such as Serum Institute of India (the world’s largest vaccine producer), Bharat Biotech, Cipla, Sun Pharma, and Dr. Reddy’s Laboratories have made significant contributions to both domestic healthcare and international vaccine supply chains. These leaders not only focus on innovation but also on scaling affordable healthcare solutions, making them critical pillars in achieving worldwide disease prevention, treatment, and public health advancement.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://www.devoteam.com/wp-content/uploads/2024/11/modern-vs-traditional-organizations-2.png" alt="Integration of Traditional & Modern Systems">
+          <div class="card-body">
+            <h3>Integration of Traditional & Modern Systems</h3>
+            <p>Integration of Traditional & Modern Systems in healthcare refers to blending age-old medical practices like Ayurveda, Yoga, Siddha, Unani, and Traditional Chinese Medicine with modern allopathic medicine to create a more holistic, patient-centered approach. Traditional systems emphasize prevention, lifestyle balance, natural remedies, and mind–body harmony, while modern medicine excels in evidence-based diagnosis, surgery, advanced technology, and life-saving interventions. When integrated thoughtfully, these systems complement each other—for example, using Ayurveda or Yoga for chronic disease management, mental health, and rehabilitation alongside modern drugs or surgery for acute care.This integration is gaining global recognition through evidence-based validation, clinical trials, and government support. In India, the Ministry of AYUSH promotes traditional medicine in collaboration with modern healthcare facilities, while many super-specialty hospitals now include wellness centers offering yoga therapy, naturopathy, and diet-based interventions. Similarly, WHO supports the incorporation of traditional knowledge into public health frameworks. The goal is not replacement, but synergy—leveraging modern medicine’s precision with traditional wisdom’s preventive and restorative strengths. Such integration can help address lifestyle disorders (like diabetes, hypertension, and stress), improve quality of life, reduce side effects of modern treatments, and expand healthcare accessibility at a global scale.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-2134-61fa-87a0-69d7d00ef39f/raw?se=2025-09-03T19%3A04%3A36Z&sp=r&sv=2024-08-04&sr=b&scid=8cc48c8f-b043-5c62-8fdc-caa2b9ef6b1f&skoid=b7fc319f-b93c-4fac-ba5f-14fdc3f9209f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-02T21%3A03%3A20Z&ske=2025-09-03T21%3A03%3A20Z&sks=b&skv=2024-08-04&sig=Bs4MzeTwugKZDAEIMrEQflzB3LpmPL0TXEdTPFwz6fc%3D" alt="Digital & AI-Driven Healthcare ">
+          <div class="card-body">
+            <h3>Digital & AI-Driven Healthcare </h3>
+            <p>Digital & AI-Driven Healthcare 🤖💻 is transforming modern medicine by integrating advanced technologies like telemedicine, electronic health records, wearable devices, mobile health apps, and cloud platforms with powerful Artificial Intelligence applications that enhance diagnosis, treatment, and patient care. AI algorithms analyze massive amounts of medical data to enable early disease detection, precision medicine, predictive analytics, and drug discovery, while also assisting in robotic surgeries, medical imaging interpretation, and outbreak prediction. Virtual assistants and chatbots improve patient engagement, NLP tools extract insights from health records, and IoT-enabled devices allow real-time remote monitoring, making healthcare more accessible and preventive. Innovations such as blockchain for secure health data, VR/AR for medical training, and genomics-based personalized therapies are further shaping the future of healthcare. In India, initiatives like the Ayushman Bharat Digital Mission aim to create a unified digital health ecosystem, while global tech leaders like IBM Watson Health, Google DeepMind, and Microsoft drive AI adoption worldwide. Together, digital and AI-driven healthcare promise to make healthcare systems more efficient, accurate, patient-centric, cost-effective, and universally accessible, bridging the gap between traditional practices and next-generation innovations.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Amrita_Hospital_Kochi.jpg" alt="Amrita Institute (Kochi)">
+          <div class="card-body">
+            <h3>Amrita Institute (Kochi)</h3>
+            <p>Amrita Institute of Medical Sciences (AIMS), Kochi, also known as Amrita Hospital, is one of India’s leading super-specialty hospitals, established in 1998 by Mata Amritanandamayi Math. Located in Kochi, Kerala, it is a 1,300-bed (soon expanding to over 2,600 beds) healthcare institution renowned for its advanced medical technology, multidisciplinary care, and patient-centered services. The hospital provides cutting-edge treatment in specialties such as cardiology, oncology, neurology, nephrology, gastroenterology, organ transplantation, endocrinology, orthopedics, and robotic surgery, making it one of the largest and most comprehensive healthcare centers in South Asia.AIMS is also a teaching and research institution, affiliated with Amrita Vishwa Vidyapeetham (Deemed University), offering MBBS, postgraduate, super-specialty medical courses, nursing, and allied health sciences. It has gained international recognition for complex surgeries, including heart and liver transplants, as well as pioneering research in areas like nanomedicine, medical devices, and biotechnology. The hospital emphasizes compassionate care inspired by Amma’s humanitarian vision, providing affordable treatment and charitable outreach programs for underprivileged communities.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Medical Tourism -->
+      <div id="medicaltourism" class="content-card hidden">
+       <div class="place">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Indian_Hospital.jpg" alt="Medical Tourism India">
+          <div class="card-body">
+            <h3>Medical Tourism</h3>
+            <p>With affordable costs and high-quality treatment, India attracts international patients for specialized care and recovery.</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin=" crossorigin="anonymous"></script>
+  <!-- Chatbot -->
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="toggleChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Show/hide content cards
+    function showContent(id) {
+      document.querySelectorAll('.content-card').forEach(card => card.classList.add('hidden'));
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    }
+
+    // Default open category
+    document.addEventListener('DOMContentLoaded', () => {
+      showContent('ayurveda');
+    });
+
+    // Chatbot toggle
+    function toggleChatbot() {
+      document.getElementById("chatbot-box").classList.toggle("active");
+    }
+
+    // Medicine chatbot context
+    const medicinePlaces = {
+      "Traditional": ["Ayurveda"],
+      "Modern": ["AIIMS", "Apollo Hospitals"],
+      "Tourism": ["Medical Tourism (Kerala)", "Wellness Tourism"]
+    };
+
+    function buildPrompt(userMessage) {
+      let context = "Answer only based on Indian Medicine:\n";
+      for (const [cat, items] of Object.entries(medicinePlaces)) {
+        context += `- ${cat}: ${items.join(", ")}\n`;
+      }
+      context += `\nQuestion: ${userMessage}\nAnswer:`;
+      return context;
+    }
+
+    document.getElementById("chatbot-send").addEventListener("click", sendMessage);
+    document.getElementById("chatbot-input").addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById("chatbot-input");
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById("chatbot-messages");
+      chat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+
+      try {
+        const response = await fetch("http://localhost:5000/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: buildPrompt(msg) }),
+        });
+
+        const data = await response.json();
+        chat.innerHTML += `<div><b>Bot:</b> ${data.reply}</div>`;
+      } catch (err) {
+        chat.innerHTML += `<div><b>Bot:</b> ⚠️ Could not connect to server.</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+  <script src="js/bookmark.js"></script>
+  <script src="js/search.js"></script>
+
 </body>
 </html>

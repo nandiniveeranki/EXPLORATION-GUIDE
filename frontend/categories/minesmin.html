@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mines & Minerals of India | AI Powered Guide</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root {
+      --brand: #b9770e; /* Switched to an earthy theme for Minerals */
+      --brand-2: #d35400;
+      --ink: #2c3e50;
+      --paper: #ffffff;
+      --bg: #f7f9fb;
+      --accent: #e67e22;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    h1, h2, h3 {
+      color: var(--ink);
+    }
+
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+      text-align: center;
+    }
+
+    /* Buttons */
+    .category-bar {
+      text-align: center;
+      padding: 8px 10px 20px;
+    }
+
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+      border: none;
+    }
+
+    .category-btn:hover {
+      background: var(--brand-2);
+      transform: translateY(-1px);
+    }
+
+    /* Cards */
+    .category-content {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    }
+
+    .category-content.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body p {
+        flex-grow: 1;
+    }
+
+    .thumb {
+      display: block;
+      margin: 0 auto 15px;
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+    
+    .links {
+      margin-top: 15px;
+    }
+
+    .official-link {
+      display: inline-block;
+      color: var(--brand);
+      font-weight: bold;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 2px solid var(--brand);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .official-link:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    /* Chatbot styles */
+    #chatbot-box {
+      position: fixed; bottom: 90px; right: 30px;
+      width: 340px; background: #fff;
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none; flex-direction: column; overflow: hidden;
+      z-index: 10000;
+    }
+    #chatbot-box.active { display: flex; }
+
+    #chatbot-header {
+      background: var(--brand); color: #fff;
+      padding: 12px 18px; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    #chatbot-messages {
+      padding: 12px; height: 180px; overflow-y: auto;
+      background: #f7f9fb; font-size: 1em;
+    }
+    #chatbot-controls {
+      display: flex; border-top: 1px solid #eee;
+      padding: 10px; background: #fafafa;
+    }
+    #chatbot-input {
+      flex: 1; padding: 8px; border-radius: 6px;
+      border: 1px solid #ccc; font-size: 1em; margin-right: 8px;
+    }
+    #chatbot-send {
+      background: var(--brand); color: #fff;
+      border: none; border-radius: 6px;
+      padding: 8px 16px; cursor: pointer; font-weight: bold;
+    }
+    #chatbot-toggle {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--brand); color: #fff;
+      border-radius: 50%; width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2em; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 9999;
+    }
+    .user-message { margin: 6px 0; font-weight: bold; }
+    .bot-message { margin: 6px 0; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mines & Minerals of India</h1>
+    <p class="lead">India has a rich geological heritage, endowed with a vast repository of mineral resources that have been the bedrock of its industrial and economic development for centuries.</p>
+
+    <div class="category-section">
+      <div class="category-bar">
+        <button class="category-btn" onclick="showContent('energy')">Energy Minerals</button>
+        <button class="category-btn" onclick="showContent('metallic')">Metallic Minerals</button>
+        <button class="category-btn" onclick="showContent('precious')">Precious Minerals</button>
+        <button class="category-btn" onclick="showContent('industrial')">Industrial Minerals</button>
+        <button class="category-btn" onclick="showContent('links')">Official Resources</button>
+      </div>
+
+      <div id="energy" class="category-content active">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/950005/pexels-photo-950005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Coal Mine">
+            <div class="card-body">
+              <h3>Coal & Lignite</h3>
+              <p>Often called "black gold," coal is the backbone of India's energy sector, fueling a majority of its thermal power plants. India is one of the top producers globally, with vast reserves concentrated in states like Jharkhand, Odisha, Chhattisgarh, and West Bengal. The industry, spearheaded by Coal India Limited, is critical for the nation's energy security and industrial manufacturing.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/1709663/pexels-photo-1709663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Offshore Oil Rig">
+            <div class="card-body">
+              <h3>Petroleum & Natural Gas</h3>
+              <p>While India is a net importer, domestic production of petroleum and natural gas is vital. Major production centers are located offshore in the Mumbai High basin and onshore in states like Assam and Gujarat. Organisations like ONGC and Oil India Ltd. are at the forefront of exploration and production, striving to enhance India's self-reliance in the hydrocarbon sector.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="metallic" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/7440464/pexels-photo-7440464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Iron Ore Mine">
+            <div class="card-body">
+              <h3>Iron Ore</h3>
+              <p>India is endowed with high-quality iron ore reserves, primarily hematite and magnetite, which form the foundation of its robust iron and steel industry. The mineral is extensively mined in the states of Odisha, Karnataka, and Jharkhand. The country is a leading global producer and exporter, supplying a critical raw material for infrastructure development worldwide.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/159490/yachts-luxury-transport-transportation-159490.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Bauxite Ore">
+            <div class="card-body">
+              <h3>Bauxite</h3>
+              <p>Bauxite is the primary ore for aluminium, a versatile metal crucial for industries like transportation, construction, and packaging. India holds significant bauxite reserves, with Odisha being the largest producing state, accounting for over half of the country's output. The mining of bauxite is integral to companies like NALCO and Hindalco, making India a key player in the global aluminium market.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/89955/pexels-photo-89955.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Copper Wires">
+            <div class="card-body">
+              <h3>Copper</h3>
+              <p>Copper's excellent electrical conductivity makes it indispensable for the power and electronics industries. India's primary copper reserves are found in the Malanjkhand belt in Madhya Pradesh and the Khetri belt in Rajasthan. While domestic production does not meet the entire demand, mining operations by companies like Hindustan Copper Ltd. are vital for the nation's industrial self-sufficiency.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="precious" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/7147772/pexels-photo-7147772.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Rough Diamonds">
+            <div class="card-body">
+              <h3>Diamonds</h3>
+              <p>India has a historic legacy with diamonds, with the famed Golconda mines being the source of legendary gems like the Koh-i-Noor. Today, the only active diamond mine in India is the Panna mine in Madhya Pradesh. While production is limited, India is the world's largest cutting and polishing hub for diamonds, with Surat in Gujarat processing the vast majority of the world's rough diamonds.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/618078/pexels-photo-618078.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Gold Bars">
+            <div class="card-body">
+              <h3>Gold</h3>
+              <p>Gold holds immense cultural and economic significance in India. Historically, the Kolar Gold Fields (KGF) in Karnataka were a major source. Currently, the Hutti Gold Mine in Karnataka is the primary producer of gold in the country. Despite modest domestic production, India is one of the largest consumers of gold in the world, driven by its use in jewellery and as an investment.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="industrial" class="category-content">
+        <div class="grid">
+            <div class="place">
+            <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Muscovite-292135.jpg/1280px-Muscovite-292135.jpg" alt="Mica Sheet">
+            <div class="card-body">
+              <h3>Mica</h3>
+              <p>India is the world's largest producer of sheet mica, an essential mineral known for its perfect cleavage and insulating properties. It is indispensable in the electrical and electronics industries. The primary reserves are located in the Koderma belt in Jharkhand and in parts of Andhra Pradesh and Rajasthan. India's dominance in the mica industry is a testament to its unique geological resources.</p>
+            </div>
+          </div>
+           <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/11993466/pexels-photo-11993466.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Limestone Quarry">
+            <div class="card-body">
+              <h3>Limestone</h3>
+              <p>Limestone is a crucial raw material for the cement industry, and is also used in steel manufacturing and chemical production. India has extensive deposits of high-grade limestone distributed across states like Rajasthan, Madhya Pradesh, Andhra Pradesh, and Gujarat. Its abundance has fueled the growth of India's massive cement industry, which is vital for infrastructure development.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="links" class="category-content">
+        <div class="grid">
+            <div class="place">
+                <div class="card-body">
+                    <h3>Ministry of Mines</h3>
+                    <p>The primary government body responsible for the survey, exploration, and administration of laws related to mines and minerals in India.</p>
+                    <div class="links">
+                        <a href="https://mines.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>Geological Survey of India</h3>
+                    <p>GSI is the principal organisation for providing basic earth science information. It is responsible for geological mapping and mineral resource assessment.</p>
+                    <div class="links">
+                        <a href="https://www.gsi.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>Indian Bureau of Mines</h3>
+                    <p>IBM is a multi-disciplinary government organisation engaged in the promotion of conservation, scientific development, and regulation of mines.</p>
+                    <div class="links">
+                        <a href="https://www.ibm.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="closeChatbot()" style="cursor: pointer;">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const mineralData = {
+      "Energy Minerals": ["coal", "lignite", "petroleum", "gas", "oil", "energy"],
+      "Metallic Minerals": ["iron", "steel", "bauxite", "aluminium", "copper"],
+      "Precious Minerals": ["diamond", "gold", "panna", "kgf", "kolar"],
+      "Industrial Minerals": ["mica", "limestone", "cement"]
+    };
+
+    function showContent(category) {
+      document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+    }
+
+    function getLocalAnswer(userQuestion) {
+      userQuestion = userQuestion.toLowerCase();
+      for (const [category, keywords] of Object.entries(mineralData)) {
+        for (const keyword of keywords) {
+          if (userQuestion.includes(keyword)) {
+            return `That relates to <strong>${category}</strong>. You can find more information in that section!`;
+          }
+        }
+      }
+      return null;
+    }
+
+    document.getElementById('chatbot-send').addEventListener('click', sendMessage);
+    document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById('chatbot-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById('chatbot-messages');
+      chat.innerHTML += `<div class="user-message"><b>You:</b> ${msg}</div>`;
+
+      const localAnswer = getLocalAnswer(msg);
+      if (localAnswer) {
+        chat.innerHTML += `<div class="bot-message"><b>Bot:</b> ${localAnswer}</div>`;
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+        return;
+      }
+
+      try {
+        const botDiv = document.createElement("div");
+        botDiv.className = "bot-message";
+        botDiv.innerHTML = "<b>Bot:</b> 🤖 Thinking...";
+        chat.appendChild(botDiv);
+        chat.scrollTop = chat.scrollHeight;
+
+        setTimeout(() => {
+          botDiv.innerHTML = `<b>Bot:</b> I can provide general information about India's mineral resources. Ask about coal, iron, gold, or diamonds!`;
+          chat.scrollTop = chat.scrollHeight;
+        }, 1000);
+
+      } catch {
+        chat.innerHTML += `<div class="bot-message">⚠️ Couldn’t connect to server</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function toggleChatbot() {
+      document.getElementById('chatbot-box').classList.toggle('active');
+    }
+    function closeChatbot() {
+      document.getElementById('chatbot-box').classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showContent('energy');
+    });
+  </script>
+</body>
+</html>

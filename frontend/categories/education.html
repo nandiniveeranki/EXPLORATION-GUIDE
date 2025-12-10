@@ -1,51 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Education - AI Exploration Guide</title>
-    <!-- Link to Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Link to your custom CSS (adjust path if needed) -->
-    <link rel="stylesheet" href="../css/style.css">
-    <!-- Bootstrap Icons (Optional, for arrow icon) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Education of India | AI Powered Guide</title>
+  <style>
+    :root {
+      --brand:#6a1b9a;
+      --brand-2:#8e24aa;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+      --accent:#e67e22;
+    }
+    body {
+      font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      margin:0; padding:0;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.6;
+    }
+    .container {
+      max-width:1100px;
+      margin:auto;
+      padding:20px;
+      text-align:center;
+    }
+    h1 {
+      color:var(--brand);
+      font-size:2.4rem;
+      margin:0 0 12px;
+    }
+    .lead {
+      font-size:1.2rem;
+      margin:0 auto 18px;
+      max-width:900px;
+    }
+    .button-container {
+      margin:20px 0;
+    }
+    .category-btn {
+      background:var(--brand);
+      color:#fff;
+      border:none;
+      padding:10px 20px;
+      margin:8px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      transition:transform .15s, background .2s;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+    }
+    .category-btn:hover {
+      background:var(--brand-2);
+      transform:translateY(-1px);
+    }
+    .content-card {
+      display:none;
+      background:var(--paper);
+      box-shadow:0 8px 20px rgba(0,0,0,.1);
+      border-radius:14px;
+      padding:20px;
+      margin:20px auto;
+      flex-direction:column;
+      align-items:center;
+    }
+    .content-card.active { display:flex; }
+    .place {
+      border:1px solid #ddd;
+      border-radius:12px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 4px 10px rgba(0,0,0,.12);
+      width:100%;
+      text-align:center;
+    }
+    .place img {
+      max-width:500px;
+      width:100%;
+      height:250px;
+      object-fit:cover;
+      border-radius:12px;
+      border:3px solid var(--brand);
+      margin-bottom:15px;
+    }
+    .card-body h3 { color:var(--brand); margin:10px 0; }
+    .card-body p { text-align:justify; }
+
+    /* Chatbot */
+    #chatbot-toggle {
+      position:fixed; bottom:30px; right:30px;
+      width:54px; height:54px;
+      border-radius:50%; border:none;
+      background:var(--brand); color:#fff;
+      font-size:22px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.2);
+      z-index:9999;
+    }
+    #chatbot-box {
+      position:fixed; bottom:100px; right:30px;
+      width:340px; background:#fff;
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(0,0,0,.18);
+      display:none; flex-direction:column;
+      overflow:hidden; z-index:10000;
+    }
+    #chatbot-box.active { display:flex; }
+    #chatbot-header {
+      background:var(--brand); color:#fff;
+      padding:12px 18px;
+      font-weight:bold;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    #chatbot-close { cursor:pointer; font-size:1.2em; }
+    #chatbot-messages {
+      padding:12px; height:200px; overflow-y:auto;
+      background:#f7f9fb; font-size:.95rem;
+    }
+    #chatbot-controls {
+      display:flex; border-top:1px solid #eee; padding:10px;
+      background:#fafafa;
+    }
+    #chatbot-input {
+      flex:1; padding:8px;
+      border:1px solid #ccc; border-radius:6px;
+      font-size:1em;
+    }
+    #chatbot-send {
+      background:var(--accent); color:#fff;
+      border:none; border-radius:6px;
+      padding:8px 14px; margin-left:8px;
+      cursor:pointer; font-weight:bold;
+    }
+    #chatbot-send:hover { background:var(--brand-2); }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <!-- Back Button -->
-        <div class="mb-4">
-            <!-- Link back to index.html and add a hash to tell JS to show categories section -->
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-        </div>
+  <div class="container">
+    <h1>Education of India</h1>
+    <p class="lead">
+      India has a vast and diverse education system, from ancient learning centers to modern universities, shaping innovation and global talent.
+    </p>
 
-        <h1 class="text-primary mb-4">Education in India</h1>
-        <p>India has many educational hubs with top institutions:</p>
-        <ul>
-            <li>Delhi – Delhi University, IIT Delhi</li>
-            <li>Bengaluru – IISc, IIIT-B</li>
-            <li>Hyderabad – IIT-H, BITS Pilani Hyderabad</li>
-        </ul>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpP3tErqCBP2c1dfR4Ay5-BNCdDJo5wD0FqA&usqp=CAU" class="img-fluid my-3" alt="Education">
-        
-        <!-- Example of a correct Google Maps Embed -->
-        <h3 class="mt-5 mb-3">Prominent Educational Institutions on Map</h3>
-        <p>Example: IIT Delhi, New Delhi</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-        <!-- Always replace the above iframe src with actual embed code for a relevant location -->
+    <div class="button-container">
+      <button class="category-btn" onclick="showContent('ancient')">Ancient Universities</button>
+      <button class="category-btn" onclick="showContent('modern')">Modern Institutions</button>
+      <button class="category-btn" onclick="showContent('global')">Global Impact</button>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Ancient -->
+    <div id="ancient" class="content-card">
+      <div class="place">
+        <img src="https://miro.medium.com/0%2AMXQbEb1VGh7LohPo" alt="Nalanda University (Bihar)">
+        <div class="card-body">
+          <h3>Nalanda University (Bihar)</h3>
+          <p>Nalanda University in Bihar, founded in the 5th century CE during the Gupta period, was one of the world’s first great residential universities and a symbol of India’s ancient intellectual heritage. It attracted scholars and students from across Asia, including China, Korea, Japan, Tibet, Mongolia, Sri Lanka, and Central Asia, who came to study diverse subjects such as philosophy, mathematics, astronomy, medicine, grammar, logic, and Buddhism. At its peak, Nalanda housed thousands of students and teachers, supported by a vast library complex known as Dharmaganja, which contained millions of manuscripts covering religion, science, arts, and literature. The university functioned not just as an educational hub but also as a global center for the exchange of ideas, blending Indian knowledge with international influences, and nurturing great scholars like Aryabhata, Dharmapala, and Xuanzang, the famous Chinese traveler who studied and taught there. Its extensive architectural remains, including monasteries and stupas spread across a massive campus, reflect the advanced planning and grandeur of the institution. Although it declined after repeated invasions, most notably its destruction by Bakhtiyar Khilji in the 12th century, Nalanda’s legacy endures as a beacon of knowledge and learning in ancient India, and its ruins are today recognized as a UNESCO World Heritage Site, symbolizing the universality of education and intellectual pursuit.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://images.hindustantimes.com/img/2021/08/11/1600x900/55db672e-fabf-11eb-bb60-041797e3592f_1628699610055.jpg" alt="Vikramashila University (Bihar)">
+        <div class="card-body">
+          <h3>Vikramashila University (Bihar)</h3>
+          <p>Vikramashila University, located in present-day Bihar, was established in the late 8th century CE by King Dharmapala of the Pala dynasty and became one of the most important centers of learning in ancient India, often regarded as a sister institution to Nalanda. It was founded to revive and strengthen Buddhist scholarship and monastic education, particularly in Tantric Buddhism, and soon attracted students and scholars from across India and neighboring countries like Tibet. At its height, Vikramashila housed thousands of monks and teachers, organized into a highly structured system with six main colleges and more than a hundred professors. The university’s vast curriculum included Buddhist philosophy, logic, grammar, metaphysics, medicine, astronomy, and law, making it a holistic educational hub. It gained fame for producing some of the greatest Buddhist scholars, including Atisha Dipankara, who later carried Buddhist teachings to Tibet, shaping Tibetan Buddhism for centuries. The architecture of Vikramashila was grand and well-planned, with a central stupa, monasteries, temples, lecture halls, and a huge library that preserved numerous manuscripts. However, like Nalanda, it was eventually destroyed in the 12th century during the invasions led by Bakhtiyar Khilji, which caused a devastating loss to Indian and world heritage. Today, the ruins at Antichak in Bhagalpur district stand as a reminder of its glorious past, and Vikramashila remains a symbol of India’s scholarly excellence and its role as a global center of Buddhist education.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://gisresources.com/wp-content/uploads/2025/01/Ancient-Valabhi-Town-in-Gujarat.jpg" alt="Valabhi University (Gujarat)">
+        <div class="card-body">
+          <h3>Valabhi University (Gujarat)</h3>
+          <p>Valabhi University, located in present-day Gujarat, was a renowned seat of learning in western India between the 6th and 12th centuries CE, flourishing under the Maitraka dynasty. It emerged as a parallel institution to Nalanda in eastern India and gained high reputation as a center for Buddhist studies, particularly Hinayana and Mahayana traditions, while also imparting knowledge in secular subjects like political science, administration, economics, logic, medicine, law, and literature. At its height, Valabhi attracted students and scholars from all over India and neighboring regions, earning recognition from both Indian and foreign chroniclers for its intellectual contributions. The university produced many skilled administrators, teachers, and Buddhist scholars who later played key roles in spreading Buddhist teachings across Asia. Its liberal curriculum and emphasis on practical as well as spiritual learning made it a unique institution, preparing individuals for both governance and monastic life. However, like many other ancient universities, Valabhi’s prominence declined after repeated invasions and political instability in the region by the 12th century, leading to its eventual disappearance. Despite its decline, Valabhi University is remembered as a major hub of learning that helped shape India’s educational and cultural legacy in the early medieval period.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://images.openai.com/thumbnails/url/YQCV4nicu1mUUVJSUGylr5-al1xUWVCSmqJbkpRnoJdeXJJYkpmsl5yfq5-Zm5ieWmxfaAuUsXL0S7F0Tw5yNbTIDQs2C8vytkwJL_f0K3QNcvPJ8_IN9U5Ojg83cPN3sUzz8ahIL3ZK93cPjAh21PUwLnePzy9SKwYApDIoUw" alt="Nalanda Mahavihara’s Sister Institutions">
+        <div class="card-body">
+          <h3>Nalanda Mahavihara’s Sister Institutions</h3>
+          <p>Nalanda Mahavihara’s sister institutions—Vikramashila, Valabhi, Odantapuri, and Jagaddala—were great centers of Buddhist learning that, along with Nalanda, formed a vast intellectual and spiritual network across ancient India between the 6th and 12th centuries CE. Established mainly under the patronage of the Gupta and Pala dynasties, they specialized in different streams of Buddhist philosophy—Nalanda in Mahayana, Vikramashila in Tantric traditions, Valabhi in both Hinayana and Mahayana along with secular studies, Odantapuri in Mahayana, and Jagaddala in Vajrayana—while also teaching subjects like logic, medicine, astronomy, law, politics, and literature. These institutions attracted thousands of students and scholars from India and abroad, producing legendary teachers such as Atisha Dipankara, and played a key role in transmitting Buddhist thought to Tibet, China, Sri Lanka, and Southeast Asia. Their libraries, monasteries, and structured curriculums reflected India’s advanced educational system, but most were eventually destroyed during the 12th-century invasions, leading to a tragic loss of knowledge. Despite their decline, these sister universities remain symbols of India’s golden age of learning, global cultural exchange, and the universality of education.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://seawatersports.com/images/places/nalanda.jpg" alt="Odantapuri University (Bihar)">
+        <div class="card-body">
+          <h3>Odantapuri University (Bihar)</h3>
+          <p>Odantapuri University, located at Bihar Sharif in Bihar, was one of the earliest Buddhist universities of ancient India and a sister institution to Nalanda, founded in the 8th century CE by the Pala king Gopala. It quickly rose to prominence as a stronghold of Mahayana Buddhism and became an important center for the study of Buddhist philosophy, scriptures, and monastic traditions, while also imparting knowledge in logic, grammar, medicine, and other sciences. The university is believed to have housed thousands of monks and students, with a sprawling campus of monasteries, temples, and lecture halls, and was often compared to Nalanda in scale and influence. Scholars from different parts of India and neighboring regions such as Tibet came to Odantapuri, and it played a significant role in the spread of Buddhism across the Himalayas, leaving a lasting impact on Tibetan monastic education. Like Nalanda and Vikramashila, however, Odantapuri too faced destruction in the late 12th century during the invasions of Bakhtiyar Khilji, leading to a devastating loss of manuscripts, art, and heritage. Today, though little remains of its structures, Odantapuri is remembered as one of the five great universities of the Pala period, symbolizing India’s golden age of Buddhist learning and its contribution to global intellectual traditions.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modern -->
+    <div id="modern" class="content-card hidden">
+      <div class="place">
+        <img src="https://mrane.com/wp-content/uploads/2016/10/iitmap_cover.jpg" alt="IIT Bombay">
+        <div class="card-body">
+          <h3>IIT Bombay</h3>
+          <p>IIT Bombay, established in 1958 in Powai, Mumbai, is one of India’s premier institutes of higher education and research in science, engineering, design, and management, and is recognized as an Institute of National Importance. It was the second IIT to be founded, set up with assistance from UNESCO and the Soviet Union, and has since grown into a globally reputed institution known for academic excellence, cutting-edge research, and innovation. IIT Bombay offers undergraduate, postgraduate, and doctoral programs across disciplines such as engineering, technology, pure sciences, management, and humanities, while its strong emphasis on research has led to major contributions in fields like AI, nanotechnology, clean energy, and sustainable development. The institute is home to vibrant research centers, state-of-the-art laboratories, and incubators such as the Society for Innovation and Entrepreneurship (SINE), which have nurtured numerous startups and innovations. With a lush 550-acre campus in Powai featuring lakes, hills, and greenery, IIT Bombay provides not only world-class academics but also rich cultural, technical, and entrepreneurial opportunities through festivals like Mood Indigo and Techfest, among the largest in Asia. Its alumni network is spread across the globe, with graduates excelling as entrepreneurs, industry leaders, scientists, academicians, and policymakers. Today, IIT Bombay consistently ranks among the top universities in India and Asia, standing as a symbol of modern India’s scientific and technological progress and its role in shaping future global leaders.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://i.ytimg.com/vi/0XwnYARvZZE/maxresdefault.jpg" alt="IIT Delhi">
+        <div class="card-body">
+          <h3>IIT Delhi</h3>
+          <p>IIT Delhi, established in 1961 and located in Hauz Khas, New Delhi, is one of India’s most prestigious institutions for higher education and research in science, engineering, design, and management, and has been declared an Institute of National Importance as well as an Institution of Eminence. Built on a sprawling 320-acre campus surrounded by historical monuments like the Qutub Minar, IIT Delhi has become a hub of innovation, multidisciplinary learning, and global collaboration. The institute offers undergraduate, postgraduate, and doctoral programs across a wide range of disciplines, with a strong emphasis on research in areas such as artificial intelligence, clean energy, robotics, biotechnology, materials science, and policy studies. It hosts over 40 academic centers and specialized research hubs, many of which partner with leading international universities, industries, and government agencies to tackle global challenges. Known for its culture of entrepreneurship, IIT Delhi supports startups and innovation through FITT (Foundation for Innovation and Technology Transfer) and its dedicated incubation centers. The vibrant student life is reflected in its celebrated events like Rendezvous, one of India’s biggest cultural festivals, and Tryst, a leading technical festival. With a strong alumni base spread across the world, including entrepreneurs, CEOs, scientists, and policymakers, IIT Delhi plays a vital role in shaping India’s technological and economic landscape, consistently ranking among the top institutes in Asia and the world as a beacon of knowledge, research, and innovation.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://colleges18.s3.ap-south-1.amazonaws.com/All_India_Institute_of_Medical_Sciences_AIIMS_New_Delhi_2_59e6c849b3.jpg" alt="AIIMS Delhi">
+        <div class="card-body">
+          <h3>AIIMS Delhi</h3>
+          <p>AIIMS Delhi, or the All India Institute of Medical Sciences, New Delhi, established in 1956, is India’s premier medical institute, hospital, and research center, consistently ranked among the best in Asia for medical education and healthcare. Set up through an Act of Parliament and supported by the Government of India with assistance from New Zealand, AIIMS was envisioned as a center of excellence in medical training, patient care, and cutting-edge research. It offers undergraduate (MBBS, B.Sc.), postgraduate (MD, MS, M.Ch, DM), doctoral, and super-specialty programs, attracting the brightest minds from across the country. AIIMS is renowned not only for its rigorous academics but also for its advanced medical research in fields like oncology, cardiology, neurology, genomics, stem cell therapy, and public health. With its 2,000+ bedded hospital, state-of-the-art labs, and specialized centers such as the Dr. B.R. Ambedkar Institute Rotary Cancer Hospital, Centre for Neurosciences, and Centre for Dental Education and Research, it provides world-class healthcare at affordable costs, serving millions of patients annually. Beyond academics and patient care, AIIMS Delhi has played a pivotal role in shaping India’s medical policies, training top doctors, and advancing innovations in healthcare delivery. Its faculty and alumni are globally recognized for their contributions to medicine, and many have held leadership positions in national and international health organizations. Today, AIIMS Delhi stands not just as a hospital or college but as a symbol of excellence in medical education, research, and public health service, making it the heartbeat of India’s healthcare system.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Tifr_main.jpg" alt="Tata Institute of Fundamental Research (TIFR), Mumbai">
+        <div class="card-body">
+          <h3>Tata Institute of Fundamental Research (TIFR), Mumbai</h3>
+          <p>The Tata Institute of Fundamental Research (TIFR), Mumbai, founded in 1945 by the visionary industrialist J.R.D. Tata and the renowned physicist Homi J. Bhabha, is one of India’s leading research institutions dedicated to advanced studies in mathematics, natural sciences, biological sciences, computer science, and theoretical physics. Located at Colaba, Mumbai, with branches in Pune, Bangalore, and Hyderabad, TIFR is often considered the cradle of India’s modern scientific research and a key institution behind the nation’s atomic energy and space programs. It functions directly under the Department of Atomic Energy, Government of India, and is a deemed university recognized for its excellence in doctoral and postdoctoral research training. TIFR has been home to groundbreaking discoveries and contributions in fields such as string theory, nuclear physics, astrophysics, condensed matter physics, pure mathematics, and computational sciences. The institute also operates large national facilities like the Giant Metrewave Radio Telescope (GMRT) near Pune and has significantly contributed to India’s space exploration and high-energy physics experiments. With a strong interdisciplinary approach, vibrant academic culture, and world-class laboratories, TIFR continues to attract some of the brightest researchers from India and abroad. Its lush seaside campus in Mumbai not only provides a serene environment for scientific inquiry but also fosters collaboration and innovation, making TIFR a cornerstone of India’s research ecosystem and a globally respected hub of knowledge creation and scientific excellence.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://apnaaddafest.in/blog/content/images/2024/02/jnu3_out.jpg" alt="Jawaharlal Nehru University (JNU), Delhi">
+        <div class="card-body">
+          <h3>Jawaharlal Nehru University (JNU), Delhi</h3>
+          <p>The Jawaharlal Nehru University (JNU), Delhi, established in 1969, is one of India’s foremost universities, renowned for its excellence in postgraduate teaching, research, and intellectual discourse across humanities, social sciences, international studies, sciences, and technology. Named after India’s first Prime Minister, it was envisioned as a hub of critical thinking, progressive ideas, and multidisciplinary education. Located in South Delhi on a 1,000-acre campus surrounded by the Aravalli hills, JNU is home to several specialized schools such as the School of International Studies, School of Language, Literature and Culture Studies, School of Social Sciences, and the School of Life Sciences, along with advanced research centers in areas like nanoscience, biotechnology, and computational systems. The university has consistently ranked among the top institutions in India and has earned global recognition for its academic rigor and vibrant intellectual environment. Known for its democratic student culture, open debates, and socially engaged campus life, JNU has produced many distinguished alumni including academics, diplomats, scientists, writers, policymakers, and political leaders. It has also been at the forefront of policy research, international relations, and linguistic studies, making significant contributions to both scholarship and governance. With its strong emphasis on critical inquiry, inclusivity, and public service, JNU remains not just a university but a symbol of India’s academic freedom, diversity, and thought leadership on the global stage.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://www.isical.ac.in/sites/default/files/center/ISI%20Main%20Gate_0.jpg" alt="Indian Statistical Institute (ISI), Kolkata">
+        <div class="card-body">
+          <h3>Indian Statistical Institute (ISI), Kolkata</h3>
+          <p>The Indian Statistical Institute (ISI), Kolkata, founded in 1931 by the legendary statistician Prasanta Chandra Mahalanobis, is a premier institution dedicated to research, teaching, and application of statistics, mathematics, computer science, economics, and related disciplines. Headquartered in Kolkata with centers in Delhi, Bangalore, Chennai, and Tezpur, ISI is recognized as an Institution of National Importance and functions under the Ministry of Statistics and Programme Implementation, Government of India. Originally established to promote statistical studies and its applications in national planning, industry, and research, ISI has played a pivotal role in shaping India’s statistical system, including the development of large-scale sample surveys and the National Sample Survey Organization (NSSO). The institute offers highly competitive undergraduate, postgraduate, and doctoral programs, producing some of the finest statisticians, mathematicians, economists, and computer scientists in the country. With a strong emphasis on both theoretical and applied research, ISI has contributed significantly to fields like probability theory, operations research, quantitative economics, artificial intelligence, and machine learning. It also collaborates with industries, government agencies, and international organizations, applying advanced statistical methods to solve real-world problems. Known for its rigorous academic standards, world-class faculty, and a tradition of excellence, ISI continues to be a global leader in statistical education and research, carrying forward Mahalanobis’s vision of blending mathematics with practical applications to serve society and policy-making.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global -->
+    <div id="global" class="content-card hidden">
+       <div class="place">
+        <img src="https://shikshahub.com/uploads/sliders/7899b6ce1632bec6848fca6606b8b2be.jpg" alt="Indian Institute of Science (IISc), Bengaluru">
+        <div class="card-body">
+          <h3>Indian Institute of Science (IISc), Bengaluru</h3>
+          <p>
+            The Indian Institute of Science (IISc), Bengaluru, established in 1909 through the joint vision of Jamsetji Tata, the Maharaja of Mysore, and the Government of India, is India’s premier institution for advanced scientific and technological research and higher education. Often regarded as the “cradle of science in India,” IISc has consistently ranked as the nation’s top university and is globally recognized for excellence in science, engineering, design, and interdisciplinary studies. Its lush 400-acre campus in Bengaluru hosts over 40 departments and centers, covering fields such as aerospace, materials science, nanotechnology, computational and data sciences, climate studies, biotechnology, and sustainable energy. The institute is at the forefront of cutting-edge research, fostering innovation, and contributing to India’s technological growth through collaborations with industries, government bodies, and international universities. IISc’s rigorous academic programs—ranging from undergraduate research-based degrees to doctoral studies—attract some of the brightest minds from across the country. Alumni of IISc have gone on to become distinguished scientists, engineers, entrepreneurs, and policy leaders, driving advancements in both academia and industry. Beyond academics, IISc is also home to state-of-the-art research facilities, national laboratories, and incubation centers, making it a hub for scientific breakthroughs and innovation. With its blend of tradition, world-class research, and futuristic vision, IISc Bengaluru stands as a symbol of India’s quest for knowledge, discovery, and global scientific leadership.
+          </p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://mrane.com/wp-content/uploads/2016/10/iitmap_cover.jpg" alt="IIT Bombay">
+        <div class="card-body">
+          <h3>IIT Bombay</h3>
+          <p>
+            IIT Bombay, established in 1958 in Powai, Mumbai, is one of India’s premier institutes of higher education and research in science, engineering, design, and management, and is recognized as an Institute of National Importance. It was the second IIT to be founded, set up with assistance from UNESCO and the Soviet Union, and has since grown into a globally reputed institution known for academic excellence, cutting-edge research, and innovation. IIT Bombay offers undergraduate, postgraduate, and doctoral programs across disciplines such as engineering, technology, pure sciences, management, and humanities, while its strong emphasis on research has led to major contributions in fields like AI, nanotechnology, clean energy, and sustainable development. The institute is home to vibrant research centers, state-of-the-art laboratories, and incubators such as the Society for Innovation and Entrepreneurship (SINE), which have nurtured numerous startups and innovations. With a lush 550-acre campus in Powai featuring lakes, hills, and greenery, IIT Bombay provides not only world-class academics but also rich cultural, technical, and entrepreneurial opportunities through festivals like Mood Indigo and Techfest, among the largest in Asia. Its alumni network is spread across the globe, with graduates excelling as entrepreneurs, industry leaders, scientists, academicians, and policymakers. Today, IIT Bombay consistently ranks among the top universities in India and Asia, standing as a symbol of modern India’s scientific and technological progress and its role in shaping future global leaders          </p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://i.ytimg.com/vi/0XwnYARvZZE/maxresdefault.jpg" alt="IIT Delhi">
+        <div class="card-body">
+          <h3>IIT Delhi</h3>
+          <p>
+            IIT Delhi, established in 1961 and located in Hauz Khas, New Delhi, is one of India’s most prestigious institutions for higher education and research in science, engineering, design, and management, and has been declared an Institute of National Importance as well as an Institution of Eminence. Built on a sprawling 320-acre campus surrounded by historical monuments like the Qutub Minar, IIT Delhi has become a hub of innovation, multidisciplinary learning, and global collaboration. The institute offers undergraduate, postgraduate, and doctoral programs across a wide range of disciplines, with a strong emphasis on research in areas such as artificial intelligence, clean energy, robotics, biotechnology, materials science, and policy studies. It hosts over 40 academic centers and specialized research hubs, many of which partner with leading international universities, industries, and government agencies to tackle global challenges. Known for its culture of entrepreneurship, IIT Delhi supports startups and innovation through FITT (Foundation for Innovation and Technology Transfer) and its dedicated incubation centers. The vibrant student life is reflected in its celebrated events like Rendezvous, one of India’s biggest cultural festivals, and Tryst, a leading technical festival. With a strong alumni base spread across the world, including entrepreneurs, CEOs, scientists, and policymakers, IIT Delhi plays a vital role in shaping India’s technological and economic landscape, consistently ranking among the top institutes in Asia and the world as a beacon of knowledge, research, and innovation.
+          </p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://colleges18.s3.ap-south-1.amazonaws.com/All_India_Institute_of_Medical_Sciences_AIIMS_New_Delhi_2_59e6c849b3.jpg" alt="AIIMS Delhi">
+        <div class="card-body">
+          <h3>AIIMS Delhi</h3>
+          <p>
+            AIIMS Delhi, or the All India Institute of Medical Sciences, New Delhi, established in 1956, is India’s premier medical institute, hospital, and research center, consistently ranked among the best in Asia for medical education and healthcare. Set up through an Act of Parliament and supported by the Government of India with assistance from New Zealand, AIIMS was envisioned as a center of excellence in medical training, patient care, and cutting-edge research. It offers undergraduate (MBBS, B.Sc.), postgraduate (MD, MS, M.Ch, DM), doctoral, and super-specialty programs, attracting the brightest minds from across the country. AIIMS is renowned not only for its rigorous academics but also for its advanced medical research in fields like oncology, cardiology, neurology, genomics, stem cell therapy, and public health. With its 2,000+ bedded hospital, state-of-the-art labs, and specialized centers such as the Dr. B.R. Ambedkar Institute Rotary Cancer Hospital, Centre for Neurosciences, and Centre for Dental Education and Research, it provides world-class healthcare at affordable costs, serving millions of patients annually. Beyond academics and patient care, AIIMS Delhi has played a pivotal role in shaping India’s medical policies, training top doctors, and advancing innovations in healthcare delivery. Its faculty and alumni are globally recognized for their contributions to medicine, and many have held leadership positions in national and international health organizations. Today, AIIMS Delhi stands not just as a hospital or college but as a symbol of excellence in medical education, research, and public health service, making it the heartbeat of India’s healthcare system.
+          </p>
+        </div>
+      </div>
+      <div class="place">
+        <img src="https://www.admissionmba.in/wp-content/uploads/2020/10/IIMA-Campus-Experience.jpg.webp" alt="IIM Ahmedabad (IIM-A)">
+        <div class="card-body">
+          <h3>IIM Ahmedabad (IIM-A)</h3>
+          <p>
+            The Indian Institute of Management Ahmedabad (IIM-A), established in 1961 with the support of the Government of India, the Government of Gujarat, Harvard Business School, and industry leaders, is India’s premier business school and one of the most respected management institutes globally. Renowned for its rigorous academic curriculum, case-based pedagogy, and world-class faculty, IIM-A has consistently ranked among the top management schools in Asia and the world. Its iconic red-brick campus, designed by the famous American architect Louis Kahn, symbolizes both tradition and modernity, fostering an environment of innovation and leadership. IIM-A offers a range of programs including the flagship Post Graduate Programme in Management (PGP), the Post Graduate Programme in Food and Agribusiness Management (PGP-FABM), executive programs, and doctoral research opportunities, all designed to nurture decision-making, problem-solving, and entrepreneurial skills. With strong ties to industry, government, and international institutions, IIM-A plays a pivotal role in shaping business practices and public policy in India. Its alumni network includes some of the most influential leaders, entrepreneurs, policymakers, and academics across the globe. Beyond academics, IIM-A has contributed significantly to areas such as rural development, public systems, healthcare management, and global business strategy. Recognized for excellence, integrity, and impact, IIM Ahmedabad continues to stand as a benchmark for management education, producing leaders who drive innovation, growth, and societal progress.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot -->
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="toggleChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something...">
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Toggle categories
+    function showContent(id) {
+      document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+    document.addEventListener("DOMContentLoaded", () => showContent('ancient'));
+
+    // Toggle chatbot
+    function toggleChatbot() {
+      document.getElementById("chatbot-box").classList.toggle("active");
+    }
+
+    // Education context
+    const eduPlaces = {
+      "Ancient Universities": ["Nalanda", "Takshashila", "Vikramashila"],
+      "Modern Institutions": ["IIT Bombay", "IIT Delhi", "AIIMS", "ISI", "IIM Ahmedabad"]
+    };
+
+    function isEduQuery(q) {
+      const keywords = ["education","university","college","iit","iim","aiims","school","nalanda","takshashila"];
+      return keywords.some(k => q.toLowerCase().includes(k));
+    }
+
+    function buildPrompt(userMessage) {
+      let context = "Answer only based on Indian Education system:\n";
+      for (const [cat, items] of Object.entries(eduPlaces)) {
+        context += `- ${cat}: ${items.join(", ")}\n`;
+      }
+      context += `\nQuestion: ${userMessage}\nAnswer:`;
+      return context;
+    }
+
+    // Chatbot logic
+    document.getElementById("chatbot-send").addEventListener("click", sendMessage);
+    document.getElementById("chatbot-input").addEventListener("keypress", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById("chatbot-input");
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById("chatbot-messages");
+      chat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+
+      let payload = isEduQuery(msg) ? { message: buildPrompt(msg) } : { message: msg };
+
+      try {
+        const res = await fetch("http://localhost:5000/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        chat.innerHTML += `<div><b>Bot:</b> ${data.reply}</div>`;
+      } catch {
+        chat.innerHTML += `<div><b>Bot:</b> ⚠️ Could not connect to server.</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+  <script src="js/bookmark.js"></script>
+  <script src="js/search.js"></script>
+
 </body>
 </html>

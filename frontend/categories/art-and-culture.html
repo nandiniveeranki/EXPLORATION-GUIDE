@@ -1,49 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art and Culture - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-<body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
-        </div>
 
-        <h1 class="text-info mb-4">Art and Culture in India</h1>
-        <p>India is a land of rich artistic and cultural heritage, diverse traditions, and vibrant expressions.</p>
-        
-        <h3 class="mt-4">Key Aspects and Locations:</h3>
-        <ul>
-            <li><strong>Classical Dances:</strong> Bharatanatyam (Tamil Nadu), Kuchipudi (Andhra Pradesh - Tenali, Vijayawada area), Kathak (North India), Odissi (Odisha).</li>
-            <li><strong>Traditional Arts & Crafts:</strong> Kalamkari (Andhra Pradesh - Srikalahasti, Machilipatnam), Madhubani painting (Bihar), Warli painting (Maharashtra).</li>
-            <li><strong>Festivals:</strong> Diwali (nationwide), Holi (nationwide), Onam (Kerala), Pongal (Tamil Nadu), Ugadi (Andhra Pradesh, Telangana, Karnataka).</li>
-            <li><strong>Music:</strong> Hindustani Classical (North India), Carnatic Classical (South India - Chennai, Thanjavur).</li>
-        </ul>
-        <img src="https://via.placeholder.com/800x450?text=Indian+Art+and+Culture" class="img-fluid my-3" alt="Indian Art and Culture">
-        
-        <h3 class="mt-5 mb-3">Cultural Hubs on Map</h3>
-        <p>Example: Srikalahasti, Andhra Pradesh (Kalamkari Art)</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art & Culture | AI Powered Guide</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
+
+  <style>
+    :root {
+      --brand:#6a1b9a;
+      --brand-2:#8e24aa;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+      --accent:#e67e22;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    h1,h2,h3 { color: var(--ink); }
+
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+    }
+
+    .category-bar, .button-container {
+      text-align:center; padding: 8px 10px 20px;
+    }
+
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      border: none;
+    }
+
+    .category-btn:hover { background: var(--brand-2); transform: translateY(-1px); }
+
+    .content-card {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+
+    .content-card.active, .content-card:not(.hidden) {
+      display: block;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .thumb {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 500px;
+      height: 250px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    .hidden { display: none; }
+
+    /* ✅ Chatbot */
+    #chatbot-box {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 340px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10000;
+    }
+
+    #chatbot-box.active { display: flex; }
+
+    #chatbot-header {
+      background: var(--brand);
+      color: #fff;
+      padding: 12px 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #chatbot-close {
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+
+    #chatbot-messages {
+      padding: 16px;
+      height: 180px;
+      overflow-y: auto;
+      background: #f7f9fb;
+      font-size: 1em;
+    }
+
+    #chatbot-controls {
+      display: flex;
+      border-top: 1px solid #eee;
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    #chatbot-input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      margin-right: 8px;
+    }
+
+    #chatbot-send {
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background .2s;
+    }
+
+    #chatbot-send:hover { background: var(--brand-2); }
+
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      z-index: 9999;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Art & Culture of India</h1>
+    <p class="lead">India’s rich art and culture reflect its deep traditions, creativity, and heritage.</p>
+
+    <div class="button-container">
+      <button class="category-btn" onclick="showContent('dance')">Classical Dance</button>
+      <button class="category-btn" onclick="showContent('music')">Traditional Music</button>
+      <button class="category-btn" onclick="showContent('paintings')">Paintings</button>
+    </div>
+    <!-- Classical Dance -->
+    <div id="dance" class="content-card hidden">
+      <div class="place">
+        <img class="thumb" src="https://www.shutterstock.com/image-photo/young-beautiful-woman-dancer-exponent-600nw-160348796.jpg" alt="Bharatanatyam (Tamil Nadu)">
+        <div class="card-body">
+          <h3>Bharatanatyam (Tamil Nadu)</h3>
+          <p>Bharatanatyam, one of the oldest and most revered classical dance forms of India, originates from Tamil Nadu and has its roots in the Natya Shastra, the ancient Sanskrit text on performing arts. Traditionally performed in temples as an offering to deities, it is considered a form of bhakti (devotion) that combines intricate footwork, graceful body movements, and expressive gestures (mudras) to narrate stories from Hindu epics like the Ramayana, Mahabharata, and Puranas. The dance is known for its geometric postures, strong rhythmic patterns, and the powerful use of facial expressions (abhinaya) to convey emotions. Bharatanatyam performances are accompanied by Carnatic music, with the dancer interpreting the lyrics through movement and expression. Over time, while moving from temples to stage performances, it has retained its spiritual essence and continues to symbolize the rich cultural and devotional heritage of Tamil Nadu.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://media.istockphoto.com/id/136561314/photo/indian-dance.jpg?s=612x612&w=0&k=20&c=q7dWhROyalDuBX4eVssJ0bdSQNQDl0XUYaRH-BhE9KY=" alt="Kathakali (Kerala)">
+        <div class="card-body">
+          <h3>Kathakali (Kerala)</h3>
+          <p>Kathakali, a classical dance-drama from Kerala, is renowned for its elaborate costumes, striking makeup, and powerful storytelling rooted in Hindu epics like the Ramayana and Mahabharata. Traditionally performed in temples and at cultural festivals, Kathakali combines dance, music, and acting to depict tales of gods, demons, and heroes with great intensity. The art form is distinguished by its vibrant facial makeup called chutti, massive headgear, colorful costumes, and intricate hand gestures (mudras), all of which help convey complex emotions and narratives without spoken words. Accompanied by percussion instruments like the chenda and maddalam, and vocalists who sing verses in Malayalam or Sanskrit, the dancer expresses emotions through highly stylized facial movements and dramatic eye expressions. More than just entertainment, Kathakali is a spiritual and cultural tradition that reflects Kerala’s artistic depth and continues to fascinate audiences worldwide with its grandeur and devotion.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://t3.ftcdn.net/jpg/04/64/66/34/240_F_464663425_v5Lp8JqA1dfciwy6fxQnRxdTYkDltoBg.jpg" alt="Kuchipudi (Andhra Pradesh)">
+        <div class="card-body">
+          <h3>Kuchipudi (Andhra Pradesh)</h3>
+          <p>Kuchipudi, a classical dance form from Andhra Pradesh, is celebrated for its graceful movements, rhythmic patterns, and expressive storytelling. Originating as a devotional dance-drama tradition in the village of Kuchipudi, it was initially performed by male dancers in temples as an offering to the deities, narrating stories from Hindu epics like the Ramayana, Mahabharata, and the Bhagavata Purana. Over time, it evolved into a stage art embraced by both men and women, combining fast footwork, fluid body movements, and expressive hand gestures (mudras) with rich facial expressions (abhinaya) to convey emotions and mythological tales. Unique elements of Kuchipudi include dramatic narration, musical accompaniment with Carnatic ragas, and the famous balancing act of dancing on the rim of a brass plate. Today, Kuchipudi retains its devotional roots while thriving as a refined cultural performance that represents the artistic heritage of Andhra Pradesh.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://t3.ftcdn.net/jpg/05/67/05/50/240_F_567055095_6de3IjcZKYs3QWqpOHmJy5EqRjRCezKb.jpg" alt="Odissi (Odisha)">
+        <div class="card-body">
+          <h3>Odissi (Odisha)</h3>
+          <p>Odissi, the classical dance form of Odisha, is one of the oldest surviving dance traditions of India, with roots tracing back to temple rituals and devotional performances dedicated to Lord Jagannath. Known for its fluid grace, sculptural poses, and spiritual expression, Odissi blends intricate footwork with elegant torso movements and expressive gestures (mudras). Unlike other classical forms, it emphasizes the tribhangi (three-bend posture of the head, torso, and hip) and chauka (a square-like stance symbolizing Lord Jagannath), which give the dance its distinct aesthetic. Traditionally performed by maharis (female temple dancers) as an offering, Odissi narrates stories from Hindu scriptures like the Gita Govinda of Jayadeva, highlighting themes of devotion, love, and divine union. Accompanied by Odissi music—a blend of classical ragas and local folk tunes—the dance is both spiritual and highly artistic, symbolizing Odisha’s rich cultural and religious heritage while captivating audiences worldwide with its lyrical beauty.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://media.gettyimages.com/id/1247771971/photo/nabadwip-india-raash-dance-which-depicts-the-story-of-radha-krishna-is-performed-by-manipuri.jpg?s=612x612&w=0&k=20&c=jl7vhQlcAKMHiYAEYaRSHB33FEX74p0Mi_rXzHrcU04=" alt="Manipuri (Manipur)">
+        <div class="card-body">
+          <h3>Manipuri (Manipur)</h3>
+          <p>Manipuri, the classical dance form of Manipur, is a graceful and devotional tradition deeply rooted in the region’s Vaishnavite culture. Known for its gentle, flowing movements, rounded gestures, and spiritual expression, Manipuri is often performed as an act of devotion to Lord Krishna and Radha, with themes centered on the Ras Leela and other stories from the Bhagavata Purana. Unlike other Indian classical dances that emphasize strong rhythms and sharp footwork, Manipuri is soft, fluid, and lyrical, creating an almost ethereal effect. Dancers wear elaborate traditional costumes—women in cylindrical skirts (potloi) with translucent veils, and men in dhotis—enhancing the visual beauty of the performance. Music is provided by instruments like the pung (drum), cymbals, and flute, blending seamlessly with the devotional mood. More than just an art form, Manipuri reflects the spiritual ethos and cultural identity of Manipur, celebrated for its elegance, serenity, and divine storytelling.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://media.gettyimages.com/id/481570288/photo/mohiniyattam.jpg?s=612x612&w=0&k=20&c=hTrjKUdlbKKgXa39Zr_GRdOk7WZ5Ar1aSCMC8wXyCJc=" alt="Mohiniyattam (Kerala)">
+        <div class="card-body">
+          <h3>Mohiniyattam (Kerala)</h3>
+          <p>Mohiniyattam, a classical dance form from Kerala, is renowned for its graceful, feminine style and devotional essence. The name derives from Mohini, the enchantress avatar of Lord Vishnu, symbolizing beauty and divine charm. Traditionally performed as a solo recital by women in temples, Mohiniyattam blends slow, swaying movements of the body with delicate footwork, soft hand gestures (mudras), and expressive facial emotions (abhinaya) to convey themes of love and devotion, often centered on Lord Vishnu and Krishna. The dance is characterized by its elegant circular movements, calm rhythm, and flowing style that mirrors the gentle swaying of palm trees and rippling backwaters of Kerala. Performers wear a distinctive white or off-white sari with golden borders, enhancing the serene and spiritual mood of the performance. Accompanied by Carnatic music in Malayalam or Sanskrit, Mohiniyattam represents the graceful and devotional spirit of Kerala’s artistic heritage, captivating audiences with its charm and subtle beauty.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://media.gettyimages.com/id/957563962/photo/indian-dancers-satya-nath-borah-and-sorbananda-dowaria-perform-female-roles-with-the-all-male.jpg?s=612x612&w=0&k=20&c=cff0_FSBx7cfInNr7SFEVvmExqcE2EYNh4z73QPu0o4=" alt="Sattriya (Assam)">
+        <div class="card-body">
+          <h3>Sattriya (Assam)</h3>
+          <p>Sattriya, the classical dance form of Assam, is a devotional art that originated in the 15th–16th century within the Vaishnavite monasteries (sattras) established by the saint and reformer Srimanta Sankardev. Initially performed by male monks as part of religious rituals, the dance was a medium to spread the teachings of bhakti and narrate episodes from the Bhagavata Purana and the life of Lord Krishna. Over time, Sattriya evolved into a refined classical tradition now performed by both men and women on stage. It is characterized by graceful yet disciplined movements, rhythmic footwork, expressive hand gestures (mudras), and dramatic storytelling (abhinaya), often presented in the form of dance-dramas. The costumes are traditionally made of Assamese silk, with women wearing the mekhela chador and men in dhotis, and the performances are accompanied by devotional music played on instruments like the khol (drum), bortaal (cymbals), and flute. Recognized as one of the eight classical dances of India, Sattriya beautifully reflects Assam’s spiritual heritage, blending art with devotion and culture.</p>
+        </div>
+      </div>
+      
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Traditional Music -->
+    <div id="music" class="content-card hidden">
+      <div class="place">
+        <h3>Hindustani Classical Music (North India)</h3>
+        <img src="https://t4.ftcdn.net/jpg/14/81/20/61/240_F_1481206128_kAJSjtczGoH8alPOjGaIbAyFL4CrpdMx.jpg" alt="Hindustani Music" class="thumb">
+        <p>Hindustani Classical Music, the traditional art form of North India, is one of the two major streams of Indian classical music, the other being Carnatic music of the South. Evolving from the Vedic chants and deeply influenced by Persian and Mughal traditions, it emphasizes improvisation and the exploration of ragas (melodic frameworks) and talas (rhythmic cycles). Performances are highly expressive, often beginning with a slow, meditative alap that introduces the raga, gradually building into faster and more intricate patterns. Vocal music is central, with forms like dhrupad, khayal, thumri, and tappa, while instrumental traditions highlight instruments such as the sitar, sarod, tabla, and bansuri. Known for its spiritual depth and emotional richness, Hindustani music is not just entertainment but also a meditative experience, seeking to evoke rasa (aesthetic emotion) and connect the listener to the divine. It represents the cultural soul of North India and continues to thrive through both traditional performances and modern adaptations.</p>
+      </div>
+      <div class="place">
+        <h3>Carnatic Classical Music (South India)</h3>
+        <img src="https://media.gettyimages.com/id/859055532/photo/tamil-hindu-girls-perform-a-devotional-song-on-the-veena-during-a-carnatic-music-program-in.jpg?s=612x612&w=0&k=20&c=hA8TOCJrAVgyXu7lFoyvE4gI2nocrqzF-LvosfDAaW8=" alt="Carnatic Classical Music (South India)" class="thumb">
+        <p>Carnatic Classical Music, the traditional art form of South India, is a highly structured and devotional system of music that emphasizes composition, precision, and spirituality. Rooted in ancient scriptures and the Natya Shastra, it flourished under the patronage of kings and temples, with its foundation laid by the Trinity of Carnatic music—Tyagaraja, Muthuswami Dikshitar, and Syama Sastri. Unlike Hindustani music, which focuses heavily on improvisation, Carnatic music centers around pre-composed pieces (kritis and varnams) that blend lyrical devotion with melodic complexity. Performances are built on ragas (melodic scales) and talas (rhythmic cycles), with rich improvisational aspects like alapana, niraval, and kalpana swaras. The music is primarily vocal, but is also expressed through instruments such as the veena, violin, mridangam, flute, and ghatam. Deeply devotional in nature, Carnatic music is dedicated to deities like Vishnu, Shiva, and Devi, making every performance a spiritual offering. It represents the cultural and spiritual essence of South India, blending discipline, creativity, and bhakti (devotion).</p>
+      </div>
+      <div class="place">
+        <h3>Bhajans</h3>
+        <img src="" alt="Bhajans" class="thumb">
+        <p>Bhajans are devotional songs in Indian tradition, sung in praise of deities such as Krishna, Rama, Shiva, Durga, and other manifestations of the divine. Rooted in the bhakti movement, they are simple, lyrical, and easy to sing, making them accessible to people of all ages and backgrounds. Bhajans are usually performed in temples, homes, or during religious gatherings, often accompanied by instruments like the harmonium, tabla, dholak, and cymbals. Their verses may be drawn from scriptures, poems of saints like Mirabai, Tulsidas, and Kabir, or composed in local languages to inspire devotion and community bonding. Unlike classical music, bhajans do not strictly follow complex ragas or talas but focus more on emotion, devotion, and collective participation. They serve as a spiritual medium to express love for God, create a devotional atmosphere, and strengthen cultural and religious traditions across India.</p>
+      </div>
+      <div class="place">
+        <h3>Qawwali</h3>
+        <img src="https://media.gettyimages.com/id/951292542/photo/in-this-photograph-taken-on-january-19-2018-pakistani-members-of-a-qawwali-group-play-drums.jpg?s=612x612&w=0&k=20&c=XBX6CTVfOL6qvSoYSFy79bC42EOzaljSAuYGMVRO1S8=" alt="Qawwali " class="thumb">
+        <p>Qawwali is a soulful form of devotional music rooted in Sufism, expressing love for the Divine and the spiritual longing to unite with God. Originating in the Indian subcontinent, it was popularized by Amir Khusrau in the 13th century and is performed at Sufi shrines, spiritual gatherings, and festivals. Qawwali is usually sung in groups, with a lead singer, chorus, and lively accompaniment of the harmonium, tabla, dholak, and clapping rhythms that create an energetic and immersive atmosphere. The lyrics are drawn from Persian, Urdu, Hindi, and Punjabi poetry, often focusing on themes of divine love, mysticism, and surrender to God. Performances are marked by their powerful repetition, rising intensity, and emotional depth, aiming to transport listeners into a state of spiritual ecstasy (wajd). Renowned globally through artists like Nusrat Fateh Ali Khan, Qawwali continues to be a vibrant and unifying musical tradition that transcends boundaries of religion and culture.</p>
+      </div>
+      <div class="place">
+        <h3>Bihu Geet (Assam)</h3>
+        <img src="https://media.istockphoto.com/id/1482254684/photo/rongali-bihu-festival.jpg?s=612x612&w=0&k=20&c=OKRcAAc6HMqMluMBQFQmPypo5uZZ_AO6xIVkI-TV6Pw=" alt="Bihu Geet (Assam)" class="thumb">
+        <p>Bihu Geet are traditional folk songs of Assam, sung during the Bihu festival that celebrates the Assamese New Year and the arrival of spring. These songs are lively, rhythmic, and filled with themes of love, joy, nature, daily life, and the spirit of togetherness. Accompanied by energetic dance performances, Bihu Geet reflects the agrarian culture of Assam, as they are closely tied to farming seasons and fertility rituals. The music is usually performed with traditional instruments like the dhol (drum), pepa (buffalo horn pipe), gogona (bamboo instrument), and taal (cymbals), creating a vibrant and festive soundscape. With their playful lyrics, fast beats, and call-and-response style, Bihu Geet not only entertains but also strengthens community bonding, symbolizing the cultural identity and joyous spirit of the Assamese people.</p>
+      </div>
+      <div class="place">
+        <h3>Lavani (Maharashtra)</h3>
+        <img src="" alt="Lavani (Maharashtra)" class="thumb">
+        <p>Lavani, a vibrant traditional folk dance and music form of Maharashtra, is known for its powerful rhythm, energetic movements, and expressive storytelling. Performed to the beats of the dholki (a percussion instrument), Lavani combines quick footwork, graceful gestures, and bold expressions to narrate themes ranging from love and romance to social and political issues. Historically, it served both as entertainment for soldiers and as a medium to spread social messages, making it both entertaining and meaningful. Performers, usually women, wear colorful nine-yard sarees (nauvari), adorned with jewelry and expressive makeup, which enhance the lively and captivating performance style. The songs are sung in Marathi, marked by their fast-paced, catchy rhythms, and are often accompanied by witty dialogues and dramatic presentation. Lavani not only entertains but also reflects the cultural vibrancy, resilience, and spirit of Maharashtra, making it one of the most dynamic folk art forms of India.</p>
+      </div><div class="place">
+        <h3>Shabad Kirtan (Punjab)</h3>
+        <img src="" alt="Shabad Kirtan (Punjab)" class="thumb">
+        <p>Shabad Kirtan, the devotional music tradition of Punjab, is the singing of sacred hymns (shabads) from the Guru Granth Sahib, the holy scripture of Sikhism. Performed in gurdwaras and religious gatherings, it serves as a spiritual practice that combines music, meditation, and devotion. The hymns are sung in classical ragas, accompanied by traditional instruments such as the harmonium, tabla, and stringed instruments like the taus or sarangi. Shabad Kirtan emphasizes connecting with the Divine through collective singing, fostering inner peace, spiritual reflection, and community harmony. Unlike performance-oriented music, its essence lies in devotion and surrender, aiming to bring the congregation closer to God’s teachings and values. Deeply rooted in Sikh philosophy, Shabad Kirtan is both a form of worship and a way of preserving the rich spiritual and cultural heritage of Punjab.</p>
+      </div>
+    </div>
+
+    <!-- Paintings -->
+    <div id="paintings" class="content-card hidden">
+      <div class="place">
+        <h3>Bhimbetka Cave Paintings (Madhya Pradesh)</h3>
+        <img src="https://smarthistory.org/wp-content/uploads/2022/08/bhimbetka-1-1536x1024.jpg" alt="Bhimbetka Cave Paintings (Madhya Pradesh)" class="thumb">
+        <p>The Bhimbetka Cave Paintings, located in Madhya Pradesh, are among the oldest known rock shelters in India and a UNESCO World Heritage Site. Dating back to the Paleolithic period, some of these paintings are over 30,000 years old, showcasing the earliest expressions of human creativity. Spread across hundreds of caves, the artworks depict hunting scenes, dancing figures, animals, communal rituals, and daily life, offering a vivid glimpse into the lives and beliefs of prehistoric communities. Created using natural pigments, the paintings have survived centuries due to the dry climate and the protective rock surfaces. Bhimbetka is not only significant for its artistic heritage but also as an archaeological site that illustrates the evolution of human civilization in the Indian subcontinent. It represents the continuity of human settlement, creativity, and cultural expression from the Stone Age to the early historic period, making it a vital link to India’s ancient past.</p>
+      </div>
+      <div class="place">
+        <h3>Ajanta Cave Paintings (Maharashtra)</h3>
+        <img src="https://media.gettyimages.com/id/620441974/photo/paintings-of-ajanta-caves.jpg?s=612x612&w=0&k=20&c=VB0p-hNy8q9t9vyq1SKkkOPXSIyMFovg37f2MOEWxPI=" alt="Ajanta Cave Paintings (Maharashtra)" class="thumb">
+        <p>The Ajanta Cave Paintings in Maharashtra, a UNESCO World Heritage Site, are masterpieces of ancient Indian art that date from the 2nd century BCE to around the 6th century CE. Created within Buddhist rock-cut caves, these paintings depict scenes from the Jataka tales (stories of the Buddha’s previous lives), as well as events from the life of Gautama Buddha. Renowned for their intricate detailing, graceful lines, naturalistic figures, and use of vibrant mineral-based colors, the artworks portray a blend of spirituality and realism. The paintings capture emotions, gestures, and expressions with remarkable sensitivity, reflecting both artistic skill and deep religious devotion. Ajanta not only represents the flourishing of Buddhist art and architecture but also serves as a window into ancient Indian society, culture, and aesthetics, making it one of the most treasured legacies of India’s artistic heritage.</p>
+      </div>
+      <div class="place">
+        <h3>Ellora Cave Paintings (Maharashtra)</h3>
+        <img src="https://media.gettyimages.com/id/589153357/photo/paintings-in-cave-no-32-at-ellora.jpg?s=612x612&w=0&k=20&c=YX7S9fRK0Fc7bIx0uXOaFzUbBmyz0xZxVuNNDd16lxE=" alt="Ellora Cave Paintings (Maharashtra)" class="thumb">
+        <p>The Ellora Cave Paintings in Maharashtra, part of the UNESCO World Heritage Site of Ellora Caves, are remarkable examples of India’s artistic and cultural synthesis. Dating from the 6th to 10th centuries CE, these paintings are found mainly in the Kailasa temple and a few Buddhist caves, showcasing themes from Hinduism, Buddhism, and Jainism. Although less extensive and more weathered compared to Ajanta, the Ellora paintings display sophisticated artistry with graceful lines, fluid movement, and delicate expressions. They depict divine figures, celestial beings, and mythological narratives, highlighting religious harmony and the shared cultural space of the time. Executed using natural pigments on plastered surfaces, the artworks reflect continuity of the mural tradition in India while embodying spiritual devotion and artistic refinement. Ellora’s paintings, alongside its monumental rock-cut architecture, stand as a testament to India’s rich heritage of religious art and its ability to unite faith with creativity.</p>
+      </div>
+      <div class="place">
+        <h3>Bagh Cave Paintings (Madhya Pradesh)</h3>
+        <img src="https://ramaarya.blog/wp-content/uploads/2018/03/baghpaintings_1.jpg" alt="Bagh Cave Paintings (Madhya Pradesh)" class="thumb">
+        <p>The Bagh Cave Paintings in Madhya Pradesh, dating from around the 4th to 6th centuries CE, are celebrated for their rich artistry and close resemblance to the Ajanta murals. Found in a series of nine rock-cut caves along the banks of the Bagh River, these paintings were created using the fresco-secco technique, where mineral-based pigments were applied to a dried plaster surface. The themes primarily revolve around Buddhist traditions, including depictions of the Buddha, Bodhisattvas, Jataka tales, and celestial beings, as well as lively portrayals of courtly life, musicians, dancers, and common folk. Renowned for their bold outlines, expressive faces, and vibrant colors, the Bagh murals highlight both spiritual devotion and the sophistication of Gupta-era art. Although many have deteriorated over time, the surviving fragments reflect the grandeur of India’s mural tradition and serve as an important link in the evolution of classical Indian painting.</p>
+      </div>
+      <div class="place">
+        <h3>Miniature Paintings</h3>
+        <img src="https://t4.ftcdn.net/jpg/08/62/55/33/240_F_862553344_tm675wSWPXEVtqWsYCgOFY4FKfVw8IFL.jpg" alt="Miniature Paintings" class="thumb">
+        <p>Miniature Paintings are a distinctive form of Indian art known for their small size, intricate details, and vibrant colors, flourishing from the medieval period onwards. Originating around the 9th–10th centuries and reaching their peak during the Mughal, Rajput, Pahari, and Deccan schools (16th–19th centuries), these paintings were often created on palm leaves, paper, or ivory. Despite their small scale, they are remarkable for their precision, fine brushwork, and elaborate ornamentation. Themes vary widely, including depictions of Hindu epics like the Ramayana and Mahabharata, scenes of royal courts, hunting, festivals, nature, and devotional subjects. Each regional school developed its own unique style—Mughal miniatures focused on realism and Persian influences, while Rajput and Pahari miniatures emphasized bold colors, emotional depth, and spiritual themes. Made with natural dyes, gold, and mineral pigments, miniature paintings reflect both artistic refinement and cultural diversity, standing as timeless treasures of India’s visual heritage.</p>
+      </div>
+      <div class="place">
+        <h3>Palm Leaf & Manuscript Paintings</h3>
+        <img src="https://media.gettyimages.com/id/1177062336/photo/leaf-from-a-jain-manuscript-yoga-shastra-seated-yellow-jina-shantinatha-enshrined-1279.jpg?s=612x612&w=0&k=20&c=s25E-5ujQ48xJ7BAUJM6MLEfWNNvT-iNkRKXfnt6pfE=" alt="Palm Leaf & Manuscript Paintings" class="thumb">
+        <p>Palm Leaf and Manuscript Paintings are among the oldest forms of Indian art, closely linked to the tradition of preserving sacred texts, epics, and cultural knowledge. Practiced mainly in Odisha, Bihar, Assam, and parts of South India, this art form involved etching or painting intricate designs on dried palm leaves or handmade manuscripts. Artists used fine stylus tools to engrave lines, which were then rubbed with natural pigments like soot or vegetable dyes to highlight the details. These paintings often illustrated Hindu epics like the Ramayana and Mahabharata, Buddhist Jataka tales, stories of Lord Jagannath, and tantric themes, blending text with striking visuals. Miniature figures, floral borders, mythological scenes, and ornate detailing are hallmarks of this style. Beyond their aesthetic appeal, palm leaf paintings served as a medium of storytelling, spiritual expression, and knowledge preservation, making them an important part of India’s cultural and literary heritage.</p>
+      </div>
+      <div class="place">
+        <h3>Phad Painting (Rajasthan)</h3>
+        <img src="https://cdn.shopify.com/s/files/1/0849/4704/files/Phad_Facebook_Image.jpg?v=1529321059" alt="Phad Painting (Rajasthan)" class="thumb">
+        <p>Phad Painting, a traditional folk art form from Rajasthan, is a unique scroll painting style that combines vibrant visuals with storytelling. Painted on long pieces of cloth or canvas called phads, these artworks depict the lives, legends, and heroic deeds of local deities and folk heroes, most famously Pabuji and Devnarayan. Traditionally created using natural colors made from stones, vegetables, and minerals, the paintings are rich in detail and characterized by bold outlines, bright hues, and rhythmic compositions. Phad paintings are not just decorative but serve as portable temples, carried by bhopa (priest-singers) who narrate the stories through music and performance while unfolding the scroll before villagers. This fusion of art, religion, and oral tradition makes Phad painting both a cultural document and a living heritage. Today, while still practiced by traditional families, Phad art has also adapted to depict contemporary themes, ensuring its survival as an iconic Rajasthani folk art form</p>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+    <!-- ✅ Your existing content sections (Dance, Music, Paintings) remain unchanged -->
+    <!-- Copy everything from your original file (places, descriptions, images, etc.) -->
+
+  </div>
+
+  <!-- ✅ Chatbot UI -->
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="closeChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something...">
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <!-- ✅ Toggle Button -->
+  <button id="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+
+  <script>
+    // ✅ Show/Hide content
+    function showContent(id) {
+      document.querySelectorAll('.content-card').forEach(c => c.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    // ✅ Data for Art & Culture
+    const availablePlaces = {
+      "Dance": ["Bharatanatyam (Tamil Nadu)", "Kuchipudi (Andhra Pradesh)", "Odissi (Odisha)"],
+      "Music": ["Hindustani Classical (North India)", "Carnatic Classical (South India)"],
+      "Painting": ["Madhubani (Bihar)", "Pattachitra (Odisha)"]
+    };
+
+    // ✅ Check if user question matches local data
+    function getLocalAnswer(userQuestion) {
+      userQuestion = userQuestion.toLowerCase().replace(/[0-9]/g, "").trim();
+      for (const [cat, items] of Object.entries(availablePlaces)) {
+        if (userQuestion.includes(cat.toLowerCase())) {
+          return `${cat}: ${items.join(", ")}`;
+        }
+        for (const item of items) {
+          if (userQuestion.includes(item.toLowerCase().split(" ")[0])) {
+            return `${cat}: ${items.join(", ")}`;
+          }
+        }
+      }
+      return null; // ❌ Not found locally
+    }
+
+    // ✅ Send message
+    document.getElementById('chatbot-send').addEventListener('click', sendMessage);
+    document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById('chatbot-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById('chatbot-messages');
+      chat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+
+      // 1️⃣ Try local answer
+      const localAnswer = getLocalAnswer(msg);
+      if (localAnswer) {
+        chat.innerHTML += `<div><b>Bot:</b> ${localAnswer}</div>`;
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+        return;
+      }
+
+      // 2️⃣ Else → ask API
+      try {
+        const response = await fetch("http://localhost:5000/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg }),
+        });
+        const data = await response.json();
+        chat.innerHTML += `<div><b>Bot:</b> ${data.reply}</div>`;
+      } catch (err) {
+        chat.innerHTML += `<div><b>Bot:</b> ⚠️ Couldn’t connect to server</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // ✅ Open/Close Chatbot
+    function toggleChatbot() {
+      document.getElementById('chatbot-box').classList.toggle('active');
+    }
+
+    function closeChatbot() {
+      document.getElementById('chatbot-box').classList.remove('active');
+    }
+  </script>
+  <script src="js/bookmark.js"></script>
+  <script src="js/search.js"></script>
+
 </body>
 </html>

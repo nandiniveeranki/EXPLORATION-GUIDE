@@ -1,60 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architecture - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8">
+  <title>Architecture of India - AI Exploration Guide</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
+  <style>
+    :root{
+      --brand:#6a1b9a;
+      --brand-2:#8e24aa;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+      --accent:#e67e22;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+    h1,h2,h3{ color: var(--ink); }
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+    }
+    
+    /* Buttons */
+    .category-bar{
+      text-align:center; padding: 8px 10px 20px;
+    }
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    }
+    .category-btn:hover { background: var(--brand-2); transform: translateY(-1px); }
+
+    /* Cards */
+    .category-content {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 100%;
+    }
+
+    .thumb {
+      display: block;
+      margin: 0 auto 15px;
+      width: 100%;
+      max-width: 500px;
+      height: 250px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    .links {
+      margin-top: 12px;
+    }
+
+    .official-link {
+      color: var(--brand);
+      font-weight: bold;
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 2px solid var(--brand);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .official-link:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    #chatbot-toggle{ z-index: 9999; }
+    #chatbot-box{ z-index: 10000; }
+  </style>
 </head>
+
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
+  <h1>Architecture of India</h1>
+  <p class="lead"></p>
+  <p class="lead">Explore the rich and diverse architectural styles across India’s history and regions.</p>
+
+  <!-- Category Buttons -->
+  <div class="category-bar">
+    <span class="category-btn" onclick="toggleContent('ancient')">Ancient Architecture</span>
+    <span class="category-btn" onclick="toggleContent('medieval')">Medieval Architecture</span>
+    <span class="category-btn" onclick="toggleContent('mughal')">Mughal Architecture</span>
+    <span class="category-btn" onclick="toggleContent('colonial')">Colonial Architecture</span>
+    <span class="category-btn" onclick="toggleContent('modern')">Modern Architecture</span>
+  </div>
+
+  <!-- Ancient Architecture -->
+  <div id="ancient" class="category-content">
+    <h2>Ancient Architecture</h2>
+    <div class="grid">
+      <div class="place">
+        <img class="thumb" src="https://www.andbeyond.com/wp-content/uploads/sites/5/khajuraho-india-temple-complex.jpg" alt="Khajuraho Temple">
+        <div class="card-body">
+          <h3>Khajuraho (Madhya Pradesh)</h3>
+          <p>The Khajuraho Temples, located in Madhya Pradesh, are among the most celebrated examples of medieval Indian temple architecture and are a UNESCO World Heritage Site. Built between the 9th and 11th centuries CE by the Chandela dynasty, these temples are renowned for their exquisite Nagara-style architecture and intricate stone carvings. Out of the original 85 temples, about 20 remain, dedicated to Hindu gods like Shiva, Vishnu, and Devi, as well as to Jain deities, showing a spirit of religious tolerance. The walls and interiors are adorned with finely detailed sculptures depicting gods, goddesses, celestial beings, musicians, dancers, and even erotic art, symbolizing the celebration of life and spirituality. The Kandariya Mahadeva Temple, dedicated to Lord Shiva, is the largest and most magnificent example at Khajuraho, showcasing the artistic and cultural brilliance of the Chandela period.</p>
         </div>
-
-        <h1 class="text-secondary mb-4">Architecture in India</h1>
-        <p>India's architectural landscape is a testament to its diverse history, religions, and empires, ranging from ancient to colonial and modern styles.</p>
-        
-        <h3 class="mt-4">Notable Architectural Styles & Sites:</h3>
-        <ul>
-            <li><strong>Ancient & Temple Architecture:</strong>
-                <ul>
-                    <li>Dravidian Style (South India): Brihadeeswarar Temple (Thanjavur, Tamil Nadu), Lepakshi Temple (Anantapur, Andhra Pradesh).</li>
-                    <li>Nagara Style (North India): Konark Sun Temple (Odisha), Khajuraho Temples (Madhya Pradesh).</li>
-                    <li>Buddhist Architecture: Sanchi Stupa (Madhya Pradesh), Amaravathi Stupa (Andhra Pradesh).</li>
-                </ul>
-            </li>
-            <li><strong>Islamic Architecture:</strong>
-                <ul>
-                    <li>Mughal Architecture: Taj Mahal (Agra, Uttar Pradesh), Red Fort (Delhi), Charminar (Hyderabad, Telangana).</li>
-                    <li>Sultanate Architecture: Qutub Minar (Delhi), Gol Gumbaz (Bijapur, Karnataka).</li>
-                </ul>
-            </li>
-            <li><strong>Colonial Architecture:</strong> Victoria Memorial (Kolkata), Gateway of India (Mumbai).</li>
-            <li><strong>Modern Architecture:</strong> Lotus Temple (Delhi), Contemporary cityscapes (e.g., Bengaluru, Mumbai).</li>
-        </ul>
-        <img src="" class="img-fluid my-3" alt="Indian Architecture">
-        
-        <h3 class="mt-5 mb-3">Architectural Marvels on Map</h3>
-        <p>Example: Taj Mahal, Agra, Uttar Pradesh</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://media.assettype.com/outlooktraveller/import/outlooktraveller/public/uploads/articles/explore/A-panoramic-view-of-The-Sun-Temple-Konark.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true" alt="Konark Sun Temple">
+        <div class="card-body">
+          <h3>Konark Sun Temple (Odisha)</h3>
+          <p>The Konark Sun Temple, located in Odisha, is one of the finest examples of ancient Indian temple architecture and a UNESCO World Heritage Site. Built in the 13th century CE by King Narasimhadeva I of the Eastern Ganga dynasty, it is dedicated to the Sun God, Surya. The temple is designed in the shape of a massive stone chariot with 12 pairs of intricately carved wheels and seven horses pulling it, symbolizing the Sun God’s celestial journey. Constructed primarily from chlorite and laterite stone, the temple showcases detailed carvings of deities, animals, dancers, and scenes from everyday life, reflecting both religious devotion and artistic excellence. Though partly ruined, the Konark Sun Temple remains a masterpiece of Kalinga architecture, representing the zenith of Odisha’s temple-building tradition.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://www.trawell.in/admin/images/upload/359804533Dholavira.jpg" alt="Dholavira">
+        <div class="card-body">
+          <h3>Dholavira (Gujarat)</h3>
+          <p>Dholavira, located in Gujarat’s Kutch district, is one of the largest and most prominent cities of the Indus Valley Civilization in India. Discovered in 1967, it stands out for its unique use of stone architecture and an advanced system of water conservation. The city was carefully planned and divided into three parts – the citadel, middle town, and lower town – all fortified by massive walls. Its most remarkable feature is the sophisticated water management system, including large reservoirs, step-wells, and channels to store rainwater, which was essential in the arid Kutch region. Excavations have also revealed seals, pottery, beads, tools, and evidence of trade links with Mesopotamia. Recognized as a UNESCO World Heritage Site in 2021, Dholavira is considered the best example of Harappan urban planning and engineering in India.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/3d/6a/31/caption.jpg?w=800&h=400&s=1" alt="Brihadeeswara Temple ">
+        <div class="card-body">
+          <h3>Brihadeeswara Temple (Thanjavur) </h3>
+          <p>The Brihadeeswara Temple at Thanjavur, Tamil Nadu, built in 1010 CE by the great Chola king Raja Raja Chola I, is the finest example of Chola architecture and a UNESCO World Heritage Site. Dedicated to Lord Shiva, the temple is renowned for its massive vimana (tower) rising about 66 meters, making it one of the tallest in the world at the time. Constructed entirely out of granite, the temple features exquisite sculptures, fresco paintings, and a gigantic Nandi (bull) statue carved from a single stone. The precision of its construction, advanced engineering, and artistic grandeur reflect the power, devotion, and cultural brilliance of the Chola dynasty. It remains a living temple and a symbol of South India’s architectural excellence.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://www.pujasthan.com/wp-content/uploads/2023/03/Deogarh-Dashavatara-Temple.jpg" alt="Dasavatara Temple at Deogarh">
+        <div class="card-body">
+          <h3>Dasavatara Temple at Deogarh (Uttar Pradesh)</h3>
+          <p>The Dasavatara Temple at Deogarh (Uttar Pradesh), built in the early 6th century CE during the Gupta period, is one of the earliest surviving examples of Hindu temple architecture in North India. Dedicated to Lord Vishnu, it is constructed on a raised platform with a square sanctum (garbhagriha) and traces of a pillared hall. The temple is famous for its richly carved panels depicting scenes from Hindu mythology, especially the Anantasayana Vishnu panel, which shows Vishnu reclining on the serpent Ananta, symbolizing cosmic balance. This temple represents the beginning of the Nagara style of architecture, with a simple curvilinear shikhara and ornamental doorways. Despite being partly ruined, the Dasavatara Temple marks a significant step in the evolution of classical Indian temple design during the Gupta Golden Age.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://images.travelandleisureasia.com/wp-content/uploads/sites/2/2021/02/22141026/5r4t-12.jpg" alt="Sanchi Stupa">
+        <div class="card-body">
+          <h3>Sanchi Stupa (Madhya Pradesh) – 3rd century BCE</h3>
+          <p>A 13th-century temple shaped like a colossal chariot, dedicated to the Sun God, symbolizing advanced stone architecture of its time.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://www.shutterstock.com/image-photo/ajanta-caves-aurangabad-maharashtra-india-260nw-2605126495.jpg" alt="Ajanta Caves">
+        <div class="card-body">
+          <h3>Ajanta Caves (Maharashtra) – 2nd century BCE–6th century CE</h3>
+          <p>The Ajanta Caves, located in Maharashtra, are a group of 29 rock-cut Buddhist caves dating from the 2nd century BCE to the 6th century CE. Carved into the hillside along the Waghora River, they are world-famous for their ancient paintings, sculptures, and rock-cut architecture, which depict the life of the Buddha, Jataka tales, and themes of compassion and spirituality. The caves served as monasteries, prayer halls (chaityas), and living quarters (viharas) for Buddhist monks. Built in two phases—early Hinayana (2nd century BCE) and later Mahayana (5th–6th century CE)—the Ajanta caves reflect the evolution of Buddhist religious art. The murals and frescoes, painted with natural colors, are masterpieces of Indian art, showing graceful human figures, animals, and divine beings with remarkable detail and expression.</p>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <!-- Medieval Architecture -->
+  <div id="medieval" class="category-content">
+    <h2>Medieval Architecture</h2>
+    <div class="grid">
+      <div class="place">
+        <img class="thumb" src="https://cdn.britannica.com/36/250236-050-96BFE0EE/Virupaksha-Temple-Hampi-Karnataka-India.jpg" alt="Hampi Temple">
+        <div class="card-body">
+          <h3>Hampi Temple(Karnataka)</h3>
+          <p>The Hampi temples, located in Karnataka, form the core of the ruined city of Hampi, the capital of the Vijayanagara Empire (14th–16th century CE) and a UNESCO World Heritage Site. The temples are remarkable for their Dravidian-style architecture, massive gopurams (gateway towers), pillared halls, intricate carvings, and stone chariots. Among the most famous is the Virupaksha Temple, dedicated to Lord Shiva, which is still an active place of worship. The Vittala Temple is celebrated for its stone chariot and the unique musical pillars that produce different sounds when tapped. Hampi’s temples combine religious symbolism with artistic mastery, reflecting the grandeur and prosperity of the Vijayanagara rulers. Despite being partly in ruins due to invasions, Hampi remains one of the finest examples of medieval South Indian architecture.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://www.thedelhitours.com/blog/wp-content/uploads/2024/09/Qutub-Minar.jpg" alt="Brihadeeswarar Temple">
+        <div class="card-body">
+          <h3>Qutub Minar(Delhi) </h3>
+          <p>The Qutub Minar, built in 1199 CE by Qutb-ud-din Aibak and later completed by Iltutmish, is the tallest brick minaret in the world (73 meters). It is a UNESCO World Heritage Site and a fine example of Indo-Islamic architecture. Constructed mainly of red sandstone, the minar has five tapering storeys, each marked by balconies with intricate carvings and inscriptions from the Quran. The surrounding Qutub complex includes the Quwwat-ul-Islam Mosque and the Iron Pillar, reflecting the fusion of Hindu and Islamic art traditions.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Gol_Gumbaj2.JPG/1200px-Gol_Gumbaj2.JPG" alt="Brihadeeswarar Temple">
+        <div class="card-body">
+          <h3>Gol Gumbaz (Bijapur, Karnataka)</h3>
+          <p>The Gol Gumbaz, built in 1656 CE by Sultan Mohammed Adil Shah of the Adil Shahi dynasty, is one of the largest domed structures in the world. It is renowned for its massive circular dome, which is unsupported by pillars, making it an architectural marvel of the Deccan region. The monument serves as the Sultan’s mausoleum and is famous for its “Whispering Gallery”, where even the faintest sound echoes multiple times across the dome. Built in Indo-Islamic style, it reflects the grandeur of medieval Deccan architecture.The Gol Gumbaz stands as a symbol of the engineering brilliance and artistic heritage of the Adil Shahi dynasty.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://res.cloudinary.com/purnesh/image/upload/f_auto/v1591170828/4-11591170826903.jpg" alt="Brihadeeswarar Temple">
+        <div class="card-body">
+          <h3>Lodhi Gardens Tombs (Delhi)</h3>
+          <p>The Lodhi Gardens in Delhi house the tombs of Sikander Lodi, Muhammad Shah, and other rulers of the Lodi dynasty (15th–16th century CE). These tombs are fine examples of Indo-Islamic architecture, featuring large domes, arches, chhatris, and decorative motifs. The complex reflects the transition from the Delhi Sultanate to Mughal architectural styles. Surrounded by landscaped gardens, the tombs symbolize both royal grandeur and historical heritage.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2022/12/temples-of-Dilwara-1.jpg?fit=1024%2C610&ssl=1" alt="Brihadeeswarar Temple">
+        <div class="card-body">
+          <h3>Dilwara Jain Temples (Mount Abu, Rajasthan)</h3>
+          <p>The Dilwara Jain Temples, built between the 11th–13th centuries CE, are a group of five temples renowned for their exquisite marble carvings and intricate detailing. Dedicated to different Jain Tirthankaras, the temples include Vimal Vasahi, Luna Vasahi, Pittalhar, Parshvanath, and Mahavir Swami. Though simple from the outside, the interiors are richly decorated with finely carved ceilings, pillars, and panels depicting mythological scenes, lotus designs, and geometric patterns.</p>
+        </div>
+      </div> 
+    </div>
+  </div>
+
+  <!-- Mughal Architecture -->
+  <div id="mughal" class="category-content">
+    <h2>Mughal Architecture</h2>
+    <div class="grid">
+      <div class="place">
+        <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/d/da/Taj-Mahal.jpg" alt="Taj Mahal">
+        <div class="card-body">
+          <h3>Taj Mahal (Agra, Uttar Pradesh)</h3>
+          <p>The Taj Mahal, located on the banks of the Yamuna River in Agra, was commissioned by the Mughal emperor Shah Jahan in 1632 CE as a mausoleum for his beloved wife Mumtaz Mahal, who died during childbirth. Completed in 1648 CE, it is regarded as one of the greatest masterpieces of Mughal architecture. Built entirely in white marble, the Taj Mahal harmoniously blends Persian, Islamic, and Indian architectural styles. The central structure has a majestic dome flanked by four slender minarets, while the interiors are adorned with delicate carvings and intricate pietra dura (inlay work) using semi-precious stones. The complex is set within a vast Charbagh-style garden, symbolizing paradise, with fountains and reflecting pools that enhance its beauty. Recognized as a UNESCO World Heritage Site, the Taj Mahal is celebrated worldwide as a symbol of eternal love and architectural brilliance, and it continues to attract millions of visitors every year as one of the Seven Wonders of the World.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://cdn.britannica.com/20/189820-050-D650A54D/Red-Fort-Old-Delhi-India.jpg" alt="Fatehpur Sikri">
+        <div class="card-body">
+          <h3>Red Fort (Delhi)</h3>
+          <p>The Red Fort, built by the Mughal emperor Shah Jahan in 1648 CE, is one of the most iconic monuments of India and a UNESCO World Heritage Site. Constructed with massive red sandstone walls, it served as the main residence of the Mughal emperors for nearly 200 years. The fort is an outstanding example of Mughal architecture, combining Persian, Timurid, and Indian styles. Inside the complex are several important structures, including the Diwan-i-Aam (Hall of Public Audience), Diwan-i-Khas (Hall of Private Audience), the Moti Masjid, and the Rang Mahal. The fort is also surrounded by lush gardens and a moat. Beyond its architectural grandeur, the Red Fort holds immense historical significance, as it became the center of political and cultural life during Mughal rule. Today, it is a symbol of Indian independence, where the Prime Minister hoists the national flag every year on Independence Day (15th August).</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://www.exoticmiles.com/wp-content/uploads/2020/06/Agra-Fort.jpg" alt="Fatehpur Sikri">
+        <div class="card-body">
+          <h3>Agra Fort (Agra, Uttar Pradesh)</h3>
+          <p>The Agra Fort, a UNESCO World Heritage Site, was originally built in red sandstone by Emperor Akbar in 1565 CE and later developed by Jahangir and Shah Jahan. It served as the main residence of the Mughal emperors before the capital shifted to Delhi. The fort is a massive walled city with double ramparts, enclosing beautiful palaces, audience halls, and mosques. Key structures include the Jahangiri Mahal, Diwan-i-Aam, Diwan-i-Khas, Khas Mahal, Sheesh Mahal, and the Moti Masjid. The fort reflects a blend of Islamic, Persian, and Indian architectural styles, showcasing the artistic brilliance of the Mughal era. Historically significant, it was also where Shah Jahan was imprisoned by his son Aurangzeb, spending his final years gazing at the Taj Mahal.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://d37rmf1ynyg9aw.cloudfront.net/fit-in/1280x1280/data/v4/resources/images/328fc4ee-b6d6-4882-9e87-d7342b1b15bb.jpg" alt="Fatehpur Sikri">
+        <div class="card-body">
+          <h3>Fatehpur Sikri (Uttar Pradesh)</h3>
+          <p>Fatehpur Sikri, built by the Mughal emperor Akbar between 1571–1585 CE, was the capital of the Mughal Empire for a short period. Constructed mainly in red sandstone, the city reflects a unique blend of Mughal, Persian, and Indian architectural styles. Important structures within the complex include the Buland Darwaza (the 54-meter-high gateway built to commemorate Akbar’s victory over Gujarat), the Jama Masjid, Panch Mahal, Diwan-i-Khas, Diwan-i-Aam, Birbal’s House, and the Tomb of Salim Chishti, which highlights Akbar’s respect for the Sufi saint. Although abandoned later due to water scarcity and political reasons, Fatehpur Sikri remains one of the finest examples of Mughal town planning and architecture. Today, it is recognized as a UNESCO World Heritage Site and an important symbol of Akbar’s vision of cultural and religious harmony.  </p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://s7ap1.scene7.com/is/image/incredibleindia/humayuns-tomb-delhi-1-attr-hero?qlt=82&ts=1742197608302" alt="Fatehpur Sikri">
+        <div class="card-body">
+          <h3>Humayun’s Tomb (Delhi)</h3>
+          <p>Humayun’s Tomb, completed in 1570 CE, was commissioned by his widow Empress Haji Begum and designed by the Persian architect Mirak Mirza Ghiyas. It is celebrated as the first garden-tomb of the Indian subcontinent, representing a major milestone in Mughal architecture. Built primarily in red sandstone with white and black marble inlays, the structure rests on a large, high plinth and is crowned with a striking double dome that rises majestically against the Delhi skyline. The tomb is set within a sprawling Charbagh garden, a Persian-style quadrilateral layout divided by walkways and water channels, symbolizing the Islamic concept of paradise.The complex is not only the resting place of Emperor Humayun but also houses over 150 Mughal family members, making it one of the largest dynastic mausoleums in India. It showcases a blend of Persian and Indian architectural traditions, with features such as high arches, ornate jalis (lattice screens), chhatris, and geometric symmetry. Its innovative design influenced later Mughal monuments, most notably the Taj Mahal, earning it the title of a precursor to Mughal grandeur. Recognized as a UNESCO World Heritage Site, Humayun’s Tomb today stands as both a symbol of imperial legacy and a landmark in the evolution of Mughal architecture.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://www.cms.ptivideos.com/uploads/2022_8$large_Jama_Masjid_in_Delhi.jpg" alt="Fatehpur Sikri">
+        <div class="card-body">
+          <h3>Jama Masjid (Delhi)</h3>
+          <p>The Jama Masjid, built between 1650–1656 CE by the Mughal emperor Shah Jahan, is one of the largest and most magnificent mosques in India. Constructed mainly of red sandstone and white marble, it reflects the grandeur of Mughal architecture. The mosque has a vast courtyard that can accommodate nearly 25,000 worshippers, three grand gateways, four towers, and two towering minarets made of alternating strips of red sandstone and marble. The prayer hall is adorned with marble domes, arches, and intricate calligraphy from the Quran. Positioned on a raised platform in Shahjahanabad (Old Delhi), it not only served as a religious center but also as a symbol of the empire’s power and spiritual devotion.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjjvc3l7vBOPkJ38l2Kag-6dJf8XOY115_MR98tGqiXssTzg_eIvr2dERV3a5OE2O0x6xSvhciblrnIVYZkyrPySIEX7a8ol3_S5hTNPFj6Tc-Wb8ZHpvsyutZ5kU4smcLYEyoZdJkfxm2wFP4xCT8bBiZlauTphJ05M093V2Ij_M5xCxfw-I6qQU70/s720/Colourful%20Landscapes%20of%20Shalimar%20Bagh%20around%20the%20beautiful%20Dal%20Lake%20in%20Kashmir-5.jpg" alt="Fatehpur Sikri">
+        <div class="card-body">
+          <h3>shalimar Bagh (Srinagar, Kashmir)</h3>
+          <p>The Shalimar Bagh, located on the banks of the Dal Lake in Srinagar, is one of the most famous Mughal gardens in India, built in 1619 CE by Emperor Jahangir for his wife Nur Jahan. It is the largest Mughal garden in Kashmir and a fine example of the Persian Charbagh style, symbolizing paradise on earth. The garden is laid out in a terraced pattern, with flowing water channels, fountains, shaded avenues of chinar trees, and pavilions decorated with intricate Kashmiri artwork. It is divided into three sections: the outer public garden, the central garden for courtiers, and the private royal garden for the emperor and his family. The garden beautifully blends natural scenery with Mughal landscaping, offering panoramic views of the Dal Lake and surrounding mountains.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Colonial Architecture -->
+  <div id="colonial" class="category-content">
+    <h2>Colonial Architecture</h2>
+    <div class="grid">
+      <div class="place">
+        <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Victoria_Memorial_situated_in_Kolkata.jpg" alt="Victoria Memorial">
+        <div class="card-body">
+          <h3>Victoria Memorial (Kolkata)</h3>
+          <p>The Victoria Memorial, located in Kolkata, was built between 1906 and 1921 in memory of Queen Victoria after her death in 1901. Commissioned by Lord Curzon, the then Viceroy of India, it is one of the most prominent symbols of the British Raj in India. Constructed entirely of white Makrana marble, the memorial combines elements of British, Mughal, Venetian, and Egyptian architectural styles, giving it a unique Indo-Saracenic character. The central dome is crowned with a figure of Victory, and the complex is surrounded by lush gardens and water bodies. Inside, it houses a museum and art gallery with paintings, manuscripts, sculptures, and artifacts from the colonial period, showcasing both British imperial history and aspects of Indian culture.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzQWlbyUpF5vj6bFA8df9XwqtFEmV4M0NWFw&s  " alt="Gateway of India">
+        <div class="card-body">
+          <h3>Gateway of India (Mumbai)</h3>
+          <p>The Gateway of India, located in Mumbai, is one of the most iconic landmarks of modern India. It was built between 1913 and 1924 to commemorate the visit of King George V and Queen Mary to India in 1911. Designed by George Wittet, the monument is constructed in yellow basalt and reinforced concrete, blending Indo-Saracenic, Hindu, and Muslim architectural styles. Standing 26 meters high on the waterfront of the Arabian Sea, it served as a ceremonial entrance to India for British viceroys and governors. Historically, it also marked the symbolic end of British rule, as the last British troops departed through this gateway in 1948. Today, the Gateway of India is not just a colonial-era monument but also a popular tourist attraction and a symbol of Mumbai’s heritage, often serving as a starting point for travel to Elephanta Caves and other nearby sites.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://a.travel-assets.com/findyours-php/viewfinder/images/res70/67000/67991-New-Delhi.jpg" alt="Rashtrapati Bhavan">
+        <div class="card-body">
+          <h3>Rashtrapati Bhavan (New Delhi)</h3>
+          <p>The Rashtrapati Bhavan, situated on Raisina Hill in New Delhi, is the official residence of the President of India and one of the most magnificent and largest presidential residences in the world. Originally constructed as the Viceroy’s House during British rule, it was designed by the famous architect Sir Edwin Lutyens and completed in 1929 as part of the creation of New Delhi as the new capital of India. The building is an architectural masterpiece, covering 330 acres and consisting of more than 340 rooms spread across four floors, including grand halls, state rooms, and offices. Built in Indo-Saracenic style, it harmoniously combines classical European features with Indian elements such as jalis (lattice screens), chhatris (domed kiosks), and motifs inspired by Indian art and culture. The most celebrated part of the complex is the Mughal Gardens (now Amrit Udyan), designed in the traditional Charbagh style, featuring terraced lawns, fountains, flowerbeds, and rare plant varieties. Beyond its architectural brilliance, the Rashtrapati Bhavan is the nerve center of India’s democracy, serving as the residence and workplace of the Head of State, as well as a symbol of India’s heritage, sovereignty, and unity.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://cdnbbsr.s3waas.gov.in/s388ef51f0bf911e452e8dbb1d807a81ab/uploads/2020/12/2020123069.jpg" alt="Bombay High Court">
+        <div class="card-body">
+          <h3>Bombay High Court (Mumbai, Maharashtra)</h3>
+          <p>The Bombay High Court, established in 1862, is one of the oldest High Courts in India and serves as the principal seat of justice for the states of Maharashtra and Goa, as well as the Union Territories of Dadra and Nagar Haveli and Daman and Diu. The court building, designed by British engineer Colonel J.A. Fuller, was constructed in 1878 in the Gothic Revival architectural style, characterized by pointed arches, stained-glass windows, and high towers that resemble a medieval European castle. Built primarily of black basalt and stone, it is a striking colonial-era landmark overlooking the Oval Maidan in Mumbai. The High Court has jurisdiction over both civil and criminal cases and has played a crucial role in the development of Indian law and constitutional history. Several eminent judges and lawyers, including many who went on to become Chief Justices of India, have been associated with this court.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://th-i.thgim.com/public/news/national/tamil-nadu/biuhhn/article24651215.ece/alternates/LANDSCAPE_1200/10THSECRETARIAT" alt="Fort St. George">
+        <div class="card-body">
+          <h3>Fort St. George (Chennai, Tamil Nadu) </h3>
+          <p>The Fort St. George, located in Chennai, is the first British fortress in India, built in 1644 CE by the British East India Company. It marks the beginning of British influence in South India and later became the foundation for the expansion of the city of Madras (now Chennai). The fort served as the headquarters of the East India Company and later the administrative center of the British in South India. Architecturally, it features strong defensive walls, barracks, and colonial-style buildings. Important structures inside include St. Mary’s Church (the oldest Anglican church in India, built in 1680), the Fort Museum, and the Wellesley House, which once housed the offices of Robert Clive. Today, the fort houses the Tamil Nadu Legislative Assembly and Secretariat, making it both a historical monument and a functioning administrative complex.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://www.getbengal.com/uploads/story_image/Writers-Building-2021.jpg" alt="Writer’s Building">
+        <div class="card-body">
+          <h3>Writer’s Building (Kolkata, West Bengal)</h3>
+          <p>The Writer’s Building, located in Kolkata, is an iconic colonial-era structure built in 1777 CE by the British East India Company. It was originally constructed to provide office space for the company’s junior clerks, known as “writers,” which is how it got its name. Over time, the building underwent several expansions and renovations, eventually transforming into a grand structure in the Greco-Roman architectural style, with long colonnades, high windows, and statues adorning its façade. After the British period, it became the secretariat building of the Government of West Bengal, housing key administrative offices. The Writer’s Building is not just an administrative landmark but also a site of historical importance, as it was the scene of revolutionary activities during India’s freedom struggle, most notably the attack by the Bengal revolutionaries on Colonel N.S. Simpson in 1930.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modern Architecture -->
+  <div id="modern" class="category-content">
+    <h2>Modern Architecture</h2>
+    <div class="grid">
+      <div class="place">
+        <img class="thumb" src="https://www.tripsavvy.com/thmb/3847JDXi0lXwS85Wz821zotKITg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-185733537-5b51446046e0fb00378bc660.jpg" alt="Lotus Temple">
+        <div class="card-body">
+          <h3>Lotus Temple (Delhi)</h3>
+          <p>The Lotus Temple, located in Delhi and completed in 1986, is one of the most remarkable examples of modern Indian architecture. Built by the Baháʼí community, it is a House of Worship open to people of all religions, symbolizing unity, peace, and harmony. Designed by Iranian architect Fariborz Sahba, the temple is shaped like a lotus flower, with 27 marble-clad petals arranged in clusters to form nine sides. Surrounded by nine pools and lush gardens, the structure appears to float like a lotus on water, creating a serene atmosphere. Unlike traditional religious places, the Lotus Temple has no idols, rituals, or sermons, emphasizing meditation and spiritual reflection. Made of white Makrana marble, it can accommodate around 2,500 people at a time and has won numerous awards for its design.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://images.picxy.com/cache/2019/8/11/0523eae2c291e5d87d246f25c743cad5.jpg" alt="Infosys Mysore Campus">
+        <div class="card-body">
+          <h3>Infosys Campus (Mysuru, Karnataka)</h3>
+          <p>The Infosys Global Education Center (GEC) at Mysuru is the world’s largest corporate training facility, established to train newly recruited Infosys employees. Spread over 337 acres, the campus is often compared to a modern university town, equipped with state-of-the-art classrooms, laboratories, a massive library, digital learning centers, and world-class infrastructure. It can accommodate over 14,000 trainees at a time, making it a hub of skill development and innovation. Architecturally, the campus features grand domes, Greco-Roman–style buildings, and sprawling green landscapes, giving it the look of an international academic institution. In addition to academic facilities, the campus provides extensive hostel accommodations, sports complexes, a multiplex, and food courts, ensuring a holistic environment for learning and living.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2Ki2lVhfWQX6HPufLb5ywTqtxvPWwiQn2FqA9TJchgdW-i0uhZp9lGPW2Q9R4-E0J0EM&usqp=CAU" alt="India Habitat Centre">
+        <div class="card-body">
+          <h3>India Habitat Centre (Delhi)</h3>
+          <p>The India Habitat Centre (IHC), located at Lodhi Road in New Delhi, is a premier multi-purpose complex that serves as a hub for cultural, intellectual, business, and social activities. Established in the 1990s, it was designed by architect Joseph Allen Stein with the aim of providing a space where institutions and professionals working in habitat-related areas could collaborate. The complex combines modern architectural design with eco-friendly features, including landscaped courtyards, open-air amphitheaters, solar-powered systems, and energy-efficient structures. Spread across a vast area, it houses conference halls, libraries, galleries, theaters, restaurants, and office spaces for various organizations. Over the years, it has become a vibrant center for art exhibitions, film festivals, seminars, workshops, and cultural performances, attracting scholars, artists, and the general public alike.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://worldarchitecture.org/cdnimgfiles/extuploadc/newproject-5-.jpg" alt="Cybertecture Egg">
+        <div class="card-body">
+          <h3>Cybertecture Egg (Mumbai, Maharashtra)</h3>
+          <p>The Cybertecture Egg, located in Mumbai, is an innovative commercial building known for its futuristic, eco-friendly design. Conceptualized by architect James Law and developed by Vijay Associates (Wadhwa Developers), the structure symbolizes a shift towards sustainable smart architecture in India. Shaped like an egg, the building stands out for its unique oval, non-conventional form, which reduces material usage by almost 15–20% compared to traditional rectangular buildings. Spread across 13 floors and 33,000 square meters, it houses office spaces equipped with modern technology. The design incorporates green building features such as solar panels, wind turbines, and water recycling systems, while also ensuring maximum natural light and energy efficiency. Inside, it integrates smart systems that monitor air quality, energy consumption, and employee health, making it both environmentally sustainable and user-friendly.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://images.shiksha.com/mediadata/images/1505365788phpXJ5Yga.jpeg" alt="IIM Ahmedabad">
+        <div class="card-body">
+          <h3>IIM Ahmedabad (Gujarat)</h3>
+          <p>The Indian Institute of Management Ahmedabad (IIM-A), established in 1961, is one of India’s top management institutes and a globally recognized center for excellence in business education. It was set up with the support of the Government of India, Government of Gujarat, Harvard Business School, and the Ford Foundation. The campus, designed by the famous American architect Louis I. Kahn, is renowned for its red-brick architecture, geometric patterns, arches, and open courtyards, which encourage interaction and learning. IIM-A is consistently ranked among the best business schools in Asia and the world, offering postgraduate, doctoral, and executive programs in management. Beyond academics, the institute has been influential in shaping India’s business leadership, entrepreneurship, and public policy.</p>
+        </div>
+      </div>
+      <div class="place">
+        <img class="thumb" src="https://www.trawell.in/admin/images/upload/955980782Mumbai_Bandra_Worli_Link_Main.jpg" alt="Bandra–Worli Sea Link">
+        <div class="card-body">
+          <h3>Bandra–Worli Sea Link (Mumbai, Maharashtra)</h3>
+          <p>A modern corporate campus with futuristic designs, domes, and glass structures, representing India’s IT growth.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ✅ Chatbot toggle and box --> <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div> <div id="chatbot-box" class="chatbot-hidden"> <div id="chatbot-header"> AI Chatbot <span id="chatbot-close" onclick="toggleChatbot()">✖</span> </div> <div id="chatbot-messages"></div> <div id="chatbot-controls"> <input type="text" id="chatbot-input" placeholder="Ask something..." /> <button id="chatbot-send" onclick="sendMessage()">Send</button> </div> </div>
+
+  <!-- Scripts -->
+  <script src="../js/chatbot.js"></script>
+  <script>
+    // Category toggle
+    function toggleContent(id) {
+      document.querySelectorAll('.category-content').forEach(div => {
+        div.style.display = 'none';
+      });
+      document.getElementById(id).style.display = 'block';
+    }
+
+    // ✅ Architecture-specific context for chatbot
+    const availablePlaces = {
+      "Ancient": ["Khajuraho (Madhya Pradesh)", "Konark (Odisha)"],
+      "Medieval": ["Hampi (Karnataka)", "Brihadeeswarar Temple (Tamil Nadu)"],
+      "Mughal": ["Taj Mahal (Agra)", "Fatehpur Sikri (Uttar Pradesh)"],
+      "Colonial": ["Victoria Memorial (Kolkata)", "Gateway of India (Mumbai)"],
+      "Modern": ["Lotus Temple (Delhi)", "Infosys Campus (Mysuru, Karnataka)"]
+    };
+
+    function buildPrompt(userQuestion) {
+      let context = "You are an assistant. Only answer based on the following architecture categories and their places:\n";
+      for (const [category, places] of Object.entries(availablePlaces)) {
+        context += `- ${category}: ${places.join(", ")}\n`;
+      }
+      context += `\nQuestion: ${userQuestion}\nAnswer:`;
+      return context;
+    }
+
+    // Export for chatbot.js
+    window.buildPrompt = buildPrompt;
+  </script>
+  <script src="js/search.js"></script>
+
 </body>
 </html>

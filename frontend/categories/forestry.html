@@ -1,50 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forestry - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forestry of India | AI Powered Guide</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    :root{
+      --brand:#2b7a78;
+      --brand-2:#3aafa9;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+      --accent:#e67e22;
+    }
+
+    body {
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin:0; padding:0;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.65;
+    }
+
+    h1,h2,h3 { color: var(--ink); }
+
+    h1 {
+      text-align:center;
+      padding:22px 12px 10px;
+      margin:0;
+      font-size:2.4rem;
+    }
+
+    p.lead {
+      max-width:1000px;
+      margin:0 auto 18px;
+      padding:0 14px;
+      text-align:center;
+    }
+
+    /* Buttons */
+    .category-bar {
+      text-align:center;
+      padding:8px 10px 20px;
+    }
+    .category-btn {
+      display:inline-block;
+      margin:8px;
+      padding:10px 16px;
+      background:var(--brand);
+      color:#fff;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      border:none;
+      transition:transform .15s, background .2s;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+    }
+    .category-btn:hover {
+      background:var(--brand-2);
+      transform:translateY(-1px);
+    }
+
+    /* Cards */
+    .content-card {
+      display:none;
+      max-width:1100px;
+      margin:18px auto 30px;
+      padding:18px;
+      border-radius:14px;
+      background:var(--paper);
+      box-shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+    .content-card.active { display:block; }
+
+    .grid {
+      display:flex;
+      flex-direction:column;
+      gap:25px;
+      align-items:center;
+    }
+    .place {
+      background:#fff;
+      border:1px solid #ddd;
+      border-radius:12px;
+      padding:20px;
+      box-shadow:0 4px 10px rgba(0,0,0,.12);
+      text-align:center;
+      width:100%;
+    }
+    .thumb {
+      max-width:500px;
+      width:100%;
+      height:250px;
+      object-fit:cover;
+      border-radius:12px;
+      border:3px solid var(--brand);
+      margin-bottom:15px;
+    }
+    .card-body h3 { color:var(--brand); margin:10px 0; }
+    .card-body p { text-align:justify; }
+
+    /* Chatbot */
+    #chatbot-toggle {
+      position:fixed; bottom:30px; right:30px;
+      width:54px; height:54px;
+      border-radius:50%; border:none;
+      background:var(--brand); color:#fff;
+      font-size:22px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.2);
+      z-index:9999;
+    }
+    #chatbot-box {
+      position:fixed; bottom:100px; right:30px;
+      width:340px; background:#fff;
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(0,0,0,.18);
+      display:none; flex-direction:column;
+      overflow:hidden; z-index:10000;
+    }
+    #chatbot-box.active { display:flex; }
+    #chatbot-header {
+      background:var(--brand); color:#fff;
+      padding:12px 18px; font-weight:bold;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    #chatbot-close { cursor:pointer; }
+    #chatbot-messages {
+      padding:12px; height:200px;
+      overflow-y:auto; background:#f7f9fb;
+      font-size:.95rem;
+    }
+    #chatbot-controls {
+      display:flex; border-top:1px solid #eee; padding:10px; background:#fafafa;
+    }
+    #chatbot-input {
+      flex:1; padding:8px;
+      border:1px solid #ccc; border-radius:6px;
+    }
+    #chatbot-send {
+      background:var(--accent); color:#fff;
+      border:none; border-radius:6px;
+      padding:8px 14px; margin-left:8px;
+      cursor:pointer; font-weight:bold;
+    }
+    #chatbot-send:hover { background:var(--brand-2); }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i> Chat
-            </button>
-        </div>
+  <div class="container">
+    <h1>Forestry of India</h1>
+    <p class="lead">India’s forests are a source of biodiversity, livelihood, and ecological balance, spread across diverse climatic regions.</p>
 
-        <h1 class="text-success mb-4">Forestry in India</h1>
-        <p>India is blessed with diverse forest ecosystems, including tropical evergreen, deciduous, mangrove, and coniferous forests, providing vital ecological services and biodiversity.</p>
-        
-        <h3 class="mt-4">Key Forested Regions & National Parks:</h3>
-        <ul>
-            <li><strong>Western Ghats:</strong> Rich biodiversity, evergreen forests (Kerala, Karnataka, Tamil Nadu, Goa, Maharashtra). Examples: Periyar National Park, Silent Valley National Park.</li>
-            <li><strong>Eastern Himalayas:</strong> Unique flora and fauna (Sikkim, Arunachal Pradesh, Assam). Example: Kaziranga National Park (Assam).</li>
-            <li><strong>Central Highlands:</strong> Deciduous forests, tiger reserves (Madhya Pradesh, Chhattisgarh). Examples: Bandhavgarh National Park, Kanha National Park.</li>
-            <li><strong>Sundarbans:</strong> Largest mangrove forest in the world (West Bengal, Bangladesh).</li>
-            <li><strong>Andhra Pradesh Forests:</strong> Nallamala Hills (part of Eastern Ghats - Kurnool, Prakasam districts), Seshachalam Hills (Chittoor, Kadapa districts), Papikondalu National Park (East Godavari, West Godavari).</li>
-        </ul>
-        <img src="https://via.placeholder.com/800x450?text=Indian+Forests" class="img-fluid my-3" alt="Indian Forests">
-        
-        <h3 class="mt-5 mb-3">Forestry Regions on Map</h3>
-        <p>Example: Kaziranga National Park, Assam</p>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.661000676451!2d77.1643905!3d28.557671799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f6a6c1122a7%3A0x6b4f7a26f3964d4a!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin9" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+    <div class="category-bar">
+      <button class="category-btn" onclick="showContent('tropical')">Tropical Forests</button>
+      <button class="category-btn" onclick="showContent('mangroves')">Mangroves</button>
+      <button class="category-btn" onclick="showContent('himalayan')">Himalayan Forests</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Tropical -->
+    <div id="tropical" class="content-card">
+      <div class="grid">
+        <div class="place">
+          <img class="thumb" src="https://www.shankariasparliament.com/uploads/files/western-ghats.png" alt="Western Ghats">
+          <div class="card-body">
+            <h3>Western Ghats (Kerala, Karnataka, Goa, Maharashtra, Tamil Nadu)</h3>
+            <p>The Western Ghats, also called the Sahyadri Hills, is a UNESCO World Heritage mountain range running parallel to India’s western coast through Kerala, Karnataka, Goa, Maharashtra, and Tamil Nadu. Stretching about 1,600 km, it is one of the world’s eight biodiversity hotspots, rich in evergreen, semi-evergreen, and moist deciduous forests. It is the origin of major rivers like the Godavari, Krishna, and Kaveri, sustaining agriculture, hydropower, and millions of people. The region hosts unique wildlife such as the lion-tailed macaque, Nilgiri tahr, and king cobra. Each state showcases natural wonders—Silent Valley (Kerala), Kudremukh & Jog Falls (Karnataka), Dudhsagar Falls (Goa), Mahabaleshwar (Maharashtra), and the Nilgiri Hills (Tamil Nadu). Economically vital for spices, tea, coffee, rice, and tourism, the Western Ghats also faces threats from deforestation, mining, and urbanization, making conservation essential for India’s ecological balance.</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/d/d2/SevenSisterStates.svg" alt="North-Eastern India">
+          <div class="card-body">
+            <h3>North-Eastern India (Assam, Arunachal Pradesh)</h3>
+            <p>The North-Eastern region of India, particularly Assam and Arunachal Pradesh, is known for its rich cultural diversity, natural beauty, and strategic importance. Assam, located in the Brahmaputra Valley, is famous for its tea plantations, oil and natural gas reserves, silk, and the Kaziranga and Manas National Parks, which are UNESCO World Heritage Sites. It is also known for its riverine plains, fertile agriculture, and vibrant culture reflected in festivals like Bihu. Arunachal Pradesh, often called the "Land of the Rising Sun," is a mountainous state sharing borders with Bhutan, China, and Myanmar. It is covered with dense forests, snow-capped peaks, and numerous rivers, making it rich in hydropower potential and biodiversity. The state is home to many indigenous tribes with distinct traditions, languages, and festivals, such as Losar and Solung. Together, Assam and Arunachal Pradesh highlight the essence of North-Eastern India—a land of tea, tribes, rivers, and mountains, blending economic resources, ecological wealth, and cultural heritage.</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <img class="thumb" src="https://go2andaman.com/wp-content/uploads/2021/05/andamanmap.jpg" alt="Andaman & Nicobar Islands">
+          <div class="card-body">
+            <h3>Andaman & Nicobar Islands</h3>
+            <p>The Andaman and Nicobar Islands, a Union Territory of India located in the Bay of Bengal, comprise about 572 islands, of which only around 37 are inhabited. The group is divided into the Andaman Islands in the north and the Nicobar Islands in the south, separated by the Ten Degree Channel. Port Blair, on South Andaman, serves as the capital. Known for their lush tropical forests, coral reefs, mangroves, and pristine beaches, the islands are among India’s richest biodiversity zones and home to rare wildlife such as sea turtles and dugongs. They are also inhabited by indigenous tribes like the Jarwas, Nicobarese, and Sentinalese, alongside settlers from mainland India. The economy depends mainly on fishing, agriculture, tourism, and handicrafts, with famous attractions including Radhanagar Beach, Havelock Island, and the historic Cellular Jail. Strategically, the islands hold great importance for India’s security in the Indian Ocean, while ecologically, they remain vital for their fragile but unique natural wealth.</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <img class="thumb" src="https://lotusarise.com/wp-content/uploads/2023/09/Silent-Valley-National-Park--1024x683.jpeg" alt="Silent Valley Forest (Kerala, Western Ghats)">
+          <div class="card-body">
+            <h3>Silent Valley Forest (Kerala, Western Ghats)</h3>
+            <p>The Silent Valley Forest, located in Kerala’s Palakkad district within the Western Ghats, is one of India’s most pristine tropical evergreen rainforests. Declared a National Park in 1984, it is part of the Nilgiri Biosphere Reserve and a UNESCO World Heritage Site. The forest is known for its untouched biodiversity, harboring rare species such as the endangered lion-tailed macaque, Nilgiri langur, Malabar giant squirrel, and numerous endemic plants, birds, and insects. The valley is nourished by the Kunthipuzha River, which flows through its dense forests and grasslands. Unlike many other regions, it has minimal human disturbance, making it an ecological treasure. Silent Valley also symbolizes India’s environmental movement, as its preservation was the result of strong protests against a proposed hydroelectric project in the 1970s. Today, it stands as a symbol of conservation, representing the rich biodiversity, ecological significance, and cultural pride of Kerala and the Western Ghats.</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <img class="thumb" src="https://satpuratigerreserve.org/assets/uploads/media-uploader/large-str-core-and-buffer-zone1675075751.jpg" alt="Satpura Forests (Madhya Pradesh)">
+          <div class="card-body">
+            <h3>Satpura Forests (Madhya Pradesh)</h3>
+            <p>The Satpura Forests, located in Madhya Pradesh, form part of the central Indian highlands and are spread across the Satpura Range. They are best known for the Satpura National Park, which, along with the Bori and Pachmarhi sanctuaries, constitutes the Satpura Tiger Reserve. The forests are a rich mix of tropical dry deciduous, moist deciduous, and semi-evergreen vegetation, providing habitat to diverse wildlife including tigers, leopards, sloth bears, wild dogs, Indian bison (gaur), and several bird species. The terrain is rugged, with hills, deep valleys, and rivers such as the Denwa, making it both scenic and ecologically important. Apart from wildlife, the region is home to tribal communities who live in harmony with the forests. Known for its unspoiled wilderness and lesser tourist crowd compared to other reserves, the Satpura forests represent one of India’s best-preserved natural habitats, combining biodiversity, ecological balance, and cultural heritage.</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Map_Guj_Gir_NatPark_Sanctuary.png" alt="Gir Forest (Gujarat – also has dry deciduous)">
+          <div class="card-body">
+            <h3>Gir Forest (Gujarat – also has dry deciduous)</h3>
+            <p>The Gir Forest, located in Gujarat, is world-famous as the last natural habitat of the Asiatic lion. Spread across the Saurashtra region, it was declared a wildlife sanctuary in 1965 and later became part of the Gir National Park. The forest is dominated by dry deciduous vegetation, mixed with scrublands, grasslands, and a few perennial rivers like the Hiran and Shetrunji, which sustain its ecosystem. Apart from the Asiatic lion, it shelters leopards, striped hyenas, jackals, sambar, chital, nilgai, and numerous bird species, making it a rich biodiversity zone. The forest also supports Maldhari pastoral communities, who coexist with wildlife through their traditional lifestyle. Conservation efforts in Gir have been highly successful, bringing the Asiatic lion population back from the brink of extinction. Today, Gir stands as a symbol of successful wildlife conservation, representing the unique dry deciduous forest ecosystem of western India.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mangroves -->
+    <div id="mangroves" class="content-card">
+      <div class="grid">
+        <div class="place">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/South_Asia_non_political%2C_with_rivers.jpg/500px-South_Asia_non_political%2C_with_rivers.jpg" alt="Sundarbans">
+          <div class="card-body">
+            <h3>Sundarbans Mangrove Forest (West Bengal)</h3>
+            <p>The Sundarbans Mangroves, located in West Bengal, form the largest tidal halophytic mangrove forest in the world and are a UNESCO World Heritage Site. Spanning the delta of the Ganga, Brahmaputra, and Meghna rivers, the Sundarbans are crisscrossed by a vast network of rivers, estuaries, and creeks. This unique ecosystem is world-renowned as the home of the Royal Bengal Tiger, which has adapted to the mangrove environment. Other wildlife includes saltwater crocodiles, fishing cats, spotted deer, and numerous migratory birds. The mangroves act as a natural shield against cyclones and coastal erosion, while also supporting local livelihoods through fishing, honey collection, and forestry. Rich in biodiversity and ecological importance, the Sundarbans highlight the delicate balance between human survival and environmental conservation, standing as a critical natural barrier and biodiversity hotspot of eastern India.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://ejatlas.org/media/conflict/land-and-livelihood-conflicts-in-bhitarkanika-wildlife-sanctuary-odisha-india/Map_of_the_sanctuary.png" alt="Bhitarkanika Mangroves – Odisha">
+          <div class="card-body">
+            <h3>Bhitarkanika Mangroves – Odisha</h3>
+            <p>The Bhitarkanika Mangroves, located in Odisha’s Kendrapara district, are India’s second-largest mangrove ecosystem after the Sundarbans. Spread across a network of rivers, estuaries, and creeks formed mainly by the Brahmani, Baitarani, and Dhamra rivers, this region is famous for its saltwater crocodiles, including some of the world’s largest individuals. Declared a National Park in 1998, Bhitarkanika is also home to spotted deer, fishing cats, water monitor lizards, olive ridley turtles, and a wide variety of resident and migratory birds. Its dense mangrove forests act as a natural barrier against coastal erosion and cyclones, while also supporting local fishing and agriculture-based livelihoods. Known for its ecological richness and wetland habitat, the Bhitarkanika Mangroves are a vital biodiversity hotspot of eastern India, combining wildlife conservation with coastal protection.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivorq14U4mAQpDcz3FQwwSKfrAL-lTNDGBD9bh7gxSQpzCyPonlhTUyGL4Q8YFgBQM1JCGE6aGi2w3WEzcecM_cISSyvQyTZ8ABE2ACaTUc-NBOydIg4d4zJp8bWMn0fBo5Y7GGkZ7Kqc/s2048/mangrove%2Bmap%2Bof%2Bindia.jpg" alt="Muthupet Mangroves – Tamil Nadu">
+          <div class="card-body">
+            <h3>Muthupet Mangroves – Tamil Nadu</h3>
+            <p>The Muthupet Mangroves, located at the southern end of the Cauvery River Delta in Tamil Nadu’s Tiruvarur district, form one of the state’s most important mangrove ecosystems. Spread over the Palk Strait region, these mangroves thrive where the Cauvery and its tributaries meet the Bay of Bengal, creating a rich estuarine habitat. The forest is dominated by Avicennia species and supports diverse marine life, including prawns, crabs, fish, and mollusks, which sustain local fishing communities. It also provides shelter to migratory birds such as flamingos, pelicans, and herons, making it a significant site for birdwatching. Apart from acting as a natural shield against coastal erosion and cyclones, the mangroves help maintain ecological balance by stabilizing sediments and supporting biodiversity. The Muthupet Mangroves are thus a critical wetland ecosystem of Tamil Nadu, blending environmental protection with livelihood support for coastal communities.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://imgs.mongabay.com/wp-content/uploads/sites/30/2020/06/23172633/pichavaram-mangroves-map.png" alt="Pichavaram Mangroves – Tamil Nadu (near Chidambaram)">
+          <div class="card-body">
+            <h3>Pichavaram Mangroves – Tamil Nadu (near Chidambaram)</h3>
+            <p>The Pichavaram Mangroves, located near Chidambaram in Tamil Nadu’s Cuddalore district, form one of the largest mangrove forests in India. Spread over about 1,100 hectares, this unique ecosystem lies between the Vellar and Coleroon estuaries along the Bay of Bengal. The mangrove forest consists of numerous small islands interlinked by a complex network of waterways, creeks, and backwaters, making it a popular destination for boating and eco-tourism. Dominated by species like Avicennia and Rhizophora, the forest supports diverse marine life such as crabs, prawns, and fish, along with migratory and resident birds like pelicans, egrets, and cormorants. Apart from being a rich biodiversity hotspot, the Pichavaram Mangroves act as a natural barrier against tsunamis, cyclones, and coastal erosion, while also supporting local livelihoods through fishing and eco-tourism. Renowned for its scenic beauty and ecological significance, Pichavaram is both an environmental treasure and a cultural attraction of Tamil Nadu.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjoxRogA1xo3YaQ6JDd5tGmnfAj7G0vaTwlXlGSjvy8waBz2IJlqp_kOfLs7pZqyu8HfpSuI3AXULhsjBhQY2LF3Tw9jmncpQbrWjUIZH6iLcch0vS_RM3P9vPRmMGp_zOT0wG2syg8tKLe/s1600/Tour%2B%2BMap%2B-%2BCopy.jpg" alt="Godavari Mangroves (Coringa Wildlife Sanctuary) – Andhra Pradesh">
+          <div class="card-body">
+            <h3>Godavari Mangroves (Coringa Wildlife Sanctuary) – Andhra Pradesh</h3>
+            <p>The Godavari Mangroves, located in the Coringa Wildlife Sanctuary near Kakinada in Andhra Pradesh, form the second-largest stretch of mangroves along India’s east coast after the Sundarbans. Spread across the delta of the Godavari River, these mangroves cover nearly 235 sq. km and are dominated by species such as Avicennia and Rhizophora. The region is a crucial habitat for diverse wildlife, including saltwater crocodiles, otters, fishing cats, jackals, and numerous species of fish, prawns, and crabs, which also sustain local fishing communities. It is an important haven for birds, with over 120 species recorded, including migratory birds like flamingos, pelicans, and herons. Ecologically, the mangroves act as a protective shield against cyclones, tidal surges, and coastal erosion, while also serving as a vital breeding and nursery ground for marine life. The Godavari mangroves at Coringa are therefore a critical biodiversity hotspot and natural defense system of coastal Andhra Pradesh, balancing conservation with livelihood support.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://actforgoa.org/wp-content/uploads/2020/08/WhatsApp-Image-2020-08-20-at-18.37.59.jpeg" alt="Goa Mangroves – along Zuari & Mandovi rivers">
+          <div class="card-body">
+            <h3>Goa Mangroves – along Zuari & Mandovi rivers</h3>
+            <p>The Goa Mangroves, mainly found along the estuaries of the Zuari and Mandovi rivers, are an essential part of the state’s coastal ecosystem. These mangrove forests thrive in the tidal backwaters, creeks, and riverbanks, providing a crucial buffer against coastal erosion, tidal surges, and flooding. Dominated by species such as Rhizophora, Avicennia, and Sonneratia, they serve as vital breeding and nursery grounds for fish, crabs, prawns, and mollusks, supporting the livelihoods of local fishing communities. The mangroves also host diverse birdlife, including herons, kingfishers, cormorants, and migratory species, making them important for birdwatching and eco-tourism. Apart from their ecological role, they help maintain water quality by filtering pollutants and stabilizing sediments. The Goa Mangroves thus represent a delicate yet vital ecosystem, safeguarding the coastal environment while enriching the state’s biodiversity and economy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Himalayan -->
+     <div id="himalayan" class="content-card">
+      <div class="grid">
+        <div class="place">
+          <img class="thumb" src="https://media.springernature.com/lw685/springer-static/image/chp%3A10.1007%2F978-3-030-14180-6_5/MediaObjects/478240_1_En_5_Fig4_HTML.png" alt="Deodar Forests – Himachal Pradesh, Uttarakhand">
+          <div class="card-body">
+            <h3>Deodar Forests – Himachal Pradesh, Uttarakhand</h3>
+            <p>Coniferous forests of pine, cedar, and fir dominate the Himalayan ranges. Important for ecology, water resources, and tourism. Provide habitat for unique flora and fauna, and help maintain climate stability in northern India.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Ecoregion_IM0502.svg/500px-Ecoregion_IM0502.svg.png" alt="Pine Forests – Jammu & Kashmir, Himachal, Uttarakhand">
+          <div class="card-body">
+            <h3>Pine Forests – Jammu & Kashmir, Himachal, Uttarakhand</h3>
+            <p>The Pine Forests of Jammu & Kashmir, Himachal Pradesh, and Uttarakhand are widespread across the mid-altitude ranges of the western Himalayas, generally found between 1,500 and 3,000 meters. Dominated by species like Chir pine (Pinus roxburghii), Blue pine (Pinus wallichiana), and Chilgoza pine (Pinus gerardiana), these forests are well adapted to dry slopes and moderate climates. The trees, with their tall straight trunks and needle-like leaves, play a crucial role in preventing soil erosion on steep Himalayan slopes. They provide habitat for diverse wildlife including leopards, Himalayan black bears, langurs, and many bird species. Economically, pine forests are important for timber, resin (used in varnish and turpentine), fuelwood, and Chilgoza pine nuts. However, they are also prone to forest fires due to their resinous content. Ecologically vital and visually striking, the pine forests of the western Himalayas represent a balance of economic utility, natural beauty, and ecological importance in India’s mountain ecosystems.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://www.mdpi.com/forests/forests-13-00848/article_deploy/html/images/forests-13-00848-g001-550.jpg" alt="Fir & Spruce Forests – Himachal Pradesh, Kashmir Valley">
+          <div class="card-body">
+            <h3>Fir & Spruce Forests – Himachal Pradesh, Kashmir Valley</h3>
+            <p>The Fir and Spruce Forests of the Himalayas, mainly found in Himachal Pradesh and the Kashmir Valley, flourish in the higher altitudes between 2,400 and 3,600 meters. These cold-temperate forests are dominated by species such as Silver Fir (Abies pindrow) and Spruce (Picea smithiana), often growing alongside deodar, blue pine, and Himalayan yew. Characterized by tall, straight conifers with needle-like leaves and dense canopies, they create a cool, shaded environment ideal for moisture retention. These forests are home to diverse wildlife including the Himalayan black bear, musk deer, serow, and various pheasants like the monal and koklass. Economically, fir and spruce wood is valued for construction, paper pulp, and packing boxes, while the forests also help regulate climate, conserve soil, and store water. In winter, they are often blanketed in snow, adding to the scenic beauty of the Kashmir and Himachal landscapes. The Fir and Spruce forests thus represent the classic coniferous vegetation of the higher western Himalayas, vital both ecologically and economically.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Sikkim_location_map.svg/500px-Sikkim_location_map.svg.png" alt="Rhododendron Forests – Sikkim, Arunachal Pradesh, Uttarakhand">
+          <div class="card-body">
+            <h3>Rhododendron Forests – Sikkim, Arunachal Pradesh, Uttarakhand</h3>
+            <p>The Rhododendron Forests, found in the higher reaches of Sikkim, Arunachal Pradesh, and Uttarakhand, are among the most colorful and distinctive Himalayan forests. Growing mainly between 1,800 and 3,800 meters, these forests are dominated by various species of Rhododendron, which bloom in vibrant shades of red, pink, purple, and white, especially during spring. Sikkim alone has over 30 species, making it the “Land of Rhododendrons.” These forests thrive in cool, moist climates and are often interspersed with oak, pine, and alpine meadows at higher elevations. Ecologically, they provide habitat for Himalayan fauna such as red pandas, takins, serows, and diverse bird species like sunbirds and pheasants. Rhododendron flowers are also used locally for making juices, pickles, and traditional medicine. Apart from their ecological role, they have cultural significance in Himalayan traditions and festivals. The Rhododendron forests thus symbolize the scenic beauty, biodiversity, and cultural richness of the eastern and western Himalayas.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://www.mapsofindia.com/maps/uttarakhand/uttaranchal-forest-map.gif" alt="Birch Forests – Higher reaches of Uttarakhand & Himachal">
+          <div class="card-body">
+            <h3>Birch Forests – Higher reaches of Uttarakhand & Himachal</h3>
+            <p>The Birch Forests, found in the higher reaches of Uttarakhand and Himachal Pradesh, thrive at altitudes of around 3,000 to 4,000 meters, just below the alpine meadows and snowline of the Himalayas. Dominated by the Himalayan birch (Betula utilis), locally known as Bhojpatra, these forests are adapted to cold, harsh climates. The birch tree is recognizable by its silvery-white, papery bark, which was historically used as writing material in ancient India for scriptures and manuscripts. These forests often grow alongside species like rhododendron, juniper, and fir, providing habitat for high-altitude wildlife such as the Himalayan tahr, snow leopard, musk deer, and various pheasants. Ecologically, birch forests help prevent soil erosion, regulate water flow from glaciers, and serve as important carbon sinks. They also hold cultural and spiritual significance, as birch bark is considered sacred in Hindu rituals. The Birch forests of the western Himalayas thus represent a blend of ecological resilience, cultural heritage, and alpine beauty.</p>
+          </div>
+        </div>
+        <div class="place">
+          <img class="thumb" src="https://www.researchgate.net/publication/225954456/figure/fig1/AS%3A302170168676352%401449054390468/Study-area-in-Zanskar-southern-Ladakh-including-the-three-study-sites-1-Parkachik.png" alt="Dry Temperate Forests – Ladakh, Zanskar, Spiti Valley">
+          <div class="card-body">
+            <h3>Dry Temperate Forests – Ladakh, Zanskar, Spiti Valley</h3>
+            <p>The **Dry Temperate Forests**, found in the cold desert regions of **Ladakh, Zanskar (Jammu & Kashmir), and the Spiti Valley (Himachal Pradesh)**, grow in high-altitude areas between **3,000 and 4,000 meters**, where the climate is dry, cold, and receives very little rainfall. Unlike dense tropical or coniferous forests, these are **sparse woodlands** dominated by hardy, drought- and frost-resistant species such as **junipers, birch, willows, poplars, and wild rose bushes**. The vegetation is adapted to survive in thin soils, intense sunlight, and extreme temperature variations. Despite their sparse appearance, these forests are ecologically vital, preventing soil erosion, stabilizing fragile mountain slopes, and supporting limited but unique wildlife like the **snow leopard, ibex, blue sheep (bharal), and Himalayan marmot**. They also provide fuelwood, fodder, and medicinal plants for local communities living in these harsh landscapes. The **Dry Temperate Forests of Ladakh, Zanskar, and Spiti** thus represent a fragile yet crucial ecosystem, balancing life in India’s cold desert Himalayas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot -->
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="toggleChatbot()">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..."/>
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Switch sections
+    function showContent(id) {
+      document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+    document.addEventListener('DOMContentLoaded',()=>showContent('tropical'));
+
+    // Chatbot toggle
+    function toggleChatbot() {
+      document.getElementById("chatbot-box").classList.toggle("active");
+    }
+
+    // Forestry context
+    const forestPlaces = {
+      "Tropical Forests": ["Western Ghats", "Andaman & Nicobar"],
+      "Mangroves": ["Sundarbans", "Bhitarkanika"],
+      "Himalayan Forests": ["Deodar", "Pine", "Rhododendron"]
+    };
+
+    function isForestQuery(q) {
+      const keywords = ["forest","mangrove","ghats","himalaya","sundarbans","andaman","deodar","pine","rhodo"];
+      return keywords.some(k => q.toLowerCase().includes(k));
+    }
+
+    function buildPrompt(msg) {
+      let context = "Answer only based on Forestry of India:\n";
+      for (const [cat, items] of Object.entries(forestPlaces)) {
+        context += `- ${cat}: ${items.join(", ")}\n`;
+      }
+      context += `\nQuestion: ${msg}\nAnswer:`;
+      return context;
+    }
+
+    // Chatbot logic
+    document.getElementById("chatbot-send").addEventListener("click", sendMessage);
+    document.getElementById("chatbot-input").addEventListener("keypress", e => {
+      if(e.key==="Enter") sendMessage();
+    });
+
+    async function sendMessage() {
+      const input=document.getElementById("chatbot-input");
+      const msg=input.value.trim();
+      if(!msg) return;
+      const chat=document.getElementById("chatbot-messages");
+      chat.innerHTML+=`<div><b>You:</b> ${msg}</div>`;
+
+      let payload=isForestQuery(msg)?{message:buildPrompt(msg)}:{message:msg};
+
+      try {
+        const res=await fetch("http://localhost:5000/api/chat",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(payload)
+        });
+        const data=await res.json();
+        chat.innerHTML+=`<div><b>Bot:</b> ${data.reply}</div>`;
+      } catch {
+        chat.innerHTML+=`<div><b>Bot:</b> ⚠️ Could not connect to server.</div>`;
+      }
+
+      input.value="";
+      chat.scrollTop=chat.scrollHeight;
+    }
+  </script>
+  <script src="js/bookmark.js"></script>
+  <script src="js/search.js"></script>
+
 </body>
 </html>

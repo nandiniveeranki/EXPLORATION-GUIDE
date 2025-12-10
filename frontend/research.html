@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Research Papers - AI Exploration Guide</title>
+  <style>
+    :root {
+      --brand: #2b7a78;
+      --brand-2: #3aafa9;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background: var(--brand);
+      padding: 10px 20px;
+    }
+
+    nav a {
+      color: white;
+      margin-right: 10px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .research-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+      color: var(--brand);
+    }
+
+    .search-box {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+    }
+
+    .search-box button {
+      padding: 10px 20px;
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .paper-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .paper-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: var(--brand);
+    }
+
+    .paper-card p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .links a {
+      margin-right: 10px;
+      text-decoration: none;
+      color: var(--brand-2);
+      font-weight: bold;
+    }
+
+    .oa-badge {
+      display: inline-block;
+      background: #22c55e;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .paywall {
+      display: inline-block;
+      background: #d1d5db;
+      color: #111;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="research.html">Research Papers</a>
+  </nav>
+
+  <div class="research-container">
+    <h1>Research Papers</h1>
+
+    <div class="search-box">
+      <input type="text" id="query" placeholder="Search research papers (e.g., Medicine in India)">
+      <button onclick="searchPapers()">Search</button>
+    </div>
+
+    <div id="results"></div>
+  </div>
+
+  <script>
+    async function searchPapers() {
+      const query = document.getElementById("query").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "<p>Loading...</p>";
+
+      if (!query) {
+        resultsDiv.innerHTML = "<p>Please enter a keyword.</p>";
+        return;
+      }
+
+      try {
+        const url = `https://api.openalex.org/works?filter=title.search:${encodeURIComponent(query)}&per-page=10`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        resultsDiv.innerHTML = "";
+
+        if (!data.results || data.results.length === 0) {
+          resultsDiv.innerHTML = "<p>No results found.</p>";
+          return;
+        }
+
+        data.results.forEach(paper => {
+          const title = paper.display_name || "Untitled";
+          const year = paper.publication_year || "N/A";
+
+          const authors = paper.authorships
+            ?.map(a => a.author.display_name)
+            .join(", ") || "Unknown";
+
+          const pdfUrl =
+            paper.open_access?.oa_url ||
+            paper.primary_location?.source?.homepage_url ||
+            "";
+
+          const doi = paper.doi ? `https://doi.org/${paper.doi}` : "";
+
+          const concepts = paper.concepts
+            ?.slice(0, 3)
+            .map(c => c.display_name)
+            .join(", ") || "Not specified";
+
+          const citations = paper.cited_by_count || 0;
+
+          resultsDiv.innerHTML += `
+            <div class="paper-card">
+              <h3>${title}</h3>
+
+              <p><strong>Year:</strong> ${year}</p>
+              <p><strong>Authors:</strong> ${authors}</p>
+              <p><strong>Domain:</strong> ${concepts}</p>
+              <p><strong>Citations:</strong> ${citations}</p>
+
+              ${
+                paper.open_access?.is_oa
+                  ? `<span class="oa-badge">Open Access</span>`
+                  : `<span class="paywall">Closed Access</span>`
+              }
+
+              <div class="links">
+                ${doi ? `<a href="${doi}" target="_blank">DOI Link</a>` : ""}
+                ${pdfUrl ? `<a href="${pdfUrl}" target="_blank">View PDF</a>` : ""}
+              </div>
+            </div>
+          `;
+        });
+      } catch (err) {
+        console.error(err);
+        resultsDiv.innerHTML = "<p>Error fetching papers.</p>";
+      }
+    }
+  </script>
+</body>
+</html>

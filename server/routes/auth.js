@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+import bcrypt from "bcryptjs";
+import User from "../models/user.js";
+
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const User = require("../models/user");
 
 // Register
 router.post("/register", async (req, res) => {
@@ -46,4 +47,4 @@ router.get("/test", (req, res) => {
   res.json({ message: "✅ Auth route working!" });
 });
 
-module.exports = router;
+export default router;

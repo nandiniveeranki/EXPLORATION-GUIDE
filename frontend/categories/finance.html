@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance in India | AI Powered Guide</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root {
+      --brand: #28a745; /* Switched to a green theme for Finance */
+      --brand-2: #218838;
+      --ink: #2c3e50;
+      --paper: #ffffff;
+      --bg: #f7f9fb;
+      --accent: #e67e22;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    h1, h2, h3 {
+      color: var(--ink);
+    }
+
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+      text-align: center;
+    }
+
+    /* Buttons */
+    .category-bar {
+      text-align: center;
+      padding: 8px 10px 20px;
+    }
+
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+      border: none;
+    }
+
+    .category-btn:hover {
+      background: var(--brand-2);
+      transform: translateY(-1px);
+    }
+
+    /* Cards */
+    .category-content {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    }
+
+    .category-content.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body p {
+        flex-grow: 1;
+    }
+
+    .thumb {
+      display: block;
+      margin: 0 auto 15px;
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+    
+    .links {
+      margin-top: 15px;
+    }
+
+    .official-link {
+      display: inline-block;
+      color: var(--brand);
+      font-weight: bold;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 2px solid var(--brand);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .official-link:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+
+    /* Chatbot styles */
+    #chatbot-box {
+      position: fixed; bottom: 90px; right: 30px;
+      width: 340px; background: #fff;
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none; flex-direction: column; overflow: hidden;
+      z-index: 10000;
+    }
+    #chatbot-box.active { display: flex; }
+
+    #chatbot-header {
+      background: var(--brand); color: #fff;
+      padding: 12px 18px; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    #chatbot-messages {
+      padding: 12px; height: 180px; overflow-y: auto;
+      background: #f7f9fb; font-size: 1em;
+    }
+    #chatbot-controls {
+      display: flex; border-top: 1px solid #eee;
+      padding: 10px; background: #fafafa;
+    }
+    #chatbot-input {
+      flex: 1; padding: 8px; border-radius: 6px;
+      border: 1px solid #ccc; font-size: 1em; margin-right: 8px;
+    }
+    #chatbot-send {
+      background: var(--brand); color: #fff;
+      border: none; border-radius: 6px;
+      padding: 8px 16px; cursor: pointer; font-weight: bold;
+    }
+    #chatbot-toggle {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--brand); color: #fff;
+      border-radius: 50%; width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2em; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 9999;
+    }
+    .user-message { margin: 6px 0; font-weight: bold; }
+    .bot-message { margin: 6px 0; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Finance in India</h1>
+    <p class="lead">India's financial landscape is a dynamic blend of traditional institutions and cutting-edge technology, powering one of the world's fastest-growing major economies.</p>
+
+    <div class="category-section">
+      <div class="category-bar">
+        <button class="category-btn" onclick="showContent('banking')">Banking Sector</button>
+        <button class="category-btn" onclick="showContent('markets')">Stock Markets</button>
+        <button class="category-btn" onclick="showContent('fintech')">FinTech Revolution</button>
+        <button class="category-btn" onclick="showContent('policy')">Economic Policy</button>
+        <button class="category-btn" onclick="showContent('links')">Major Institutions</button>
+      </div>
+
+      <div id="banking" class="category-content active">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/164583/pexels-photo-164583.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Reserve Bank of India Building">
+            <div class="card-body">
+              <h3>Reserve Bank of India (RBI)</h3>
+              <p>The **RBI** is India's central bank and the supreme monetary authority. Established in 1935, it is responsible for issuing currency, framing monetary policy to control inflation, managing the country's foreign exchange reserves, and regulating the entire banking sector to ensure financial stability and public confidence.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/259200/pexels-photo-259200.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Bank Branch Interior">
+            <div class="card-body">
+              <h3>Public Sector Banks (PSBs)</h3>
+              <p>PSBs are banks where a majority stake is held by the government. Led by the **State Bank of India (SBI)**, they have been the pillars of the Indian economy, driving financial inclusion with their vast branch network across the country. They play a crucial role in providing credit to key sectors like agriculture and small-scale industries.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/1602726/pexels-photo-1602726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Person using a mobile banking app">
+            <div class="card-body">
+              <h3>Private Sector Banks</h3>
+              <p>Private sector banks like **HDFC Bank** and **ICICI Bank** have been at the forefront of innovation in the Indian banking industry. Known for their customer-centric approach and rapid adoption of technology, they have pioneered digital banking services, from mobile apps to internet banking, setting new benchmarks for efficiency and convenience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="markets" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BSE_building.jpg/800px-BSE_building.jpg" alt="BSE Building in Mumbai">
+            <div class="card-body">
+              <h3>Bombay Stock Exchange (BSE)</h3>
+              <p>Established in 1875, the **BSE** is Asia's oldest stock exchange. Located at Dalal Street in Mumbai, it has played a pivotal role in developing India's capital markets. Its benchmark index, the **S&P BSE SENSEX**, is a widely tracked indicator of the health of the Indian economy. The BSE has a market capitalization of trillions of US dollars.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/7869608/pexels-photo-7869608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Stock market ticker board">
+            <div class="card-body">
+              <h3>National Stock Exchange (NSE)</h3>
+              <p>Incorporated in 1992, the **NSE** was a pioneer in introducing a modern, fully-automated, screen-based electronic trading system. It is India's largest financial market and a global leader in derivatives trading. Its flagship index, the **NIFTY 50**, represents the 50 largest and most liquid Indian securities, serving as a barometer for the Indian capital market.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/5980862/pexels-photo-5980862.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Gavel and law books representing regulation">
+            <div class="card-body">
+              <h3>SEBI</h3>
+              <p>The **Securities and Exchange Board of India (SEBI)** is the statutory regulatory body for the securities and commodity market in India. Its primary functions are to protect the interests of investors, promote the development of the securities market, and regulate its activities to ensure fair and transparent dealings.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="fintech" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/1020317/pexels-photo-1020317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="UPI QR code on a phone">
+            <div class="card-body">
+              <h3>Unified Payments Interface (UPI)</h3>
+              <p>**UPI** is a revolutionary real-time payment system that has transformed digital transactions in India. Developed by NPCI, it allows for instant money transfers between bank accounts using a mobile device. Its simplicity and interoperability have led to exponential growth, making it a cornerstone of India's FinTech ecosystem and a model for the world.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/50987/money-card-business-credit-card-50987.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Digital Wallet on smartphone">
+            <div class="card-body">
+              <h3>Digital Wallets & Payments</h3>
+              <p>Beyond UPI, India's FinTech landscape is bustling with digital wallets and payment gateways like Paytm, PhonePe, and Google Pay. These platforms have accelerated the shift away from cash by offering a wide range of services, including mobile recharges, bill payments, and merchant transactions, further deepening digital financial inclusion.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="policy" class="category-content">
+        <div class="grid">
+            <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/1629236/pexels-photo-1629236.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Container shipping port">
+            <div class="card-body">
+              <h3>1991 Economic Reforms</h3>
+              <p>The economic reforms of 1991 are a watershed moment in India's financial history. The policies of **LPG (Liberalisation, Privatisation, and Globalisation)** opened up the Indian economy to the world. They delicensed industries, reduced trade barriers, and encouraged foreign investment, setting the stage for decades of high economic growth.</p>
+            </div>
+          </div>
+           <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/6863251/pexels-photo-6863251.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="GST tax form">
+            <div class="card-body">
+              <h3>Goods & Services Tax (GST)</h3>
+              <p>Introduced in 2017, the **GST** is the most significant tax reform in independent India. It subsumed a multitude of central and state taxes into a single, unified tax structure. The "One Nation, One Tax" system has simplified the indirect tax regime, improved compliance, and created a common national market, enhancing the ease of doing business.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="links" class="category-content">
+        <div class="grid">
+            <div class="place">
+                <div class="card-body">
+                    <h3>Reserve Bank of India (RBI)</h3>
+                    <p>The official website of India's central bank, providing data, press releases, and information on monetary policy and banking regulations.</p>
+                    <div class="links">
+                        <a href="https://www.rbi.org.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>SEBI</h3>
+                    <p>The official portal for the Securities and Exchange Board of India, the primary regulator of the country's capital markets.</p>
+                    <div class="links">
+                        <a href="https://www.sebi.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>Ministry of Finance</h3>
+                    <p>The central government ministry responsible for the economy of India, overseeing taxation, financial legislation, and the annual Union Budget.</p>
+                    <div class="links">
+                        <a href="https://www.finmin.nic.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="closeChatbot()" style="cursor: pointer;">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const financeData = {
+      "Banking Sector": ["rbi", "sbi", "hdfc", "icici", "bank"],
+      "Stock Markets": ["bse", "nse", "sebi", "sensex", "nifty", "stock"],
+      "FinTech Revolution": ["upi", "paytm", "phonepe", "fintech", "payment"],
+      "Economic Policy": ["gst", "tax", "reform", "liberalisation"]
+    };
+
+    function showContent(category) {
+      document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+    }
+
+    function getLocalAnswer(userQuestion) {
+      userQuestion = userQuestion.toLowerCase();
+      for (const [category, keywords] of Object.entries(financeData)) {
+        for (const keyword of keywords) {
+          if (userQuestion.includes(keyword)) {
+            return `That relates to <strong>${category}</strong>. You can find more information in that section!`;
+          }
+        }
+      }
+      return null;
+    }
+
+    document.getElementById('chatbot-send').addEventListener('click', sendMessage);
+    document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById('chatbot-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById('chatbot-messages');
+      chat.innerHTML += `<div class="user-message"><b>You:</b> ${msg}</div>`;
+
+      const localAnswer = getLocalAnswer(msg);
+      if (localAnswer) {
+        chat.innerHTML += `<div class="bot-message"><b>Bot:</b> ${localAnswer}</div>`;
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+        return;
+      }
+
+      try {
+        const botDiv = document.createElement("div");
+        botDiv.className = "bot-message";
+        botDiv.innerHTML = "<b>Bot:</b> 🤖 Thinking...";
+        chat.appendChild(botDiv);
+        chat.scrollTop = chat.scrollHeight;
+
+        setTimeout(() => {
+          botDiv.innerHTML = `<b>Bot:</b> I can provide details about India's banks, stock markets, and FinTech. What would you like to know?`;
+          chat.scrollTop = chat.scrollHeight;
+        }, 1000);
+
+      } catch {
+        chat.innerHTML += `<div class="bot-message">⚠️ Couldn’t connect to server</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function toggleChatbot() {
+      document.getElementById('chatbot-box').classList.toggle('active');
+    }
+    function closeChatbot() {
+      document.getElementById('chatbot-box').classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showContent('banking');
+    });
+  </script>
+</body>
+</html>

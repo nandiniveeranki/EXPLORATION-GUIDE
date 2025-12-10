@@ -2,51 +2,703 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agriculture - AI Exploration Guide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <style>
+    :root{
+      --brand:#2b7a78;
+      --brand-2:#3aafa9;
+      --ink:#2c3e50;
+      --paper:#ffffff;
+      --bg:#f7f9fb;
+      --accent:#e67e22;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+    h1,h2,h3{ color: var(--ink); }
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+    }
+    p.lead span { color:#1b6de3; font-weight:600; }
+
+    /* Buttons */
+    .category-bar{
+      text-align:center; padding: 8px 10px 20px;
+    }
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    }
+    .category-btn:hover { background: var(--brand-2); transform: translateY(-1px); }
+
+    /* Cards */
+    .category-content {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+    .grid {
+      display: flex;
+      flex-direction: column; /* stack all cards vertically */
+      gap: 25px; /* space between cards */
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      text-align: center; /* center text and image */
+      width: 100%;
+    }
+
+    .thumb {
+      display: block;
+      margin: 0 auto 15px; /* center image */
+      width: 100%;           /* image fills card width */
+      max-width: 500px;      /* optional: keeps it from stretching too wide */
+      height: 250px;         /* fixed uniform height */
+      border-radius: 12px;
+      border: 3px solid #2b7a78; /* nice border around image */
+      object-fit: cover;     /* ensures images crop to fit without distortion */
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: #2b7a78;
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    .links {
+      margin-top: 12px;
+    }
+
+    .official-link {
+      color: #2b7a78;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 2px solid #2b7a78;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .official-link:hover {
+      background: #2b7a78;
+      color: #fff;
+    }
+
+
+    /* Intro link */
+    .ministry-link{ display:inline-block; margin-top:6px;}
+
+    /* Keep your chatbot CSS from chatbot.css; only ensuring z-index layering */
+    #chatbot-toggle{ z-index: 9999; }
+    #chatbot-box{ z-index: 10000; }
+  </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="../index.html#categories" class="btn btn-dark">
-                <i class="bi bi-arrow-left"></i> Back to Categories
-            </a>
-            <button class="btn btn-info chat-icon-btn">
-                <i class="bi bi-chat-dots-fill"></i>
-            </button>
-        </div>
+    <h1>Agriculture in India</h1>
+    <p class="lead">
+        Explore different categories of crops and the best regions where they are grown.<br>
+        <span>Agriculture is a cornerstone of India's economy, employing about 55% of the population and contributing significantly to the GDP, while also facing challenges such as pesticide use and climate change.</span><br><br>
+        India has a rich agricultural history dating back to the Neolithic period. Today, it ranks second globally in farm output. Agriculture and allied sectors—animal husbandry, forestry, and fisheries—remain vital for food security, livelihoods, and exports.<br>
+        <a href="https://agricoop.nic.in/" target="_blank" class="official-link ministry-link">Ministry of Agriculture & Farmers Welfare</a>
+    </p>
 
-        <h1 class="text-success mb-3">Agriculture in India</h1>
-        <p class="mb-4">India is one of the world's largest agricultural economies. Various regions specialize in different crops:</p>
-
-        <ul class="mb-4">
-            <li><strong>Punjab & Haryana</strong> – Renowned for wheat and rice production.</li>
-            <li><strong>Andhra Pradesh</strong> – Known for rice, cotton, and chili cultivation.</li>
-            <li><strong>Maharashtra</strong> – Major producer of sugarcane and cotton.</li>
-        </ul>
-
-        <img src="https://ekincare.wordpress.com/wp-content/uploads/2017/10/desi-crops-of-andhra.jpeg?w=800" 
-             class="img-fluid rounded shadow-sm mb-4" 
-             alt="Agricultural produce in India">
-
-        <h3 class="mt-5 mb-3 text-secondary">Key Agricultural Hubs on Map</h3>
-        <p class="mb-2">Here’s an example of the <strong>Guntur Chilli Market</strong>, Andhra Pradesh – one of Asia’s largest spice trading centers.</p>
-
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15302.26189569618!2d80.44755190000001!3d16.3270425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4a7541e21b0d2d%3A0xb35a90d90e8a7c2!2sGuntur%20Mirchi%20Yard!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade"
-            class="rounded">
-        </iframe>
+    <!-- Category Buttons -->
+    <div class="category-bar">
+        <span class="category-btn" onclick="toggleContent('water')">Water-rich Crops</span>
+        <span class="category-btn" onclick="toggleContent('dry')">Dry-land Crops</span>
+        <span class="category-btn" onclick="toggleContent('cash')">Cash Crops</span>
+        <span class="category-btn" onclick="toggleContent('food')">Food Grains</span>
+        <span class="category-btn" onclick="toggleContent('horti')">Horticulture</span>
+        <span class="category-btn" onclick="toggleContent('research')">Research INSTITUTES</span>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <!-- ✅ Chatbot toggle and box -->
+    <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+    <div id="chatbot-box" class="chatbot-hidden">
+        <div id="chatbot-header">
+            AI Chatbot
+            <span id="chatbot-close" onclick="toggleChatbot()">✖</span>
+        </div>
+        <div id="chatbot-messages"></div>
+        <div id="chatbot-controls">
+            <input type="text" id="chatbot-input" placeholder="Ask something..." />
+            <button id="chatbot-send" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Water-rich Crops -->
+    <div id="water" class="category-content">
+        <h2>Water-rich Crops</h2>
+        <div class="category-section">
+            <!-- Punjab Rice -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Punjab – Rice (Paddy)</h3>
+                    <p>Extensive canal networks and groundwater extraction support high-yield paddy in Punjab. Mechanization, MSP procurement, and milling infrastructure enable scale, though water tables face stress—driving interest in direct-seeded rice and diversification.</p>
+                    <p>Punjab, often referred to as the Granary of India, plays a central role in India’s rice cultivation and food security. The large-scale adoption of paddy in the state began during the Green Revolution of the 1960s, when high-yielding varieties, improved irrigation networks, and chemical fertilizers were introduced on a mass scale. Prior to this period, Punjab was primarily a wheat-growing state, but policy incentives, government procurement at Minimum Support Price (MSP), and the establishment of the Food Corporation of India’s procurement system encouraged farmers to adopt paddy as the dominant kharif crop.</p>
+                    <p>The climatic conditions of Punjab, with hot summers and the arrival of the monsoon rains in June, are favorable for rice cultivation, although the crop is not native to this semi-arid region. To support paddy production, Punjab developed extensive canal systems and relied heavily on tube wells for irrigation. This assured water availability allowed farmers to grow water-intensive rice varieties that required fields to remain flooded for long periods. Districts like Sangrur, Ludhiana, Patiala, Amritsar, and Ferozepur soon became known as the rice belts of Punjab, producing massive surpluses for the national buffer stocks.</p>
+                    <img class="card-img-top" src="https://images.unsplash.com/photo-1599487488170-6b168f6c9d7a" alt="Rice field Punjab">
+                    <p>Economically, rice farming in Punjab remains viable due to government procurement under MSP. Every harvest season, agencies procure millions of tons of paddy, ensuring assured returns for farmers. However, this has also created a dependence on subsidies, free electricity for tube wells, and continued state support. Policymakers now recognize the urgent need to diversify Punjab’s agriculture, encouraging farmers to shift toward maize, pulses, horticulture, and even high-value crops such as fruits and vegetables.</p>
+                    <p>In conclusion, rice cultivation in Punjab stands as both a story of agricultural success and an emerging ecological challenge. While it has secured India’s food security for decades, feeding millions and sustaining farmer incomes, the long-term sustainability of paddy in Punjab is under question. Balancing productivity with environmental conservation has become the key priority. Future solutions lie in promoting water-saving technologies, diversifying crop patterns, and equipping farmers with both policy support and scientific innovation to ensure that Punjab remains an agricultural powerhouse without exhausting its natural resources.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agripb.gov.in/" target="_blank">Punjab Agriculture Dept</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Haryana Rice -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Haryana – Rice</h3>
+                    <p>Haryana’s rice belt mirrors Punjab’s strengths—assured irrigation, hybrid seed adoption, and efficient procurement. Policy nudges promote water-saving practices, short-duration varieties, and shifting some acreage to maize and pulses.</p>
+                    <p>Haryana is one of India’s leading rice-producing states, especially known for its contribution of high-quality basmati rice to both domestic consumption and export markets. The cultivation of rice in Haryana expanded significantly during the Green Revolution, when improved irrigation infrastructure, canal networks, and the introduction of high-yielding varieties transformed the state into a key agricultural hub. Unlike Punjab, which primarily focused on wheat initially, Haryana quickly diversified into rice cultivation due to its proximity to procurement centers and government policies that assured Minimum Support Price (MSP) for farmers. The state’s fertile alluvial soils and assured irrigation through canals such as the Western Yamuna Canal, coupled with tube well systems, created favorable conditions for large-scale paddy farming. Districts like Karnal, Kurukshetra, Ambala, Kaithal, and Panipat became the major rice belts of the state, producing both basmati and non-basmati varieties. Karnal, in particular, is internationally recognized for its basmati rice research and development, with the Central Soil Salinity Research Institute (CSSRI) and the National Dairy Research Institute (NDRI) supporting modern farming practices.<br>
+                    Economically, paddy cultivation in Haryana thrives due to strong government procurement, private milling units, and robust export networks. Basmati from Haryana has a global reputation, especially in Middle Eastern and European markets, making it a key foreign exchange earner for India. However, similar to Punjab, the expansion of paddy in a semi-arid state has placed enormous stress on groundwater resources, as farmers rely heavily on tube wells to maintain flooded paddy fields. Declining water tables, rising energy consumption for pumping, and environmental concerns such as soil degradation and methane emissions have prompted policymakers to encourage diversification. Programs promoting crop rotation, water-saving technologies like direct-seeded rice, and alternative crops such as maize and pulses are being introduced.</p>
+                    <img class="card-img-top" src="https://images.unsplash.com/photo-1615890006438-2b2f0f59b905" alt="Paddy field Haryana">
+                    <p>Despite these challenges, Haryana remains synonymous with high-quality rice, particularly basmati, which is deeply tied to the state’s agricultural identity and global standing. The resilience of its farmers, strong institutional support, and policy-driven procurement ensure that rice continues to play a pivotal role in Haryana’s rural economy. At the same time, balancing sustainability with productivity has become the central challenge for the state, as it seeks to maintain its reputation as a leading rice producer while safeguarding its natural resources for the future.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agriharyana.gov.in/en/" target="_blank">Haryana Agriculture Dept</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Andhra Pradesh Godavari Delta -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Andhra Pradesh – Godavari Delta Paddy</h3>
+                    <p>Alluvial soils and canal-fed irrigation make the Godavari and Krishna deltas rice powerhouses. Double-cropping, custom hiring centers, and robust mandi networks sustain incomes, with increasing pilots in drones and precision agronomy.<br>
+                    <span style="color: red;">The Godavari Delta in Andhra Pradesh is one of the most fertile and productive rice-growing regions in India, often referred to as the "Rice Bowl of India."</span> The delta, nourished by the mighty Godavari River and its intricate canal systems, has supported intensive paddy cultivation for centuries. The alluvial soils of the delta are naturally rich in nutrients, and when combined with assured irrigation from river-fed canals, they create ideal conditions for growing multiple crops of rice each year. Farmers in districts such as East Godavari, West Godavari, Krishna, and Guntur are known for cultivating high-yielding and hybrid rice varieties, with many farmers adopting double and even triple-cropping patterns to maximize productivity. The arrival of the Green Revolution further boosted rice cultivation here, as improved varieties, mechanization, and chemical inputs found a natural fit in the delta’s favorable environment.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://apagrisnet.gov.in/" target="_blank">AP Agriculture Dept</a>
+                    </div>
+                </div>
+            </div>
+            <!-- West Bengal Rice -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>West Bengal – Rice</h3>
+                    <p>India’s largest rice producer leverages abundant rainfall, boro/winter rice, and smallholder intensification. Public seed systems, micro-irrigation, and SHG-led aggregation strengthen resilience against floods and salinity in coastal belts.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://matirkatha.netlify.app/" target="_blank">WB Agriculture (Matir Katha)</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Kerala Sugarcane -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Kerala – Sugarcane</h3>
+                    <p>Humid tropical conditions and fertile soils support sugarcane pockets in Kerala. Diversified farm models integrate cane with coconut, banana, and spices, enhancing cash flow and reducing climate risk for smallholders.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://www.keralaagriculture.gov.in/" target="_blank">Kerala Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Tamil Nadu Paddy (Cauvery Delta) -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Tamil Nadu – Cauvery Delta Paddy</h3>
+                    <p>The Cauvery delta’s irrigation heritage supports high-intensity paddy. System of Rice Intensification (SRI), laser leveling, and eNAM market access improve productivity and price realization for growers across Thanjavur and adjoining districts.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://www.tnagrisnet.tn.gov.in/" target="_blank">TN Agriculture Dept</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dry-land Crops -->
+    <div id="dry" class="category-content">
+        <h2>Dry-land Crops</h2>
+        <div class="category-section">
+            <!-- Rajasthan Bajra -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Rajasthan – Bajra (Pearl Millet)</h3>
+                    <p>Drought-hardy bajra anchors food and fodder security in Thar districts. Short-duration hybrids, rainwater harvesting, and FPO marketing strengthen returns while preserving traditional rotis and livestock feed chains.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agriculture.rajasthan.gov.in/" target="_blank">Rajasthan Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Karnataka Jowar -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Karnataka – Jowar (Sorghum)</h3>
+                    <p>Semi-arid Deccan zones cultivate jowar for staple consumption and fodder. Heat tolerance, intercropping with pulses, and millets’ nutrition revival programs expand demand in urban markets.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agriculture.karnataka.gov.in/" target="_blank">Karnataka Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Telangana Red Gram -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Telangana – Red Gram (Tur/Arhar)</h3>
+                    <p>Pigeon pea thrives on residual moisture and fits well in rainfed rotations. MSP support, dal processing clusters, and exports underpin farmer incomes in Mahabubnagar, Nalgonda, and adjoining districts.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://www.telangana.gov.in/departments/agriculture" target="_blank">Telangana Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Maharashtra Chickpea -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Maharashtra – Chickpea (Gram)</h3>
+                    <p>Post-monsoon chickpea uses conserved soil moisture on Vertisols. Short-duration varieties, seed treatment, and contract processing improve yields and market access across Vidarbha and Marathwada.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agriculture.maharashtra.gov.in/" target="_blank">Maharashtra Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Gujarat Groundnut (rainfed) -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Gujarat – Groundnut (Rainfed)</h3>
+                    <p>Saurashtra’s Kharif groundnut relies on timely rainfall and well-drained soils. Seed quality, weed management, and decentralized oil mills support price realization in domestic and export markets.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agri.gujarat.gov.in/" target="_blank">Gujarat Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- MP Minor Millets -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Madhya Pradesh – Kodo & Kutki Millets</h3>
+                    <p>Tribal belts cultivate resilient small millets that tolerate heat and poor soils. Nutri-cereal schemes, PDS inclusion, and ready-to-cook products grow demand while preserving biodiversity.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://mpkrishi.mp.gov.in/" target="_blank">MP Agriculture</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cash Crops -->
+    <div id="cash" class="category-content">
+        <h2>Cash Crops</h2>
+        <div class="category-section">
+            <!-- Gujarat Cotton -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Gujarat – Cotton</h3>
+                    <p>India’s leading cotton state benefits from Bt hybrids, ginning capacity, and textile demand. Drip irrigation and IPM practices aim to reduce input costs and pest risks.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agri.gujarat.gov.in/" target="_blank">Gujarat Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Kerala Rubber -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Kerala – Rubber</h3>
+                    <p>High rainfall and laterite soils suit rubber plantations across Kottayam and Idukki. Sheet and latex processing, domestic tyre demand, and replanting schemes drive the sector.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://www.rubberboard.gov.in/" target="_blank">Rubber Board</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Assam Tea -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Assam – Tea</h3>
+                    <p>Brahmaputra valley estates produce robust, malty teas prized globally. Small tea growers, auction systems, and GI-tagged brands sustain export competitiveness and rural employment.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://commerce.gov.in/tea-board-of-india/" target="_blank">Tea Board of India</a>
+                    </div>
+                </div>
+            </div>
+            <!-- West Bengal Jute -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>West Bengal – Jute</h3>
+                    <p>Alluvial soils and humid summers enable premium jute fiber along the Hooghly belt. Packaging mandates, retting improvements, and modern looms stabilize farmer incomes.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://www.jute.com/" target="_blank">National Jute Board</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Karnataka Coffee -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Karnataka – Coffee (Coorg/Chikmagalur)</h3>
+                    <p>Shade-grown Arabica and Robusta intercropped with pepper and fruit trees sustain biodiversity. Specialty lots, pulped natural processing, and traceability raise premiums.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://horticulturedir.karnataka.gov.in/" target="_blank">Karnataka Horticulture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Andhra Pradesh Tobacco -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Andhra Pradesh – Tobacco (FCV)</h3>
+                    <p>Flue-cured Virginia tobacco from Prakasam and Guntur feeds global cigarette blends. Auction platforms, grading standards, and diversification programs coexist to manage price and health externalities.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://tobaccoboard.gov.in/" target="_blank">Tobacco Board</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Food Grains -->
+    <div id="food" class="category-content">
+        <h2>Food Grains</h2>
+        <div class="category-section">
+            <!-- UP Wheat -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Uttar Pradesh – Wheat</h3>
+                    <p>Fertile Gangetic plains, canal irrigation, and procurement underpin UP’s dominance. Heat-tolerant, high-Zn varieties and straw markets improve resilience and incomes.</p>
+                    <div class="links">
+                        <a class="official-link" href="http://upagriparan.gov.in/" target="_blank">UP Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Punjab Wheat-Rice -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Punjab – Wheat (Rice–Wheat System)</h3>
+                    <p>Mechanized sowing, straw management, and timely MSP lift farmer confidence. Happy Seeder adoption and residue solutions reduce burning and improve soil health.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agripb.gov.in/" target="_blank">Punjab Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- MP Wheat -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Madhya Pradesh – Sharbati Wheat</h3>
+                    <p>MP’s Sharbati wheat attracts premium prices for taste and chapati softness. Farmer collectives, cleaning–grading units, and GI initiatives build brand value.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://mpkrishi.mp.gov.in/" target="_blank">MP Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Chhattisgarh Rice -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Chhattisgarh – Rice (Rice Bowl)</h3>
+                    <p>Rainfed lowlands and minor irrigation make Chhattisgarh a major rice hub. Community seed banks, indigenous varieties, and millets revival diversify diets and incomes.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agriportal.cg.nic.in/" target="_blank">Chhattisgarh Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Bihar Maize -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Bihar – Maize</h3>
+                    <p>Rabi maize under irrigation delivers high yields for feed and starch industries. Contracting, dryers, and storage investments reduce post-harvest losses across Seemanchal.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://dbtagriculture.bihar.gov.in/" target="_blank">Bihar Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Odisha Rice -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Odisha – Rice</h3>
+                    <p>Eastern ghats to coastal plains grow diverse rice types. Cyclone-resilient infrastructure, seed drills, and MSP procurement support vulnerable smallholders.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://agri.odisha.gov.in/" target="_blank">Odisha Agriculture</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Horticulture -->
+    <div id="horti" class="category-content">
+        <h2>Horticulture</h2>
+        <div class="category-section">
+            <!-- Himachal Apples -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Himachal Pradesh – Apples</h3>
+                    <p>High-altitude chill hours, spur varieties, and CA storage drive quality apples from Shimla–Kinnaur. Replanting and high-density orchards boost productivity against warming trends.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://hpagrisnet.gov.in/hpagris/" target="_blank">HP Horticulture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- J&K Saffron -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Jammu & Kashmir – Saffron (Pampore)</h3>
+                    <p>World-renowned saffron thrives on Karewa soils. GI tagging, sprinkler irrigation, and post-harvest grading improve purity and farmer earnings in Pampore clusters.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://jkapdhc.nic.in/" target="_blank">J&K Horticulture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Maharashtra Grapes -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Maharashtra – Grapes (Nashik)</h3>
+                    <p>Table grapes and wineries benefit from contract farming, packhouses, and residue monitoring for exports. GI branding and agri-tourism add value.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://mahaagri.gov.in/" target="_blank">Maharashtra Agriculture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Nagpur Oranges -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Maharashtra – Nagpur Oranges</h3>
+                    <p>Mandarin orchards around Nagpur leverage winter flushing and packhouse grading. GI recognition, drip fertigation, and canker management maintain quality and shelf-life.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://nhb.gov.in/" target="_blank">National Horticulture Board</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Andhra Bananas -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Andhra Pradesh – Bananas</h3>
+                    <p>Tissue culture plants, high-density planting, and drip irrigation support Cavendish and local varieties in coastal belts. Ripening facilities and reefer logistics aid domestic markets.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://aphorticulture.nic.in/" target="_blank">AP Horticulture</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Karnataka Mango -->
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>Karnataka – Mango (Alphonso/Badami)</h3>
+                    <p>Deccan orchards produce premium table mangoes. Flowering management, fruit fly control, and export compliance yield better prices in GCC and Southeast Asian markets.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://horticulturedir.karnataka.gov.in/" target="_blank">Karnataka Horticulture</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Research INSTITUTES -->
+    <div id="research" class="category-content">
+        <h2>Research Institutes</h2>
+        <div class="category-section">
+            <div class="content-card">
+                <div class="card-body">
+                    <h3>🌾 National Apex Body</h3>
+                    <p>Indian Council of Agricultural Research (ICAR), New Delhi<br>
+                    👉 The central body coordinating research, education, and extension in agriculture, horticulture, fisheries, animal sciences, and natural resource management.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://icar.org.in/" target="_blank">Indian Council of Agricultural Research (ICAR), New Delhi</a>
+                    </div>
+
+                    <h3>Indian Agricultural Research Institute (IARI), New Delhi</h3>
+                    <p>🌱 Major National Research Institute
+                    Indian Agricultural Research Institute (IARI), New Delhi – "Pusa Institute", leader in crop improvement (wheat, rice, pulses, vegetables).</p>
+                    <div class="links">
+                        <a class="official-link" href="https://iari.res.in/en/index.php" target="_blank">(IARI), New Delhi</a>
+                    </div>
+
+                    <h3>National Dairy Research Institute (NDRI), Karnal, Haryana</h3>
+                    <p>🌱 Major National Research Institute
+                    National Dairy Research Institute (NDRI), Karnal, Haryana – Leader in dairy research and education.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://ndri.res.in/" target="_blank">(NDRI), Karnal, Haryana</a>
+                    </div>
+
+                    <h3>🌾 Indian Veterinary Research Institute (IVRI), Bareilly, Uttar Pradesh</h3>
+                    <p>🌱 Major National Research Institute
+                    Indian Veterinary Research Institute (IVRI), Bareilly, Uttar Pradesh – Leader in veterinary research and education.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://icar.org.in/" target="_blank">(IVRI), Bareilly, Uttar Pradesh</a>
+                    </div>
+
+                    <h3>🌾 Central Institute of Fisheries Education (CIFE), Mumbai, Maharashtra</h3>
+                    <p>🌱 Major National Research Institute
+                    Central Institute of Fisheries Education (CIFE), Mumbai, Maharashtra – Leader in fisheries education and research.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://cife.edu.in/" target="_blank">(CIFE), Mumbai, Maharashtra</a>
+                    </div>
+
+                    <h3>🌾 Central Marine Fisheries Research Institute (CMFRI), Kochi, Kerala</h3>
+                    <p>🌱 Major National Research Institute
+                    Central Marine Fisheries Research Institute (CMFRI), Kochi, Kerala – Leader in marine fisheries research and education.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://cmfri.org.in/" target="_blank">(CMFRI), Kochi, Kerala</a>
+                    </div>
+
+                    <h3>🌾 Central Institute of Agricultural Engineering (CIAE), Bhopal, MP</h3>
+                    <p>🌱 Major National Research Institute
+                    Central Institute of Agricultural Engineering (CIAE), Bhopal, MP – Leader in agricultural engineering research and education.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://ciae.icar.gov.in/" target="_blank">(CIAE), Bhopal, MP</a>
+                    </div>
+
+                    <h3>Indian Institute of Millets Research (IIMR), Hyderabad, Telangana</h3>
+                    <p>🌱 Major National Research Institute
+                    Indian Institute of Millets Research (IIMR), Hyderabad, Telangana – Leader in millet research and education.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://millets.res.in/" target="_blank">(IIMR), Hyderabad, Telangana</a>
+                    </div>
+
+                    <h3>🌾 Sugarcane Breeding Institute, Coimbatore, Tamil Nadu</h3>
+                    <p>🌱 Major National Research Institute
+                    Sugarcane Breeding Institute, Coimbatore, Tamil Nadu – Leader in sugarcane research and education.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://sugarcane.icar.gov.in/" target="_blank">(SBI), Coimbatore, Tamil Nadu</a>
+                    </div>
+
+                    <h3>🌾 Central Soil Salinity Research Institute (CSSRI), Karnal, Haryana</h3>
+                    <p>🌱 Major National Research Institute
+                    Central Soil Salinity Research Institute (CSSRI), Karnal, Haryana – Leader in soil salinity research and education.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://cssri.icar.gov.in/" target="_blank">(CSSRI), Karnal, Haryana</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="place">
+                <h2>Agricultural Universities</h2>
+                <div class="card-body">
+                    <h3>(PAU), Ludhiana</h3>
+                    <p>Played a pivotal role in India’s Green Revolution, especially in wheat and rice improvement.<br>
+                    Known for high-yield crop varieties and advanced farm technologies.<br>
+                    Offers extensive extension services to farmers in Punjab and across India.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://pau.edu/" target="_blank">Punjab Agricultural University (PAU), Ludhiana</a>
+                    </div>
+
+                    <h3>(ANGRAU), Andhra Pradesh</h3>
+                    <p>Played a pivotal role in India’s Green Revolution, especially in wheat and rice improvement.<br>
+                    Known for high-yield crop varieties and advanced farm technologies.<br>
+                    Offers extensive extension services to farmers in Andhra Pradesh and neighboring states.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://www.angrau.ac.in/" target="_blank">Acharya N. G. Ranga Agricultural University (ANGRAU), Andhra Pradesh</a>
+                    </div>
+
+                    <h3>(UAS), Bangalore & Dharwad</h3>
+                    <p>Played a pivotal role in India’s Green Revolution, especially in wheat and rice improvement.<br>
+                    Known for high-yield crop varieties and advanced farm technologies.<br>
+                    Offers extensive extension services to farmers in Karnataka and neighboring states.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://www.uasbangalore.edu.in/" target="_blank">University of Agricultural Sciences (UAS), Bangalore & Dharwad</a>
+                    </div>
+
+                    <h3>(GBPUAT), Pantnagar</h3>
+                    <p>Played a pivotal role in India’s Green Revolution, especially in wheat and rice improvement.<br>
+                    Known for high-yield crop varieties and advanced farm technologies.<br>
+                    Offers extensive extension services to farmers in Uttarakhand and neighboring states.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://gbpuat.ac.in/" target="_blank">G.B. Pant University of Agriculture and Technology (GBPUAT), Pantnagar</a>
+                    </div>
+
+                    <h3>(TNAU), Coimbatore</h3>
+                    <p>Leader in crop science, precision farming, and biotechnology research.<br>
+                    Strong focus on horticulture, agro-forestry, and water management.<br>
+                    Provides digital agriculture solutions and mobile apps for farmers.</p>
+                    <div class="links">
+                        <a class="official-link" href="https://tnau.ac.in/" target="_blank">Tamil Nadu Agricultural University (TNAU), Coimbatore</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- ✅ Chatbot toggle button -->
+<div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+
+<!-- ✅ Chatbot Box -->
+<div id="chatbot-box" class="chatbot-hidden">
+  <div id="chatbot-header">
+    AI Chatbot
+    <span id="chatbot-close" onclick="toggleChatbot()">✖</span>
+  </div>
+  <div id="chatbot-messages"></div>
+  <div id="chatbot-controls">
+    <input type="text" id="chatbot-input" placeholder="Type a message..." />
+    <button id="chatbot-send">Send</button>
+  </div>
+</div>
+
+<script>
+  // ✅ Category toggle
+  function toggleContent(id) {
+    document.querySelectorAll('.category-content').forEach(div => {
+      div.style.display = 'none';
+    });
+    const targetElement = document.getElementById(id);
+    if (targetElement) {
+      targetElement.style.display = 'block';
+    }
+  }
+
+  // ✅ Agriculture-specific context for chatbot
+  const availablePlaces = {
+    "Water-rich Crops": ["Punjab (Rice)", "Kerala (Sugarcane)"],
+    "Dry-land Crops": ["Rajasthan (Bajra)", "Karnataka (Jowar)"],
+    "Cash Crops": ["Gujarat (Cotton)", "Kerala (Rubber)"],
+    "Food Grains": ["Uttar Pradesh (Wheat)", "Madhya Pradesh (Rice & Wheat)"],
+    "Horticulture": ["Himachal Pradesh (Apples)", "Maharashtra (Grapes)"],
+    "Research": ["ICAR", "IARI", "NDRI", "IVRI", "CIFE", "CMFRI", "CIAE", "IIMR", "SBI", "CSSRI", "PAU", "ANGRAU", "UAS", "GBPUAT", "TNAU"]
+  };
+
+  function buildPrompt(userQuestion) {
+    let context = "You are an assistant. Only answer based on the following agriculture categories and their places:\n";
+    for (const [category, places] of Object.entries(availablePlaces)) {
+      context += `- ${category}: ${places.join(", ")}\n`;
+    }
+    context += `\nQuestion: ${userQuestion}\nAnswer:`;
+    return context;
+  }
+
+  // Export for chatbot.js
+  window.buildPrompt = buildPrompt;
+
+  // ✅ Chatbot open/close
+  function toggleChatbot() {
+    document.getElementById('chatbot-box').classList.toggle('active');
+  }
+  function closeChatbot() {
+    document.getElementById('chatbot-box').classList.remove('active');
+  }
+
+  // ✅ Show first category by default
+  toggleContent('water');
+</script>
+
+<!-- ✅ Load chatbot.js -->
+<script src="../js/chatbot.js"></script>
+<script src="js/bookmark.js"></script>
+<script src="js/search.js"></script>
+
 </body>
 </html>

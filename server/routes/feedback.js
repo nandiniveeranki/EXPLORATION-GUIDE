@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import Feedback from "../models/feedback.js";
+
 const router = express.Router();
-const Feedback = require("../models/feedback");
 
 router.post("/", async (req, res) => {
   const { userId, email, feedbackText } = req.body;
@@ -15,4 +16,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

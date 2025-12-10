@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science & Tech in India | AI Powered Guide</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root {
+      --brand: #16a085; /* Switched to a green theme for Science/Tech */
+      --brand-2: #1abc9c;
+      --ink: #2c3e50;
+      --paper: #ffffff;
+      --bg: #f7f9fb;
+      --accent: #e67e22;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    h1, h2, h3 {
+      color: var(--ink);
+    }
+
+    h1 {
+      text-align: center;
+      padding: 22px 12px 10px;
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: .3px;
+    }
+
+    p.lead {
+      max-width: 1000px;
+      margin: 0 auto 18px;
+      padding: 0 14px;
+      text-align: center;
+    }
+
+    /* Buttons */
+    .category-bar {
+      text-align: center;
+      padding: 8px 10px 20px;
+    }
+
+    .category-btn {
+      display: inline-block;
+      margin: 8px;
+      padding: 10px 16px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .2s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+      border: none;
+    }
+
+    .category-btn:hover {
+      background: var(--brand-2);
+      transform: translateY(-1px);
+    }
+
+    /* Cards */
+    .category-content {
+      display: none;
+      max-width: 1100px;
+      margin: 18px auto 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    }
+
+    .category-content.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .place {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body p {
+        flex-grow: 1;
+    }
+
+    .thumb {
+      display: block;
+      margin: 0 auto 15px;
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: 3px solid var(--brand);
+      object-fit: cover;
+    }
+
+    .card-body h3 {
+      margin: 10px 0;
+      color: var(--brand);
+    }
+
+    .card-body p {
+      text-align: justify;
+      line-height: 1.6;
+    }
+    
+    .links {
+      margin-top: 15px;
+    }
+
+    .official-link {
+      display: inline-block;
+      color: var(--brand);
+      font-weight: bold;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 2px solid var(--brand);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .official-link:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    /* Chatbot styles */
+    #chatbot-box {
+      position: fixed; bottom: 90px; right: 30px;
+      width: 340px; background: #fff;
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      display: none; flex-direction: column; overflow: hidden;
+      z-index: 10000;
+    }
+    #chatbot-box.active { display: flex; }
+
+    #chatbot-header {
+      background: var(--brand); color: #fff;
+      padding: 12px 18px; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    #chatbot-messages {
+      padding: 12px; height: 180px; overflow-y: auto;
+      background: #f7f9fb; font-size: 1em;
+    }
+    #chatbot-controls {
+      display: flex; border-top: 1px solid #eee;
+      padding: 10px; background: #fafafa;
+    }
+    #chatbot-input {
+      flex: 1; padding: 8px; border-radius: 6px;
+      border: 1px solid #ccc; font-size: 1em; margin-right: 8px;
+    }
+    #chatbot-send {
+      background: var(--brand); color: #fff;
+      border: none; border-radius: 6px;
+      padding: 8px 16px; cursor: pointer; font-weight: bold;
+    }
+    #chatbot-toggle {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--brand); color: #fff;
+      border-radius: 50%; width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2em; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 9999;
+    }
+    .user-message { margin: 6px 0; font-weight: bold; }
+    .bot-message { margin: 6px 0; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Science & Technology in India</h1>
+    <p class="lead">From ancient contributions in mathematics and astronomy to modern achievements in space exploration and information technology, India has a rich and enduring legacy in science and innovation.</p>
+
+    <div class="category-section">
+      <div class="category-bar">
+        <button class="category-btn" onclick="showContent('space')">Space Exploration</button>
+        <button class="category-btn" onclick="showContent('it')">Information Technology</button>
+        <button class="category-btn" onclick="showContent('biotech')">Biotechnology</button>
+        <button class="category-btn" onclick="showContent('atomic')">Atomic Research</button>
+        <button class="category-btn" onclick="showContent('links')">Official Sites</button>
+      </div>
+
+      <div id="space" class="category-content active">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/LVM3M4/LVM3-M4-lift-off-heat-shield-separation-seen.jpg.webp" alt="ISRO Rocket Launch">
+            <div class="card-body">
+              <h3>ISRO</h3>
+              <p>The Indian Space Research Organisation (ISRO) is India's national space agency. Renowned for its cost-effective missions, ISRO has achieved remarkable feats, including launching numerous communication satellites, developing its own launch vehicles like the PSLV and GSLV, and executing world-class interplanetary missions that have garnered global acclaim and placed India among the elite space-faring nations.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/Chandrayaan3/ch3_soft_landing_img/Chandrayaan-3-Lander-and-Rover-at-Shiv-Shakti-Point.jpg.webp" alt="Chandrayaan-3 Lander on the Moon">
+            <div class="card-body">
+              <h3>Chandrayaan Missions</h3>
+              <p>The Chandrayaan series represents India's ambitious lunar exploration program. Chandrayaan-1 was instrumental in the discovery of water molecules on the Moon. Building on this, Chandrayaan-3 achieved a historic milestone by successfully soft-landing near the lunar south pole in 2023, making India the fourth country to land on the Moon and the first to do so in that specific region, opening new avenues for scientific research.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://www.isro.gov.in/media_isro/image/MOM/MOM-Mission-Image-from-Mars-Color-Camera-MCC.jpg.webp" alt="Mars as seen by Mangalyaan">
+            <div class="card-body">
+              <h3>Mangalyaan (MOM)</h3>
+              <p>The Mars Orbiter Mission (MOM), informally known as Mangalyaan, was India's first interplanetary mission. Launched in 2013, it made India the first nation to successfully reach Martian orbit on its maiden attempt. The mission was lauded globally for its incredibly low cost and for providing valuable data about Mars's atmosphere and surface, showcasing India's prowess in executing complex deep-space missions efficiently.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="it" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/7988277/pexels-photo-7988277.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Bangalore Tech Park">
+            <div class="card-body">
+              <h3>Silicon Valley of India</h3>
+              <p>Bengaluru (Bangalore) earned this title for being the nation's leading information technology exporter. It is home to thousands of tech companies, from multinational corporations to innovative startups. The city's ecosystem of skilled talent, research institutions, and venture capital has made it a global hub for software development, R&D, and technological innovation, driving India's digital economy.</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/1036808/pexels-photo-1036808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Digital India Concept">
+            <div class="card-body">
+              <h3>Digital India Initiative</h3>
+              <p>Launched by the Government of India, this flagship program aims to transform India into a digitally empowered society and knowledge economy. Key objectives include providing high-speed internet to rural areas, improving digital literacy, and delivering government services electronically. Initiatives like Aadhaar and UPI are cornerstones of this program, revolutionizing governance and financial transactions for millions.</p>
+            </div>
+          </div>
+           <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/50987/money-card-business-credit-card-50987.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="UPI QR Code Payment">
+            <div class="card-body">
+              <h3>Unified Payments Interface (UPI)</h3>
+              <p>UPI is a revolutionary real-time payment system developed by the National Payments Corporation of India (NPCI). It facilitates inter-bank peer-to-peer and person-to-merchant transactions through a simple mobile interface. UPI has been a game-changer for digital payments in India, driving financial inclusion and creating a cashless economy. Its success has made it a model for other countries to follow in the fintech space.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="biotech" class="category-content">
+        <div class="grid">
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/3825529/pexels-photo-3825529.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Vaccine vials">
+            <div class="card-body">
+              <h3>Pharmacy of the World</h3>
+              <p>India is the largest provider of generic drugs globally, supplying over 50% of the global demand for various vaccines. Companies like Serum Institute of India (SII), the world's largest vaccine manufacturer by volume, played a pivotal role during the COVID-19 pandemic. This robust manufacturing capacity, coupled with affordable pricing, has earned India the title "Pharmacy of the World."</p>
+            </div>
+          </div>
+          <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/2280568/pexels-photo-2280568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Scientist in a lab">
+            <div class="card-body">
+              <h3>CSIR</h3>
+              <p>The Council of Scientific & Industrial Research (CSIR) is India's largest research and development organisation. With a network of laboratories and research centers across the country, CSIR conducts cutting-edge research in diverse fields, including ocean sciences, geophysics, chemicals, drugs, genomics, biotechnology, and nanotechnology. It is a major force in driving scientific and industrial innovation in India.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="atomic" class="category-content">
+        <div class="grid">
+            <div class="place">
+            <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/e/e6/BARC_Training_School_hostels_-_Anushaktinagar.jpg" alt="BARC Campus">
+            <div class="card-body">
+              <h3>BARC</h3>
+              <p>The Bhabha Atomic Research Centre (BARC) is India's premier nuclear research facility, headquartered in Trombay, Mumbai. Founded by Dr. Homi J. Bhabha, BARC is a multi-disciplinary research center with extensive infrastructure for advanced research and development covering the entire spectrum of nuclear science, engineering, and their applications in power generation, healthcare, and agriculture.</p>
+            </div>
+          </div>
+           <div class="place">
+            <img class="thumb" src="https://images.pexels.com/photos/256353/pexels-photo-256353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Nuclear Power Plant">
+            <div class="card-body">
+              <h3>Nuclear Power Program</h3>
+              <p>India has a comprehensive three-stage nuclear power program aimed at securing long-term energy independence. Overseen by the Department of Atomic Energy (DAE), the program leverages India's vast thorium reserves. With numerous operational nuclear power plants, India is committed to expanding its nuclear energy capacity as a clean and sustainable source of power to meet its growing energy demands.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="links" class="category-content">
+        <div class="grid">
+            <div class="place">
+                <div class="card-body">
+                    <h3>ISRO</h3>
+                    <p>Explore India's final frontier. Get the latest updates on satellite launches, interplanetary missions, and groundbreaking research from the nation's premier space agency.</p>
+                    <div class="links">
+                        <a href="https://www.isro.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>Dept. of Science & Tech</h3>
+                    <p>The central hub for science and technology policy, funding, and promotion in India. Discover various programs, scholarships, and research initiatives.</p>
+                    <div class="links">
+                        <a href="https://dst.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>CSIR</h3>
+                    <p>The Council of Scientific & Industrial Research is a pan-India network of labs focused on diverse fields from genomics to materials science.</p>
+                    <div class="links">
+                        <a href="https://www.csir.res.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="place">
+                <div class="card-body">
+                    <h3>Dept. of Atomic Energy</h3>
+                    <p>Learn about India's nuclear program, from power generation and healthcare applications to fundamental research in particle physics.</p>
+                    <div class="links">
+                        <a href="https://dae.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+             <div class="place">
+                <div class="card-body">
+                    <h3>Indian Institutes of Technology</h3>
+                    <p>The official portal for the IITs, India's premier institutions for engineering and technology education, research, and innovation.</p>
+                    <div class="links">
+                        <a href="https://www.iitsystem.ac.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+             <div class="place">
+                <div class="card-body">
+                    <h3>University Grants Commission</h3>
+                    <p>The UGC is the primary regulatory body for coordinating, determining, and maintaining standards of university education in India.</p>
+                    <div class="links">
+                        <a href="https://www.ugc.gov.in/" target="_blank" class="official-link">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+  <div id="chatbot-box">
+    <div id="chatbot-header">
+      AI Chatbot
+      <span id="chatbot-close" onclick="closeChatbot()" style="cursor: pointer;">✖</span>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-controls">
+      <input type="text" id="chatbot-input" placeholder="Ask something..." />
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const scienceData = {
+      "Space Exploration": ["ISRO", "chandrayaan", "mangalyaan", "rocket", "moon"],
+      "Information Technology": ["IT", "software", "bangalore", "bengaluru", "upi", "digital india"],
+      "Biotechnology": ["vaccine", "pharma", "csir", "serum institute", "drugs"],
+      "Atomic Research": ["nuclear", "barc", "atomic", "dae", "bhabha"]
+    };
+
+    function showContent(category) {
+      document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+    }
+
+    function getLocalAnswer(userQuestion) {
+      userQuestion = userQuestion.toLowerCase();
+      for (const [category, keywords] of Object.entries(scienceData)) {
+        for (const keyword of keywords) {
+          if (userQuestion.includes(keyword)) {
+            return `That relates to <strong>${category}</strong>. You can find more information in that section!`;
+          }
+        }
+      }
+      return null;
+    }
+
+    document.getElementById('chatbot-send').addEventListener('click', sendMessage);
+    document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById('chatbot-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById('chatbot-messages');
+      chat.innerHTML += `<div class="user-message"><b>You:</b> ${msg}</div>`;
+
+      const localAnswer = getLocalAnswer(msg);
+      if (localAnswer) {
+        chat.innerHTML += `<div class="bot-message"><b>Bot:</b> ${localAnswer}</div>`;
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+        return;
+      }
+
+      try {
+        const botDiv = document.createElement("div");
+        botDiv.className = "bot-message";
+        botDiv.innerHTML = "<b>Bot:</b> 🤖 Thinking...";
+        chat.appendChild(botDiv);
+        chat.scrollTop = chat.scrollHeight;
+
+        setTimeout(() => {
+          botDiv.innerHTML = `<b>Bot:</b> I can provide general information about India's achievements in space, IT, biotech, and atomic research. What would you like to know?`;
+          chat.scrollTop = chat.scrollHeight;
+        }, 1000);
+
+      } catch {
+        chat.innerHTML += `<div class="bot-message">⚠️ Couldn’t connect to server</div>`;
+      }
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function toggleChatbot() {
+      document.getElementById('chatbot-box').classList.toggle('active');
+    }
+    function closeChatbot() {
+      document.getElementById('chatbot-box').classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showContent('space');
+    });
+  </script>
+</body>
+</html>
