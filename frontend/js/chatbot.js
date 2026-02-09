@@ -1,20 +1,76 @@
-// Toggle chatbot open/close
+// ===============================
+// 🆔 STEP 1: ANONYMOUS USER ID
+// ===============================
+let userId = localStorage.getItem("userId");
+
+if (!userId) {
+  userId = "user_" + crypto.randomUUID();
+  localStorage.setItem("userId", userId);
+}
+
+// ===============================
+// 🌍 USER LOCATION (ON-DEMAND)
+// ===============================
+let userLocation = {
+  lat: null,
+  lon: null,
+};
+
+function detectLocation() {
+  if (!navigator.geolocation) {
+    console.warn("Geolocation not supported");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      userLocation.lat = pos.coords.latitude;
+      userLocation.lon = pos.coords.longitude;
+
+      console.log("📍 Location detected:", userLocation);
+
+      // Optional: show inside chatbot for demo
+      appendMessage(
+        "bot",
+        `📍 Location enabled<br>Lat: ${userLocation.lat.toFixed(4)}, Lng: ${userLocation.lon.toFixed(4)}`
+      );
+    },
+    (err) => {
+      console.warn("⚠️ Location denied:", err.message);
+      appendMessage(
+        "bot",
+        "⚠️ Location access denied. Personalization may be limited."
+      );
+    }
+  );
+}
+
+// ===============================
+// 🤖 TOGGLE CHATBOT
+// ===============================
 function toggleChatbot() {
   const chatbot = document.getElementById("chatbot-box");
   chatbot.classList.toggle("active");
 
-  if (!chatbot.classList.contains("active")) {
+  if (chatbot.classList.contains("active")) {
+    chatbot.style.display = "flex";
+
+    // 🔥 Trigger permission ONLY on user action
+    if (!userLocation.lat) {
+      detectLocation();
+    }
+  } else {
     setTimeout(() => {
       if (!chatbot.classList.contains("active")) {
         chatbot.style.display = "none";
       }
-    }, 300); // match CSS transition
-  } else {
-    chatbot.style.display = "flex";
+    }, 300);
   }
 }
 
-// Append message to chat window
+// ===============================
+// 💬 APPEND MESSAGE
+// ===============================
 function appendMessage(sender, text) {
   const messages = document.getElementById("chatbot-messages");
   const div = document.createElement("div");
@@ -24,31 +80,40 @@ function appendMessage(sender, text) {
   messages.scrollTop = messages.scrollHeight;
 }
 
-// Local Q&A handler
+// ===============================
+// 🧠 LOCAL Q&A (FAST RESPONSES)
+// ===============================
 function getChatbotResponse(message) {
   message = message.toLowerCase();
-  let response = "";
 
   if (message.includes("website") || message.includes("about")) {
-    response = "🌍 This is the <b>AI Powered Exploration Guide</b> – a platform that helps you explore different domains of India like Agriculture, Education, Medicine, History, and more!";
-  } 
-  else if (message.includes("categories") || message.includes("options")) {
-    response = "📚 We have 12 categories: Agriculture, Architecture, Art & Culture, Cuisines, Defence, Education, Forestry, Handlooms, History, Medicine, Port, and Rivers.";
-  } 
-  else if (message.includes("what can you do") || message.includes("help")) {
-    response = "🤖 I can:<br>- Answer queries about categories<br>- Save your search history<br>- Help you bookmark favorite places<br>- Make exploration fun 🚀!";
-  } 
-  else if (message.includes("useful") || message.includes("why")) {
-    response = "✨ This guide is useful for students, researchers, and explorers who want structured knowledge about India’s resources, with AI-powered assistance.";
-  } 
-  else {
-    return null; // let backend handle it
+    return "🌍 <b>AI Powered Exploration Guide</b> helps users explore India through domain-based intelligent navigation.";
   }
 
-  return response;
+  if (message.includes("categories") || message.includes("options")) {
+    return "📚 Domains include Agriculture, Architecture, Art & Culture, Cuisines, Defence, Education, Forestry, Handlooms, History, Medicine, Ports, and Rivers.";
+  }
+
+  if (message.includes("location")) {
+    if (userLocation.lat) {
+      return `📍 Your location is enabled.<br>Lat: ${userLocation.lat.toFixed(
+        4
+      )}, Lng: ${userLocation.lon.toFixed(4)}`;
+    } else {
+      return "⚠️ Location not available yet. Please allow location access.";
+    }
+  }
+
+  if (message.includes("help")) {
+    return "🤖 I provide domain guidance, smart recommendations, and location-aware exploration support.";
+  }
+
+  return null;
 }
 
-// Send user message + fetch bot reply
+// ===============================
+// 🚀 SEND MESSAGE (API CALL)
+// ===============================
 async function sendMessage() {
   const input = document.getElementById("chatbot-input");
   const message = input.value.trim();
@@ -57,25 +122,28 @@ async function sendMessage() {
   appendMessage("user", message);
   input.value = "";
 
-  // Try local Q&A first
   const localReply = getChatbotResponse(message);
   if (localReply) {
     appendMessage("bot", localReply);
     return;
   }
 
-  // Otherwise, call backend
   try {
     const response = await fetch("http://localhost:5000/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({
+        message,
+        userId,
+        lat: userLocation.lat,
+        lon: userLocation.lon,
+      }),
     });
 
     const data = await response.json();
-    appendMessage("bot", data.reply);
+    appendMessage("bot", data.reply || "🤖 No response received.");
   } catch (error) {
     console.error("Chatbot error:", error);
-    appendMessage("bot", "⚠️ Error connecting to chatbot server");
+    appendMessage("bot", "⚠️ Unable to connect to server.");
   }
 }

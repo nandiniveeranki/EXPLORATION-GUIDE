@@ -127,77 +127,106 @@
   </div>
 
   <script>
-    async function searchPapers() {
-      const query = document.getElementById("query").value.trim();
-      const resultsDiv = document.getElementById("results");
-      resultsDiv.innerHTML = "<p>Loading...</p>";
+  // ===============================
+  // 📌 READ DOMAIN FROM URL
+  // ===============================
+  const params = new URLSearchParams(window.location.search);
+  const domainFromURL = params.get("domain");
 
-      if (!query) {
-        resultsDiv.innerHTML = "<p>Please enter a keyword.</p>";
+  // If domain exists, auto-fill & auto-search
+  window.onload = () => {
+    if (domainFromURL) {
+      const formatted = domainFromURL.replace(/-/g, " ");
+      document.getElementById("query").value = formatted;
+
+      // Update heading (nice for demo)
+      document.querySelector("h1").innerText =
+        "Research Papers – " + formatted.toUpperCase();
+
+      // Auto trigger search
+      searchPapers();
+    }
+  };
+
+  // ===============================
+  // 🔎 SEARCH PAPERS (EXISTING)
+  // ===============================
+  async function searchPapers() {
+    const query = document.getElementById("query").value.trim();
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "<p>Loading...</p>";
+
+    if (!query) {
+      resultsDiv.innerHTML = "<p>Please enter a keyword.</p>";
+      return;
+    }
+
+    try {
+      const url = `https://api.openalex.org/works?filter=title.search:${encodeURIComponent(
+        query
+      )}&per-page=10`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      resultsDiv.innerHTML = "";
+
+      if (!data.results || data.results.length === 0) {
+        resultsDiv.innerHTML = "<p>No results found.</p>";
         return;
       }
 
-      try {
-        const url = `https://api.openalex.org/works?filter=title.search:${encodeURIComponent(query)}&per-page=10`;
-        const res = await fetch(url);
-        const data = await res.json();
+      data.results.forEach((paper) => {
+        const title = paper.display_name || "Untitled";
+        const year = paper.publication_year || "N/A";
 
-        resultsDiv.innerHTML = "";
-
-        if (!data.results || data.results.length === 0) {
-          resultsDiv.innerHTML = "<p>No results found.</p>";
-          return;
-        }
-
-        data.results.forEach(paper => {
-          const title = paper.display_name || "Untitled";
-          const year = paper.publication_year || "N/A";
-
-          const authors = paper.authorships
-            ?.map(a => a.author.display_name)
+        const authors =
+          paper.authorships
+            ?.map((a) => a.author.display_name)
             .join(", ") || "Unknown";
 
-          const pdfUrl =
-            paper.open_access?.oa_url ||
-            paper.primary_location?.source?.homepage_url ||
-            "";
+        const pdfUrl =
+          paper.open_access?.oa_url ||
+          paper.primary_location?.source?.homepage_url ||
+          "";
 
-          const doi = paper.doi ? `https://doi.org/${paper.doi}` : "";
+        const doi = paper.doi ? `https://doi.org/${paper.doi}` : "";
 
-          const concepts = paper.concepts
+        const concepts =
+          paper.concepts
             ?.slice(0, 3)
-            .map(c => c.display_name)
+            .map((c) => c.display_name)
             .join(", ") || "Not specified";
 
-          const citations = paper.cited_by_count || 0;
+        const citations = paper.cited_by_count || 0;
 
-          resultsDiv.innerHTML += `
-            <div class="paper-card">
-              <h3>${title}</h3>
+        resultsDiv.innerHTML += `
+          <div class="paper-card">
+            <h3>${title}</h3>
+            <p><strong>Year:</strong> ${year}</p>
+            <p><strong>Authors:</strong> ${authors}</p>
+            <p><strong>Domain:</strong> ${concepts}</p>
+            <p><strong>Citations:</strong> ${citations}</p>
 
-              <p><strong>Year:</strong> ${year}</p>
-              <p><strong>Authors:</strong> ${authors}</p>
-              <p><strong>Domain:</strong> ${concepts}</p>
-              <p><strong>Citations:</strong> ${citations}</p>
+            ${
+              paper.open_access?.is_oa
+                ? `<span class="oa-badge">Open Access</span>`
+                : `<span class="paywall">Closed Access</span>`
+            }
 
-              ${
-                paper.open_access?.is_oa
-                  ? `<span class="oa-badge">Open Access</span>`
-                  : `<span class="paywall">Closed Access</span>`
-              }
-
-              <div class="links">
-                ${doi ? `<a href="${doi}" target="_blank">DOI Link</a>` : ""}
-                ${pdfUrl ? `<a href="${pdfUrl}" target="_blank">View PDF</a>` : ""}
-              </div>
+            <div class="links">
+              ${doi ? `<a href="${doi}" target="_blank">DOI Link</a>` : ""}
+              ${pdfUrl ? `<a href="${pdfUrl}" target="_blank">View PDF</a>` : ""}
             </div>
-          `;
-        });
-      } catch (err) {
-        console.error(err);
-        resultsDiv.innerHTML = "<p>Error fetching papers.</p>";
-      }
+          </div>
+        `;
+      });
+    } catch (err) {
+      console.error(err);
+      resultsDiv.innerHTML = "<p>Error fetching papers.</p>";
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>

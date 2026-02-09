@@ -1,10 +1,24 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const HistorySchema = new mongoose.Schema({
-  userId: { type: String, required: true },
-  query: { type: String, required: true },
-  sources: { type: String },
-  timestamp: { type: Date, default: Date.now }
-});
+const searchHistorySchema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,   // ✅ IMPORTANT FIX
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
+    reply: {
+      type: String,
+    },
+    location: {
+      lat: Number,
+      lon: Number,
+    },
+  },
+  { timestamps: true }
+);
 
-export default mongoose.model('History', HistorySchema);
+export default mongoose.model("History", searchHistorySchema);

@@ -1,45 +1,96 @@
 import express from "express";
 import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import History from "../models/history.js";
+import History from "../models/searchHistory.js";
 
 dotenv.config();
 const router = express.Router();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// /api/chat
 router.post("/", async (req, res) => {
   try {
-    const { message, userId } = req.body;
+    console.log("🔥 CHAT API HIT", req.body);
 
-    if (!message || !userId) {
-      return res.status(400).json({ error: "Message and userId required" });
+    const { message, userId, lat, lon } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
     }
 
-    // 1️⃣ Save current message to history
-    await History.create({ userId, message });
+    // ===============================
+    // 🧠 FETCH LAST 5 USER QUERIES
+    // ===============================
+    let previousChats = "";
+    let interestSummary = "No clear interests yet.";
 
-    // 2️⃣ Fetch last 5 messages
-    const history = await History.find({ userId })
-      .sort({ createdAt: -1 })
-      .limit(5);
+    if (userId) {
+      const history = await History.find({ userId })
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .lean();
 
-    // 3️⃣ Build memory context
-    const memory = history
-      .map((h) => `- ${h.message}`)
-      .reverse()
-      .join("\n");
+      previousChats = history
+        .reverse()
+        .map((h) => `User: ${h.message}`)
+        .join("\n");
 
-    const context = `
-User memory:
-${memory}
+      // ===============================
+      // 🧩 SIMPLE INTEREST DETECTION
+      // ===============================
+      const combinedText = history
+        .map((h) => h.message.toLowerCase())
+        .join(" ");
 
-Current query:
+      const interests = [];
+
+      if (combinedText.includes("crop") || combinedText.includes("agriculture")) {
+        interests.push("Agriculture");
+      }
+      if (combinedText.includes("river")) {
+        interests.push("Rivers & Water Resources");
+      }
+      if (combinedText.includes("port")) {
+        interests.push("Ports & Coastal Infrastructure");
+      }
+      if (combinedText.includes("education") || combinedText.includes("college")) {
+        interests.push("Education");
+      }
+      if (combinedText.includes("history")) {
+        interests.push("History & Culture");
+      }
+
+      if (interests.length > 0) {
+        interestSummary = interests.join(", ");
+      }
+    }
+
+    // ===============================
+    // 🤖 AI PROMPT (PERSONALIZED)
+    // ===============================
+    const prompt = `
+You are an AI-powered Exploration Guide for India.
+
+User Location:
+Latitude: ${lat ?? "unknown"}
+Longitude: ${lon ?? "unknown"}
+
+User Interest Profile:
+${interestSummary}
+
+Recent Conversation History:
+${previousChats || "No previous history"}
+
+Current Question:
 ${message}
+
+Instructions:
+- Personalize the answer using user's interests
+- Use location if relevant
+- Suggest 1–2 related domains or topics
+- Keep answers clear and practical
 `;
 
-    // 4️⃣ AI Response
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash",
     });
@@ -48,20 +99,27 @@ ${message}
       contents: [
         {
           role: "user",
-          parts: [{ text: context }],
+          parts: [{ text: prompt }],
         },
       ],
     });
 
     const reply = result.response.text();
 
-    // 5️⃣ Response
-    return res.json({ reply });
-  } catch (error) {
-    console.error("❌ Chatbot error:", error);
-    return res.status(500).json({
-      error: "Server error",
+    // ===============================
+    // 💾 SAVE TO DATABASE
+    // ===============================
+    await History.create({
+      userId: userId || "anonymous",
+      message,
+      reply,
+      location: lat && lon ? { lat, lon } : null,
     });
+
+    res.json({ reply });
+  } catch (err) {
+    console.error("❌ Chatbot error:", err.message);
+    res.status(500).json({ error: "AI service unavailable. Try again." });
   }
 });
 
