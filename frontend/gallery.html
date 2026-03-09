@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600" rel="stylesheet">
+
+  <!-- Magnific Popup CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f9f9f9, #dfe9f3);
+      color: #333;
+    }
+
+    /* Masonry (zigzag) Layout */
+    .gallery {
+      column-count: 3;
+      column-gap: 0; /* remove equal gaps for zigzag */
+      padding: 20px;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .gallery-link {
+      display: inline-block;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      break-inside: avoid; /* important for masonry */
+    }
+
+    /* Card Style */
+    .gallery-image {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 0 0 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .gallery-image:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    }
+
+    .gallery-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Glassmorphism Captions */
+    .gallery-image figcaption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all 0.3s ease;
+    }
+
+    .gallery-image:hover figcaption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Magnific Popup Custom */
+    .mfp-with-zoom .mfp-container,
+    .mfp-with-zoom.mfp-bg {
+      opacity: 0;
+      transition: all 0.3s ease-out;
+    }
+
+    .mfp-with-zoom.mfp-ready .mfp-container { opacity: 1; }
+    .mfp-with-zoom.mfp-ready.mfp-bg { opacity: 0.95; background: rgba(0,0,0,0.95); }
+    .mfp-with-zoom.mfp-removing .mfp-container,
+    .mfp-with-zoom.mfp-removing.mfp-bg { opacity: 0; }
+
+    /* Neon Progress Bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff00cc, #3333ff);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.2s linear;
+    }
+
+    /* Image Counter */
+    #counter {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 9999;
+    }
+
+    /* Play/Pause Button */
+    #playPauseBtn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(255,255,255,0.8);
+      color: #333;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+
+    #playPauseBtn:hover {
+      background: #ff00cc;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Neon Progress Bar -->
+  <div id="progress-bar"></div>
+  <div id="counter">1 / 153</div>
+  <div id="playPauseBtn">⏸ Pause</div>
+
+  <article class="gallery">
+    <a class="gallery-link" href="https://unsplash.it/600/800?image=1081">
+      <figure class="gallery-image">
+        <img src="https://i.pinimg.com/originals/e7/11/4e/e7114e266af9545be22cd20ce4078a02.jpg" alt="">
+        <figcaption>Beautiful Landscape</figcaption>
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://unsplash.it/800/600?image=1014">
+      <figure class="gallery-image">
+        <img src="https://static.toiimg.com/thumb/msid-102626792,width-748,height-499,resizemode=4,imgsize-160884/.jpg" alt="">
+        <figcaption>City View</figcaption>
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://unsplash.it/700/900?image=267">
+      <figure class="gallery-image">
+        <img src="https://static.toiimg.com/thumb/msid-121159469,width-400,resizemode-4/India-defence-exports.jpg" alt="">
+        <figcaption>Modern Architecture</figcaption>
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://unsplash.it/1000/700?image=266">
+      <figure class="gallery-image">
+        <img src="https://thfvnext.bing.com/th/id/OIP.07tQx6H5cVcSkLZvhIaVMgHaE0?w=257&h=180&c=7&r=0&o=7&cb=thfvnext&pid=1.7&rm=3" alt="">
+        <figcaption>Night Sky</figcaption>
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://unsplash.it/900/1200?image=634">
+      <figure class="gallery-image">
+        <img src="https://static.toiimg.com/thumb/msid-121159469,width-400,resizemode-4/India-defence-exports.jpg" alt="">
+        <figcaption>Mountain Peaks</figcaption>
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://unsplash.it/1200/900?image=923">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlXUziFI1ckiqaa5PInmmz7V8r0af1NsDLnw&s" alt="">
+        <figcaption>Ocean Waves</figcaption>
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://unsplash.it/700/1000?image=682">
+      <figure class="gallery-image">
+        <img src="https://wallpaperaccess.com/full/803931.jpg" alt="">
+        <figcaption>Desert Sunset</figcaption>
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://unsplash.it/800/1000?image=173">
+      <figure class="gallery-image">
+        <img src="https://unsplash.it/800/1000?image=173" alt="">
+        <figcaption>Artistic Shot</figcaption>
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://unsplash.it/1000/800?image=943">
+      <figure class="gallery-image">
+        <img src="https://tse2.mm.bing.net/th/id/OIP.LTdZsOcvCAn_4l7bLY8rJwHaNK?cb=thfvnext&w=703&h=1250&rs=1&pid=ImgDetMain&o=7&rm=3" alt="">
+        <figcaption>Street Photography</figcaption>
+      </figure>
+    </a>
+     <a class="gallery-link" href="https://media.istockphoto.com/id/1469639791/photo/farmer-using-digital-tablet-in-corn-crop-cultivated-field-with-smart-farming-interface-icons.jpg?s=612x612&w=0&k=20&c=CEnLHATfACNoH_N3Ru5KoTOmAc5SbufJozvV_kcuwc4=">
+      <figure class="gallery-image">
+        <img src="https://media.istockphoto.com/id/1469639791/photo/farmer-using-digital-tablet-in-corn-crop-cultivated-field-with-smart-farming-interface-icons.jpg?s=612x612&w=0&k=20&c=CEnLHATfACNoH_N3Ru5KoTOmAc5SbufJozvV_kcuwc4=" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://t4.ftcdn.net/jpg/02/41/50/59/360_F_241505965_Vt28bVVYE2f1Zp8RdncVzdzSsd6FviQH.jpg">
+      <figure class="gallery-image">
+        <img src="https://t4.ftcdn.net/jpg/02/41/50/59/360_F_241505965_Vt28bVVYE2f1Zp8RdncVzdzSsd6FviQH.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://t3.ftcdn.net/jpg/01/17/79/44/360_F_117794487_ttXDoXhw8pNK9F6XVvcTAgQUg4ncObJ8.jpg">
+      <figure class="gallery-image">
+        <img src="https://t3.ftcdn.net/jpg/01/17/79/44/360_F_117794487_ttXDoXhw8pNK9F6XVvcTAgQUg4ncObJ8.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://yennadosa.com/wp-content/uploads/2024/04/yenna-blog1.png">
+      <figure class="gallery-image">
+        <img src="https://yennadosa.com/wp-content/uploads/2024/04/yenna-blog1.png" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://t3.ftcdn.net/jpg/07/32/27/00/360_F_732270028_HVY1rJ4a4NFMN3xNNWKv0L0VusP0G8fs.jpg">
+      <figure class="gallery-image">
+        <img src="https://t3.ftcdn.net/jpg/07/32/27/00/360_F_732270028_HVY1rJ4a4NFMN3xNNWKv0L0VusP0G8fs.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://images.csmonitor.com/csmarchives/2010/04/0406-OLEARN-india-education.jpg?alias=standard_900x600">
+      <figure class="gallery-image">
+        <img src="https://images.csmonitor.com/csmarchives/2010/04/0406-OLEARN-india-education.jpg?alias=standard_900x600" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGB2fDhyUQsquGyc3bbioMnSKpp4d3ssjA6Q&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGB2fDhyUQsquGyc3bbioMnSKpp4d3ssjA6Q&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.loomfolks.com/wp-content/uploads/2021/09/Free-Shipping-in-India..jpg">
+      <figure class="gallery-image">
+        <img src="https://www.loomfolks.com/wp-content/uploads/2021/09/Free-Shipping-in-India..jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsMrrn-P1xDLKIOFDfNwWQOl4jw3gMzQ3kJw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsMrrn-P1xDLKIOFDfNwWQOl4jw3gMzQ3kJw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://media.nature.com/lw767/magazine-assets/nindia.2020.101/nindia.2020.101_19310518.jpg">
+      <figure class="gallery-image">
+        <img src="https://media.nature.com/lw767/magazine-assets/nindia.2020.101/nindia.2020.101_19310518.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://media.istockphoto.com/id/506180222/photo/seaport-in-fort-kochi-on-sunset.jpg?s=612x612&w=0&k=20&c=NyGa48JCaOkOcDdn2RpMwPvVDBe4xKeS8U-OmFNF_CE=">
+      <figure class="gallery-image">
+        <img src="https://media.istockphoto.com/id/506180222/photo/seaport-in-fort-kochi-on-sunset.jpg?s=612x612&w=0&k=20&c=NyGa48JCaOkOcDdn2RpMwPvVDBe4xKeS8U-OmFNF_CE=" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnNEa4173koBBLcwacNJrYYC1oy92jMWaKjA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnNEa4173koBBLcwacNJrYYC1oy92jMWaKjA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://i.pinimg.com/originals/ee/e7/6f/eee76f54a4d0c00c6ad46ef877131abf.jpg">
+      <figure class="gallery-image">
+        <img src="https://i.pinimg.com/originals/ee/e7/6f/eee76f54a4d0c00c6ad46ef877131abf.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe6azkdzJGFDqdAnN8WnlF8nr-Oh6EXhtVLw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe6azkdzJGFDqdAnN8WnlF8nr-Oh6EXhtVLw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_eCxiQp2d5p02r0cZ0GAQatFecSPQzBJ3yA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_eCxiQp2d5p02r0cZ0GAQatFecSPQzBJ3yA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://eduauraapublic.s3.ap-south-1.amazonaws.com/webassets/images/blogs/indian-food-nutrition.jpg">
+      <figure class="gallery-image">
+        <img src="https://eduauraapublic.s3.ap-south-1.amazonaws.com/webassets/images/blogs/indian-food-nutrition.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbLUOPTYtP8BKS7TxhA8wsUmiL25jDEU3xuQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbLUOPTYtP8BKS7TxhA8wsUmiL25jDEU3xuQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu-geCPHsEs8DxU1we97BQkct8R2tTrHekEg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu-geCPHsEs8DxU1we97BQkct8R2tTrHekEg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHJCKi0E0qKKHaLkhqwK-9NVCASbHWOS3r4A&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHJCKi0E0qKKHaLkhqwK-9NVCASbHWOS3r4A&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSfzKUsdQzloltPJrfinO-6DbSpB12FzP9AA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSfzKUsdQzloltPJrfinO-6DbSpB12FzP9AA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkXwjlXJoKksIv5PW_ZltvwC5sPzPh1didyA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkXwjlXJoKksIv5PW_ZltvwC5sPzPh1didyA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWWM7vK5z_pch36JwB24GdpwwHLaBZEtAsw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWWM7vK5z_pch36JwB24GdpwwHLaBZEtAsw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpS47pOHlgBi7HVmAB67T1pTktiIeZdAM0NA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpS47pOHlgBi7HVmAB67T1pTktiIeZdAM0NA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://img.traveltriangle.com/blog/wp-content/uploads/2020/05/cover-for-Longest-rivers-in-India_27th-May.jpg">
+      <figure class="gallery-image">
+        <img src="https://img.traveltriangle.com/blog/wp-content/uploads/2020/05/cover-for-Longest-rivers-in-India_27th-May.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm6SL5zA4PEmWDCaXuXOmLRHFDeE3utChixA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm6SL5zA4PEmWDCaXuXOmLRHFDeE3utChixA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3bTGqPJv4uEFXkSWgzRUvFN_9uIJ1Lfa47w&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3bTGqPJv4uEFXkSWgzRUvFN_9uIJ1Lfa47w&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRk3w_GvNJzawHhqPlIKii_SU7GBwUyPtYVA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRk3w_GvNJzawHhqPlIKii_SU7GBwUyPtYVA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHLGy9QOJJZqDuMCHsNkPzpZOSziu65-_UDw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHLGy9QOJJZqDuMCHsNkPzpZOSziu65-_UDw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIsc41gQsG-Ic95205nmp_KtDK1vioCAOwpQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIsc41gQsG-Ic95205nmp_KtDK1vioCAOwpQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTALWXoDeleyZoXQbbZ68c4IOGLbwO1N659DA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTALWXoDeleyZoXQbbZ68c4IOGLbwO1N659DA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://img.jagranjosh.com/imported/images/E/Articles/forest-in-india-2017.webp">
+      <figure class="gallery-image">
+        <img src="https://img.jagranjosh.com/imported/images/E/Articles/forest-in-india-2017.webp" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://caleidoscope.in/wp-content/uploads/2020/10/About-Indian-Handlooms.jpg">
+      <figure class="gallery-image">
+        <img src="https://caleidoscope.in/wp-content/uploads/2020/10/About-Indian-Handlooms.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8M8odWCMvvHc0-DuoT3n4N1oyAiT6ei6TNg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8M8odWCMvvHc0-DuoT3n4N1oyAiT6ei6TNg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrz9l-f_u5xXGTGYpV2sDmkON5yM_cPfieZA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrz9l-f_u5xXGTGYpV2sDmkON5yM_cPfieZA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP3zSLHuRRsPzSyUEkbmb8HK6WKDl1yukBQw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP3zSLHuRRsPzSyUEkbmb8HK6WKDl1yukBQw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWa9Yf0s-rDe0FK2C_UsFKXB90-Shuzw-b6A&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWa9Yf0s-rDe0FK2C_UsFKXB90-Shuzw-b6A&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkGBOzhz_nNTkipnlId5tXr4woPFQHAMMmgw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkGBOzhz_nNTkipnlId5tXr4woPFQHAMMmgw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.revv.co.in/blogs/wp-content/uploads/2022/06/Chennakeshava-Temple-1280x720.jpg">
+      <figure class="gallery-image">
+        <img src="https://www.revv.co.in/blogs/wp-content/uploads/2022/06/Chennakeshava-Temple-1280x720.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXQIEbpyT1bOFPdq3H32mh84AZl4S6Lf4ewQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXQIEbpyT1bOFPdq3H32mh84AZl4S6Lf4ewQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://blog.swiggy.com/wp-content/uploads/2024/10/Image1_Pani-Puri-1024x538.jpg">
+      <figure class="gallery-image">
+        <img src="https://blog.swiggy.com/wp-content/uploads/2024/10/Image1_Pani-Puri-1024x538.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://static.theprint.in/wp-content/uploads/2020/02/Indian-Army-4.jpg">
+      <figure class="gallery-image">
+        <img src="https://static.theprint.in/wp-content/uploads/2020/02/Indian-Army-4.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWDimIrTacN_25XASGpVrPgp5ZQdaQ3odKnQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWDimIrTacN_25XASGpVrPgp5ZQdaQ3odKnQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://images.unsplash.com/photo-1590514526581-bf7feaee0217?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aW5kaWFuJTIwZm9yZXN0fGVufDB8fDB8fHww">
+      <figure class="gallery-image">
+        <img src="https://images.unsplash.com/photo-1590514526581-bf7feaee0217?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aW5kaWFuJTIwZm9yZXN0fGVufDB8fDB8fHww" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.luxurionworld.com/cdn/shop/articles/handloom-handcrafted-textiles-indias-gift-to-humanity-192652.png?v=1673066070">
+      <figure class="gallery-image">
+        <img src="https://www.luxurionworld.com/cdn/shop/articles/handloom-handcrafted-textiles-indias-gift-to-humanity-192652.png?v=1673066070" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzSAyWIUUgtOcwFxrKT3OCIgFWFZqlwlYdJA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzSAyWIUUgtOcwFxrKT3OCIgFWFZqlwlYdJA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://etimg.etb2bimg.com/photo/46920490.cms">
+      <figure class="gallery-image">
+        <img src="https://etimg.etb2bimg.com/photo/46920490.cms" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGZr2xQXSB6Dm2ncPls3NR7COtVkCiInXETw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGZr2xQXSB6Dm2ncPls3NR7COtVkCiInXETw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS013MwhY4c3iMRp1icaECVibvKjZ3p2m1x6w&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS013MwhY4c3iMRp1icaECVibvKjZ3p2m1x6w&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://cdn.prod.website-files.com/66604a97df59732aab43fcc8/674882e878947fd98ea04607_post-23-small.webp">
+      <figure class="gallery-image">
+        <img src="https://cdn.prod.website-files.com/66604a97df59732aab43fcc8/674882e878947fd98ea04607_post-23-small.webp" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2yd78mA9zrpkYzGHHvW4fuGxVyzsRfcjZoA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2yd78mA9zrpkYzGHHvW4fuGxVyzsRfcjZoA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.hlimg.com/images/stories/738X538/indian_art_1454042409m.jpg">
+      <figure class="gallery-image">
+        <img src="https://www.hlimg.com/images/stories/738X538/indian_art_1454042409m.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://res.cloudinary.com/rainforest-cruises/images/c_fill,g_auto/f_auto,q_auto/w_1120,h_732,c_fill,g_auto/v1661887113/indian-food/indian-food-1120x732.jpg">
+      <figure class="gallery-image">
+        <img src="https://res.cloudinary.com/rainforest-cruises/images/c_fill,g_auto/f_auto,q_auto/w_1120,h_732,c_fill,g_auto/v1661887113/indian-food/indian-food-1120x732.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCTeC2YNp3yiq4kqz2uINNcCyJqTPcSjykyg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCTeC2YNp3yiq4kqz2uINNcCyJqTPcSjykyg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPYSbwiHpKbeXXJSihkBbklUURtLFcq8FaqQtC3F7Svcp2z4T3kt3y74ediTjhRU-OhIw&usqp=CAU">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPYSbwiHpKbeXXJSihkBbklUURtLFcq8FaqQtC3F7Svcp2z4T3kt3y74ediTjhRU-OhIw&usqp=CAU" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo-zHAGHPlZ6kB_QRInPefWBxSiSOG4C9Thw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo-zHAGHPlZ6kB_QRInPefWBxSiSOG4C9Thw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLvhyA85RA1KJwXkH8VgXLHjU0cwMKeNWe7A&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLvhyA85RA1KJwXkH8VgXLHjU0cwMKeNWe7A&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7HZ98O8UZWpX0ymw9A2YzWgBV4Hc0AEYamA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7HZ98O8UZWpX0ymw9A2YzWgBV4Hc0AEYamA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8qHWVAeD9vyOB8JQ7CQtZBeqFe-5ExXxPMA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8qHWVAeD9vyOB8JQ7CQtZBeqFe-5ExXxPMA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://safety4sea.com/wp-content/uploads/2016/08/India-port-e1470997205461.jpg">
+      <figure class="gallery-image">
+        <img src="https://safety4sea.com/wp-content/uploads/2016/08/India-port-e1470997205461.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.shutterstock.com/image-photo/serene-landscape-baspa-river-valley-600w-1920397988.jpg">
+      <figure class="gallery-image">
+        <img src="https://www.shutterstock.com/image-photo/serene-landscape-baspa-river-valley-600w-1920397988.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.yesmagazine.org/wp-content/uploads/imports/a9bfe606efc243fd94683a756081c2fc.gif">
+      <figure class="gallery-image">
+        <img src="https://www.yesmagazine.org/wp-content/uploads/imports/a9bfe606efc243fd94683a756081c2fc.gif" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToK8pQDPztK38c6qaIujM3XOn55mNbHe3y4w&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToK8pQDPztK38c6qaIujM3XOn55mNbHe3y4w&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.camelcraft.com/handicrafts-photos/visual-art-india.jpg">
+      <figure class="gallery-image">
+        <img src="https://www.camelcraft.com/handicrafts-photos/visual-art-india.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9NtKD0MLmOvWrlkrunT_m1efDIFRRqI26cA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9NtKD0MLmOvWrlkrunT_m1efDIFRRqI26cA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://vishwabharatigurukul.com/wp-content/uploads/2021/02/different-officer-level-entries-to-join-indian-armed-forces-900x500.jpg">
+      <figure class="gallery-image">
+        <img src="https://vishwabharatigurukul.com/wp-content/uploads/2021/02/different-officer-level-entries-to-join-indian-armed-forces-900x500.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://swarajya.gumlet.io/swarajya/2019-06/1f4e92a4-74c0-4431-a64a-95dd95df494d/GettyImages_71098679.jpg?w=610&q=50&compress=true&format=auto">
+      <figure class="gallery-image">
+        <img src="https://swarajya.gumlet.io/swarajya/2019-06/1f4e92a4-74c0-4431-a64a-95dd95df494d/GettyImages_71098679.jpg?w=610&q=50&compress=true&format=auto" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.shutterstock.com/image-photo/panorama-banyan-tree-native-india-260nw-2303630627.jpg">
+      <figure class="gallery-image">
+        <img src="https://www.shutterstock.com/image-photo/panorama-banyan-tree-native-india-260nw-2303630627.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSGgyZRq07fILPRS-rb6tQCUQfCVkRJMTxQQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSGgyZRq07fILPRS-rb6tQCUQfCVkRJMTxQQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://images.indianexpress.com/2016/07/india-history.jpg?w=414">
+      <figure class="gallery-image">
+        <img src="https://images.indianexpress.com/2016/07/india-history.jpg?w=414" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOelmGGIL3RVeUZROMee9TuvwIHP8GGf8UMw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOelmGGIL3RVeUZROMee9TuvwIHP8GGf8UMw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfIwATP97Lh2tg0-Aej03r2FKRiDH6IDKaJw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfIwATP97Lh2tg0-Aej03r2FKRiDH6IDKaJw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202307/river-sixteen_nine.jpg?VersionId=0JdzlHjZzqWXNYJjSsFWP0SwKwsHecY.&size=690:388">
+      <figure class="gallery-image">
+        <img src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202307/river-sixteen_nine.jpg?VersionId=0JdzlHjZzqWXNYJjSsFWP0SwKwsHecY.&size=690:388" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf8vEcD51oubavydFdqKoccyYCuRibvSMDqg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf8vEcD51oubavydFdqKoccyYCuRibvSMDqg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTaM1Zepp0r3WA3hNGcJA21SXTu1Bn9qH2lg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTaM1Zepp0r3WA3hNGcJA21SXTu1Bn9qH2lg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW_WcHX3lvoMkpcjILwIIR2ckj_HebQ75f2Q&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW_WcHX3lvoMkpcjILwIIR2ckj_HebQ75f2Q&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa11bbO_b6qZ_elLgs6HH512p8hDyZLUZ7AA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa11bbO_b6qZ_elLgs6HH512p8hDyZLUZ7AA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqdxrCogEW2nTg-sPmOw8SYcK5f9IpVzzTdg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqdxrCogEW2nTg-sPmOw8SYcK5f9IpVzzTdg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEaAH0z25Xpwojpz7p5rqDDKlHRPBiH86ubg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEaAH0z25Xpwojpz7p5rqDDKlHRPBiH86ubg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVc5T4QE-J6qxaEYgUqVSnf3Qr3RWQqB5bwA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVc5T4QE-J6qxaEYgUqVSnf3Qr3RWQqB5bwA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl8mlB4gyW13cD4nw5Aupz410g3uEulyPvaA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl8mlB4gyW13cD4nw5Aupz410g3uEulyPvaA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.shutterstock.com/image-photo/india-gate-sunrise-rajpath-new-260nw-2453461857.jpg">
+      <figure class="gallery-image">
+        <img src="https://www.shutterstock.com/image-photo/india-gate-sunrise-rajpath-new-260nw-2453461857.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://nctaindia.in/images/course/NCTA=24.jpg">
+      <figure class="gallery-image">
+        <img src="https://nctaindia.in/images/course/NCTA=24.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8MEXP6c5dfelqYqrRlfa4NReJ8MtXhsPEng&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8MEXP6c5dfelqYqrRlfa4NReJ8MtXhsPEng&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://t4.ftcdn.net/jpg/03/76/76/01/360_F_376760120_ZkDGNxgQ3TY6JjTzZ84T527feASs63AV.jpg">
+      <figure class="gallery-image">
+        <img src="https://t4.ftcdn.net/jpg/03/76/76/01/360_F_376760120_ZkDGNxgQ3TY6JjTzZ84T527feASs63AV.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxEQ7ixpMa3IirIyMBHEE4mwqHI5b3RRIjcw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxEQ7ixpMa3IirIyMBHEE4mwqHI5b3RRIjcw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.thrillophilia.com/blog/wp-content/uploads/2015/04/humayun-5055050_1280-1024x576.jpg">
+      <figure class="gallery-image">
+        <img src="https://www.thrillophilia.com/blog/wp-content/uploads/2015/04/humayun-5055050_1280-1024x576.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzy91zLS6q6_Fj03O-LAJMqfqHEUXw1mrZig&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzy91zLS6q6_Fj03O-LAJMqfqHEUXw1mrZig&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeHnnjwjHPONrnh93VPkseEF92r1OXdd6EDA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeHnnjwjHPONrnh93VPkseEF92r1OXdd6EDA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGb-lys2QpjV7EHoOQq5O4KD1lOiPXNigZ6A&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGb-lys2QpjV7EHoOQq5O4KD1lOiPXNigZ6A&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbOlYbc58FGHBhjxGjorYNA8JIENF1Pk-fVA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbOlYbc58FGHBhjxGjorYNA8JIENF1Pk-fVA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ11KdTNKHfMzigygC5FWabYvFZatAEOWpPA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ11KdTNKHfMzigygC5FWabYvFZatAEOWpPA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUtd30MjFYHQBevAJ84SWClQptO7kKm4sVWw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUtd30MjFYHQBevAJ84SWClQptO7kKm4sVWw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdMyUDOMoMEUA_xN-q6df40m6n9dGClDi1jQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdMyUDOMoMEUA_xN-q6df40m6n9dGClDi1jQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPIbnCKwSjYT8bZUnV8oW5BZFfx-RmW4bypw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPIbnCKwSjYT8bZUnV8oW5BZFfx-RmW4bypw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyWAP27b73GIdcNm0MTFJYz0lUK56QZ50MAQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyWAP27b73GIdcNm0MTFJYz0lUK56QZ50MAQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEcLjSTyaEtqWWd9UTxNGTcAFRMINoLVyVlg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEcLjSTyaEtqWWd9UTxNGTcAFRMINoLVyVlg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsm1_Oi9cHqKZvscF6RKrqP5OZQXGdoFRJLA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsm1_Oi9cHqKZvscF6RKrqP5OZQXGdoFRJLA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRm1vQIfGjFlyxGsD1hesHkP5P1Hj_etoCY6Q&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRm1vQIfGjFlyxGsD1hesHkP5P1Hj_etoCY6Q&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTsqN6YbaDmxxQ9Fk2fiU2mnBPXTJF-L1AoA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTsqN6YbaDmxxQ9Fk2fiU2mnBPXTJF-L1AoA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-KzJModhttKxUfRRWGU3Vrr3Y26j9Ptc5Ew&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-KzJModhttKxUfRRWGU3Vrr3Y26j9Ptc5Ew&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZiPevoGXjTwqdUv4XrLixfCj_4EICwHN5aQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZiPevoGXjTwqdUv4XrLixfCj_4EICwHN5aQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAyJeeNC1gxiaUpjmbIngv_1kXiTpAlY0_LQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAyJeeNC1gxiaUpjmbIngv_1kXiTpAlY0_LQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH75c_1d8hi5u93jHdh4c18UKOCvnxaWgAyg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH75c_1d8hi5u93jHdh4c18UKOCvnxaWgAyg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUqidBJxf899O2gwdOUlLYmnPKPyBdmPnm6g&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUqidBJxf899O2gwdOUlLYmnPKPyBdmPnm6g&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw2Pz2qgO0a4OQcxX6-9JK7KbwCz9eyJr-8A&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw2Pz2qgO0a4OQcxX6-9JK7KbwCz9eyJr-8A&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlcNPDbXbOSOZV4a50uz8gt-1j7-VoKE2K7A&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlcNPDbXbOSOZV4a50uz8gt-1j7-VoKE2K7A&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRQgSwuxg2A8GuqcSAK5lmTK1CN-cWzfpQ5w&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRQgSwuxg2A8GuqcSAK5lmTK1CN-cWzfpQ5w&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeijm_Gju-xFcnaN9sIzitOCd4rhoOiYdWDg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeijm_Gju-xFcnaN9sIzitOCd4rhoOiYdWDg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvlnooEN5iESy3vM4nu69HKgNvhmmDhMnDHw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvlnooEN5iESy3vM4nu69HKgNvhmmDhMnDHw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPCbe9zFP0lmrd3w1_SOFv7H3VdUspbdyznA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPCbe9zFP0lmrd3w1_SOFv7H3VdUspbdyznA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqkSJYVIdEQmBuaE9jnSSyfP2ECHngEeE82g&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqkSJYVIdEQmBuaE9jnSSyfP2ECHngEeE82g&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGutJCz_YkeJ4R74-69IwtaHdf_rggQ-XZBA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGutJCz_YkeJ4R74-69IwtaHdf_rggQ-XZBA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxIBq6fKj4rN3HRoRa0AiGBLvG_TD48HHz7Q&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxIBq6fKj4rN3HRoRa0AiGBLvG_TD48HHz7Q&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqZyrbrcRX96WXSnqNUgVptglyY2ZVCENV2Q&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqZyrbrcRX96WXSnqNUgVptglyY2ZVCENV2Q&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJFDJMWMvWsiY51iy-hnsf5yQz_OjZSViUw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJFDJMWMvWsiY51iy-hnsf5yQz_OjZSViUw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpqWH-wpw9VRTFCmRVn22Lc_Lfe-34fotf9w&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpqWH-wpw9VRTFCmRVn22Lc_Lfe-34fotf9w&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_aiB-vMK9QCc2XgBqAkTItjPeNi4M_w9xIg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_aiB-vMK9QCc2XgBqAkTItjPeNi4M_w9xIg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7ykg98V_dvr8V8GB6R12BUQfCGbg6xDndQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7ykg98V_dvr8V8GB6R12BUQfCGbg6xDndQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSChV3nTJVqHrmd5DwhuC3CTK9IVg8TravHdg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSChV3nTJVqHrmd5DwhuC3CTK9IVg8TravHdg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://www.iasmania.com/wp-content/uploads/2016/02/Peninsular-Indian-Rivers1.jpg">
+      <figure class="gallery-image">
+        <img src="https://www.iasmania.com/wp-content/uploads/2016/02/Peninsular-Indian-Rivers1.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPZqOHSI7N0uP4uAlan6GGXCxD6qksMlsKOA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPZqOHSI7N0uP4uAlan6GGXCxD6qksMlsKOA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT46S1c3mRZtQ6R2j2xcCHYUh6Ea5vtSJTS1g&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT46S1c3mRZtQ6R2j2xcCHYUh6Ea5vtSJTS1g&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMwuib79AGb_QBYCaJHXwXwYlAVUeLQuCCBQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMwuib79AGb_QBYCaJHXwXwYlAVUeLQuCCBQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk6TQm54Fqik2M9Dv-moWazf_hbUltqnsp9A&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk6TQm54Fqik2M9Dv-moWazf_hbUltqnsp9A&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpSuG4LN690g5wNeZI_m2ZpO4zptVYKQIMYw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpSuG4LN690g5wNeZI_m2ZpO4zptVYKQIMYw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWch1kRge4SICivOFdVyx08OWCoRt6cLBg-Q&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWch1kRge4SICivOFdVyx08OWCoRt6cLBg-Q&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://careerhub.brainwonders.in/assets/career_media/2020/11/career_2020-11-25-12-37-22Indian_Forest_Services_Officer_(1).webp">
+      <figure class="gallery-image">
+        <img src="https://careerhub.brainwonders.in/assets/career_media/2020/11/career_2020-11-25-12-37-22Indian_Forest_Services_Officer_(1).webp" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe0gYFBBmwFIqSJU5e2Mel6xLW38ylrhKrDA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe0gYFBBmwFIqSJU5e2Mel6xLW38ylrhKrDA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://hblimg.mmtcdn.com/content/hubble/img/gwalior/mmt/destination/m_Destination_Gwalior_l_522_822.jpg">
+      <figure class="gallery-image">
+        <img src="https://hblimg.mmtcdn.com/content/hubble/img/gwalior/mmt/destination/m_Destination_Gwalior_l_522_822.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaAA3w2NVjXbPt1NTMJ3APv47LdWbLerIitQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaAA3w2NVjXbPt1NTMJ3APv47LdWbLerIitQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1NKrs6wWuQxi5KabL5uZ43gHbrJAonELig&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1NKrs6wWuQxi5KabL5uZ43gHbrJAonELig&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2z_aYyE1C-zAib8lkqEMijO2sgiVdO6IJmw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2z_aYyE1C-zAib8lkqEMijO2sgiVdO6IJmw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://files.worldwildlife.org/wwfcmsprod/images/Sustainable_Agriculture/hero_small/7ym5ecakzi_sustainable_agriculture_overview_XL_240144.jpg">
+      <figure class="gallery-image">
+        <img src="https://files.worldwildlife.org/wwfcmsprod/images/Sustainable_Agriculture/hero_small/7ym5ecakzi_sustainable_agriculture_overview_XL_240144.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCFethlatcyBUN_6gyqIOxW3dha8acQT_aKA&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCFethlatcyBUN_6gyqIOxW3dha8acQT_aKA&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2EFfVZVMI5kfbWer9twVtZqZxwbmH__1Xaw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2EFfVZVMI5kfbWer9twVtZqZxwbmH__1Xaw&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI0XHf_1ZI2r1Lh4OwC86kV1BzOvBB_pBAbQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI0XHf_1ZI2r1Lh4OwC86kV1BzOvBB_pBAbQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSa-DONKdY8rkin87uTPkOqRMp06-lpDHJFg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSa-DONKdY8rkin87uTPkOqRMp06-lpDHJFg&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE5loRhtV5585uuHzxQtAP3HbHeEzIUHeBZQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE5loRhtV5585uuHzxQtAP3HbHeEzIUHeBZQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbUzDbkgBZCf6XOW6kPasSb1XTTjhtWYZRUQ&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbUzDbkgBZCf6XOW6kPasSb1XTTjhtWYZRUQ&s" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://t4.ftcdn.net/jpg/08/72/69/15/360_F_872691560_MypWvJmUCOXQAOw4k6qObfAnQluNxoyg.jpg">
+      <figure class="gallery-image">
+        <img src="https://t4.ftcdn.net/jpg/08/72/69/15/360_F_872691560_MypWvJmUCOXQAOw4k6qObfAnQluNxoyg.jpg" alt="">
+      </figure>
+    </a>
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7_XwueTMBdLuwkkKQRRFpxR1y_v0T22Nf_A&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7_XwueTMBdLuwkkKQRRFpxR1y_v0T22Nf_A&s" alt="">
+      </figure>
+    </a> 
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5no5-iGo4P---VuumxgDjCHJVrpImvxO3hw&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5no5-iGo4P---VuumxgDjCHJVrpImvxO3hw&s" alt="">
+      </figure>
+    </a> 
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVzlU7o3kPaQLoW7DipHCDbmX5eyqqfNq-_w&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVzlU7o3kPaQLoW7DipHCDbmX5eyqqfNq-_w&s" alt="">
+      </figure>
+    </a> 
+    <a class="gallery-link" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwCnnFlH7qg7tvtCnvYHqgZhH_2sizN1_vkg&s">
+      <figure class="gallery-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwCnnFlH7qg7tvtCnvYHqgZhH_2sizN1_vkg&s" alt="">
+      </figure>
+    </a> 
+  </article>
+
+  <!-- jQuery + Magnific Popup -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
+  <script>
+  $(document).ready(function() {
+    let autoplayInterval;
+    let progressBar = $("#progress-bar");
+    let counter = $("#counter");
+    let playPauseBtn = $("#playPauseBtn");
+    let totalItems = $(".gallery-link").length;
+    let currentIndex = 0;
+    let duration = 4000; // 4 seconds
+    let isPlaying = true;
+
+    function startProgress() {
+      progressBar.css("width", "0%");
+      progressBar.animate({ width: "100%" }, duration, "linear");
+    }
+
+    function updateCounter() {
+      counter.text((currentIndex + 1) + " / " + totalItems);
+    }
+
+    $(".gallery-link").magnificPopup({
+      type: "image",
+      closeOnContentClick: true,
+      closeBtnInside: false,
+      mainClass: "mfp-with-zoom mfp-img-mobile",
+      gallery: { enabled: true },
+      image: {
+        verticalFit: true,
+        titleSrc: function(item) {
+          return item.el.find("figcaption").text();
+        }
+      },
+      callbacks: {
+        open: function() {
+          currentIndex = this.index;
+          updateCounter();
+          startAutoplay();
+        },
+        change: function() {
+          currentIndex = this.index;
+          updateCounter();
+          startProgress();
+
+          // 🌟 Fade + Slide Animation
+          let img = this.content.find("img");
+          img.css({ opacity: 0, transform: "translateX(30px)" });
+          setTimeout(() => {
+            img.css({ transition: "all 0.6s ease", opacity: 1, transform: "translateX(0)" });
+          }, 50);
+        },
+        close: function() {
+          clearInterval(autoplayInterval);
+          progressBar.css("width", "0%");
+        }
+      }
+    });
+
+    function startAutoplay() {
+      startProgress();
+      autoplayInterval = setInterval(function() {
+        if (isPlaying) {
+          $.magnificPopup.instance.next();
+          startProgress();
+        }
+      }, duration);
+    }
+
+    playPauseBtn.on("click", function() {
+      isPlaying = !isPlaying;
+      playPauseBtn.text(isPlaying ? "⏸ Pause" : "▶ Play");
+      if (isPlaying) {
+        startProgress();
+      } else {
+        progressBar.stop(true).css("width", "0%");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
